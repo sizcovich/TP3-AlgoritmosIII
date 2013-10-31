@@ -62,33 +62,52 @@
 \newpage
 
 \section{Introducci\'on}
-Este trabajo práctico consiste en la resolución de ciertos problemas algorítmicos que cumplen con restricciones impuestas por la cátedra, como por ejemplo el orden de complejidad máximo de los mismos, entre otras. Para justificar las implementaciones de los problemas en cuestión, fue necesaria la utilización de herramientas lógico-matemáticas que serán mencionadas a lo largo del desarrollo de cada ejercicio.\newline
-Para comprobar que nuestras soluciones resolvieran correctamente los problemas propuestos, debimos dividir el análisis de los mismos en secciones a fin de estudiar minuciosamente las características de éstos. Estas secciones se dividen de la siguiente forma:
+El siguiente trabajo práctico consiste en el estudio de distintas formas de resolver un mismo problema algorítmico a partir de diversas técnicas.
+
+El problema se basa en hallar la clique\footnote{Dado un grafo simple $G$ = ($V;E$), un subconjunto de vértices de $G$ es una clique sí y sólo sí éste induce un subgrafo completo de $G$.} de máxima frontera\footnote{Definimos la frontera de una clique como $\delta(K) = \left \{ vw \in E / v \in K \land w \in V \setminus K \right \}$.} (CMF) de un grafo. Es decir que, dado un grafo $G$, debemos encontrar una clique $K$ cuya frontera $\delta(K)$ tenga cardinalidad máxima. Para resolver el problema, supondremos que los grafos son simples, con lo cual no tienen bucles ni ejes repetidos.
+
+
+\textbf{Formato de entrada:}
+La entrada contiene varias instancias del problema. Cada instancia representa un grafo $G$ y comienza con una línea con dos valores enteros $n$ (cantidad de vértices) y $m$ (cantidad de aristas). A continuación, le siguen $m$ líneas, cada una determinando una arista del grafo, cuyo formato es el siguiente:
+$$v_{1}\ v_{2}$$
+donde $v_{1}$ y $v_{2}$ son los extremos de la arista representada (numerados de 1 a $n$).
+
+\textbf{Formato de salida:} 
+La salida contiene una línea por cada instancia de entrada, con el siguiente formato:
+$$F\ k\ v_{1}\ v_{2}\ ...\ v_{k}$$
+donde $F$ es el cardinal de la frontera de la clique dada como solución, $k$ es el tamaño de la misma y $v_{1}$, ..., $v_{k}$ son los vértices que la conforman.\newline
+
+
+Para resolver el problema presentado, debimos diseñar e implementar los siguientes tipos de algoritmos:
 
 \begin{itemize}
-\item \textbf{Problema a resolver:} En esta sección, nos encargamos de describir detalladamente el problema a resolver dando ejemplos del mismo y sus soluciones.
-\item \textbf{Resolución coloquial:} En esta parte, nos dedicamos a explicar de forma clara, sencilla, estructurada y concisa las ideas desarrolladas para la resolución del problema en cuestión. Para ello, decidimos utilizar pseudocódigo y lenguaje coloquial combinando ambas herramientas de manera adecuada.
-\item \textbf{Demostración de correctitud:} Utilizamos este apartado para justificar que el punto anterior resuelve efectivamente el problema y demostramos formalmente la correctitud del mismo.
-\item \textbf{Complejidad del algoritmo:} En esta sección, nos ocupamos de deducir una cota de complejidad temporal del algoritmo propuesto en función de los parámetros considerados como correctos. Por otro lado, justificamos por qué el algoritmo desarrollado para la resolución del problema cumple con la cota dada.
-\item \textbf{Instancias posibles:} Este sector presenta un conjunto de instancias que permiten verificar la correctitud del programa implementado cubriendo todos los casos posibles y justificando la elección de los mismos. Dichas instancias fueron evaluadas por el algoritmo realizado y los resultados obtenidos fueron comprobados.
-\item \textbf{Experimentación:} Por último, los tests consistieron en experimentaciones computacionales utilizadas para medir la performance del programa implementado. Para ello, debimos preparar un conjunto de casos de test que permitieran observar los tiempos de ejecución en función de los parámetros de entrada que fueran relevantes. Para ello, nos encargamos de generar instancias aleatorias como también particulares. Para que los resultados fueran visibles y claros, utilizamos una comparación gráfica entre los tiempos medidos y la complejidad teórica calculada.
-\item \textbf{Código fuente:} En este apéndice, presentamos las funciones relevantes del código fuente que implementa la solución propuesta. Para ello, decidimos utilizar el lenguaje \verb*#C++# dado que éste cuenta con la librería $stl$ que proporciona las estructuras necesarias para la realización de dicha tarea.
+ \item Un algoritmo exacto.
+ \item Al menos una heurística constructiva golosa.
+ \item Al menos una heurística de búsqueda local.
+ \item Al menos un algoritmo que use la metaheurística \textit{Búsqueda Tabú}\footnote{Fred Glover. Tabu Search - Part 1. ORSA Journal on Computing 1 (3), pp: 190 \& Part 2. ORSA Journal on Computing 2 (1), pp: 4.}
 \end{itemize}
+
+El trabajo se organizó de la siguiente forma:
+\begin{itemize}
+\item El \textbf{ejercicio 1} fue utilizado para describir situaciones de la vida real que pudieran ser modeladas utilizando CMF.
+\item En el \textbf{ejercicio 2}, diseñamos un algoritmo exacto para CMF explicando detalladamente su implementación. Luego, calculamos el orden de complejidad temporal del peor caso. Finalmente, explicitamos la experimentación realizada capaz de comprobar la performance del algoritmo realizado comparando su tiempo de ejecución en función del tamaño del parámetro de entrada.
+\item El \textbf{ejercicio 3} consistió en presentar distintos tipos de heurísticas, constructivas golosas y de búsqueda local, que resolvieran el problema descrito como también algoritmos que utilizaran la metaheurística Búsqueda Tabú. Cada algoritmo debió ser explicado detalladamente y su orden de complejidad temporal debió ser explicitado al igual que instancias de CMF para las cuales los métodos no proporcionan una solución óptima. Por último, se realizó la experimentación necesaria para observar la performance de cada algoritmo comparando la calidad de las soluciones obtenidas y los tiempos de ejecución de los mismos en función de la entrada.
+\item Finalmente, en el \textbf{ejercicio 4}, evaluamos los algoritmos propuestos sobre un nuevo conjunto de instancias una vez elegidos los mejores valores de configuración para cada heurística.
 \newpage
 
-\section{Ejercicio 1}
+\section{Descripción de situaciones reales}
 \input{ejercicios/ej1.tex}
 \newpage
 
-\section{Ejercicio 2}
+\section{Algoritmo Exacto}
 \input{ejercicios/ej2.tex}
 \newpage
 
-\section{Ejercicio 3}
+\section{Heurísticas}
 \input{ejercicios/ej3.tex}
 \newpage
 
-\section{Ejercicio 4}
+\section{Experimentación General}
 \input{ejercicios/ej4.tex}
 \newpage
 
