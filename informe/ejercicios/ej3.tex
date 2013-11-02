@@ -1,5 +1,21 @@
 \subsection{Heurística Constructiva Golosa}
+Idea:
+\begin{itemize}
+\item Agarro nodo $v$ de mayor grado
+\item Meto $v$ en la bolsa de nodos seleccionados
+\item Agarro el nodo de mayor grado adyacente a $v$ que forme una clique con todos los de la bolsa
+\item Meto en la bolsa el elegido
+\item vuelvo al segundo 'Agarro' hasta que ninguno cumpla la clique
+\end{itemize}
+
+
+Hay que decir que es asíntico, que se rompe muy fácil, como por ejemplo cuando la clique de maxima frontera no contiene al nodo de mayor grado.
 
 \subsection{Heurística de Búsqueda Local}
+
+Arranco desde cualquier nodo. De todas las cliques que se forman de agregar o quitar o permutar un nodo me quedo con la de mayor frontera.
+
+Hay que ver cuánto dura cada vértice en cantidad de ejecuciones.
+
 
 \subsection{Heurística de Búsqueda Tabú}
