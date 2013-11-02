@@ -3,7 +3,7 @@ Idea:
 \begin{itemize}
 \item Agarro nodo $v$ de mayor grado
 \item Meto $v$ en la bolsa de nodos seleccionados
-\item Agarro el nodo de mayor grado adyacente a $v$ que forme una clique con todos los de la bolsa
+\item Agarro el nodo de mayor grado adyacente a $v$ que forme una clique con todos los de la bolsa y que tenga mayor frontera
 \item Meto en la bolsa el elegido
 \item vuelvo al segundo 'Agarro' hasta que ninguno cumpla la clique
 \end{itemize}
@@ -13,9 +13,17 @@ Hay que decir que es asíntico, que se rompe muy fácil, como por ejemplo cuando
 
 \subsection{Heurística de Búsqueda Local}
 
-Arranco desde cualquier nodo. De todas las cliques que se forman de agregar o quitar o permutar un nodo me quedo con la de mayor frontera.
+Arranco desde cualquier nodo o arista (este es mi $S_{0}$). Defino como vecindad a todos los posibles conjuntos de nodos que son una clique y que cumplen lo siguiente:
+\begin{itemize}
+\item Tiene todos los nodos de $S_{0}$ salvo 1.
+\item Tiene todos los nodos de $S_{0}$ mas uno que no pertenecia a $S_{0}$ y que forma una clique con los demas 
+\item Tiene todos los nodos de $S_{0}$ salvo 1 que se lo reemplaza por uno q no estaba en $S_{0}$. Esto significa que agrego un nodo y quito otro (al mismo tiempo).
+\end{itemize}
 
-Hay que ver cuánto dura cada vértice en cantidad de ejecuciones.
+de todo este conjunto tomo el que tiene mayor frontera (si es que esta es mayor a la frontera de $S_{0}$)
+
+%no entendi esto! 
+%Hay que ver cuánto dura cada vértice en cantidad de ejecuciones.
 
 
 \subsection{Heurística de Búsqueda Tabú}
