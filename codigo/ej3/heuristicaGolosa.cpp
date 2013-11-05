@@ -29,6 +29,11 @@ Grafo leerInput(istream& is) {
 	return grafo;
 }
 
+//ordeno los nodos de acuerdo a su grado
+//elijo el de mayor grado y lo agrego
+//tomo alguno de los adyacentes de ese nodo
+
+void ordenarNodos()
 
 int main() {
 
