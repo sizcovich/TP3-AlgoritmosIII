@@ -60,7 +60,7 @@ pair<uint,vector<uint> > mejorVecinaQuitando(Grafo grafo, vector<uint> s0) { //q
 	uint minimoNodo = 0;
 	uint aux;
 	
-	for (unsigned uint i = 1; i < s0.size(); i++){ // calculo cual es el nodo de s0 de menor grado
+	for (uint i = 1; i < s0.size(); i++){ // calculo cual es el nodo de s0 de menor grado
 		aux = grafo.vecindad(s0[i]).size();
 		if (aux < minimo){
 			minimo = aux;
