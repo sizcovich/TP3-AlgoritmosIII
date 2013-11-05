@@ -19,20 +19,39 @@ uint nodoDeMayorGrado(Grafo grafo){
 	return mayorNodo;
 }
 
-Grafo cliqueMaxima(Grafo grafo, uint nodoMayor){
-	for(uint i = 1; i<grafo.vecindad(nodoMayor).size();++i){
-		//if(frontera(agregarNodo))
-	}
-
-}
-
 uint frontera(Grafo grafo, vector<uint> clique){
 	uint res = 0;
-	for(uint i = 0; i<clique.size(); ++i){
+	for(uint i = 1; i<clique.size(); ++i){
 		res = res + grafo.vecindad(clique[i]).size();
 	}
 	return res-clique.size()*(clique.size()-1);
 }
+
+bool esClique(Grafo grafo, vector<uint> clique){
+    for (uint i=1; i<clique.size(); ++i) {
+        for (uint j=1; j<clique.size(); ++j) {
+            if(grafo.sonVecinos(clique.pop_back(),clique.pop_back()) == false) return false;
+    	}
+    }
+    return true;
+}
+
+vector<uint> VectorcliqueMaxima(Grafo grafo, uint nodoMayor){
+    vector<uint> cliqueHastaAhora;
+    uint fronteraHastaAhora = 0;
+	for(uint i = 1; i<grafo.vecindad(nodoMayor).size();++i){
+        cliqueHastaAhora.push_back(i);
+        if(esClique(cliqueHastaAhora)){
+			if(frontera(grafo, cliqueHastaAhora) > fronteraHastaAhora){
+            	fronteraHastaAhora = frontera(grafo,cliqueHastaAhora);
+        	}else{
+                cliqueHastaAhora.pop_back();
+            }
+        }
+	}
+	return cliqueHastaAhora;
+}
+
 
 int main() {
 
