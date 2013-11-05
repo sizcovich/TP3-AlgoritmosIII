@@ -30,7 +30,9 @@ uint frontera(Grafo grafo, vector<uint> clique){
 bool esClique(Grafo grafo, vector<uint> clique){
     for (uint i=1; i<clique.size(); ++i) {
         for (uint j=1; j<clique.size(); ++j) {
-            if(grafo.sonVecinos(clique(i),clique(j)) == false) return false;
+            if(clique(i) != clique(j)){
+            	if(!grafo.sonVecinos(clique(i),clique(j))) return false;
+            }
     	}
     }
     return true;
