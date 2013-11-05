@@ -30,8 +30,8 @@ uint frontera(Grafo grafo, vector<uint> clique){
 bool esClique(Grafo grafo, vector<uint> clique){
     for (uint i=1; i<clique.size(); ++i) {
         for (uint j=1; j<clique.size(); ++j) {
-            if(clique(i) != clique(j)){
-            	if(!grafo.sonVecinos(clique(i),clique(j))) return false;
+            if(clique[i] != clique[j]){
+            	if(!grafo.sonVecinos(clique[i],clique[j])) return false;
             }
     	}
     }
@@ -43,7 +43,7 @@ vector<uint> VectorcliqueMaxima(Grafo grafo, uint nodoMayor){
     uint fronteraHastaAhora = 0;
 	for(uint i = 1; i<grafo.vecindad(nodoMayor).size();++i){
         cliqueHastaAhora.push_back(i);
-        if(esClique(cliqueHastaAhora)){
+        if(esClique(grafo, cliqueHastaAhora)){
 			if(frontera(grafo, cliqueHastaAhora) > fronteraHastaAhora){
             	fronteraHastaAhora = frontera(grafo,cliqueHastaAhora);
         	}else{
