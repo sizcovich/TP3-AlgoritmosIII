@@ -37,14 +37,30 @@ void escribirOutput(ostream& os, const vuint& solucion) {
 	cout << endl;
 }
 
-pair<int,vector<int> > mejorVecinaQuitando(Grafo grafo, vector<int> s0) { //quito el de menor grado
-	int fronteraClique = frontera(grafo, s0);
+uint nodoDeMayorGrado(Grafo grafo){
+	uint mayorNodo = 1;
+	for(uint i = 1; i<grafo.nodos(); ++i){
+		if(grafo.vecindad(i).size()>grafo.vecindad(mayorNodo).size()) mayorNodo = i;
+	}
+	return mayorNodo;
+}
+
+uint frontera(Grafo grafo, vector<uint> clique){
+	uint res = 0;
+	for(int i = 1; i<clique.size(); ++i){
+		res = res + grafo.vecindad(clique[i]).size();
+	}
+	return res-clique.size()*(clique.size()-1);
+}
+
+pair<uint,vector<uint> > mejorVecinaQuitando(Grafo grafo, vector<uint> s0) { //quito el de menor grado
+	uint fronteraClique = frontera(grafo, s0);
 	
 	uint minimo = grafo.vecindad(s0[0]).size(); //seteo un grado
 	uint minimoNodo = 0;
 	uint aux;
 	
-	for (unsigned int i = 1; i < s0.size(); i++){ // calculo cual es el nodo de s0 de menor grado
+	for (unsigned uint i = 1; i < s0.size(); i++){ // calculo cual es el nodo de s0 de menor grado
 		aux = grafo.vecindad(s0[i]).size();
 		if (aux < minimo){
 			minimo = aux;
@@ -52,7 +68,7 @@ pair<int,vector<int> > mejorVecinaQuitando(Grafo grafo, vector<int> s0) { //quit
 		}
 	}
 	
-	vector<int> cliqueQuitando;
+	vector<uint> cliqueQuitando;
 	for (uint i = 0; i < s0.size(); i++){
 		if(minimoNodo != i)
 			cliqueQuitando.push_back(s0[i]);
@@ -62,17 +78,17 @@ pair<int,vector<int> > mejorVecinaQuitando(Grafo grafo, vector<int> s0) { //quit
 	fronteraClique -= minimo; //quito la #aristas de la frontera q aportaba el nodo eliminado
 	fronteraClique += (s0.size() - 1);
 	
-	pair <int,vector<int> > res;
+	pair <uint,vector<uint> > res;
 	res = make_pair (fronteraClique,cliqueQuitando);
 	return res;	
 }
 
-pair <int,vector<int> > mejorVecinaAgregando(Grafo grafo, vector<int> s0) { //quito el de menor grado
-	vector<int> bucket (grafo.nodos(),0); //inicializo un arreglo de n posiciones en 0
+pair <uint,vector<uint> > mejorVecinaAgregando(Grafo grafo, vector<uint> s0) { 
+	vector<uint> bucket (grafo.nodos(),0); //inicializo un arreglo de n posiciones en 0
 	
 	for (uint i = 0; i < s0.size(); i++) { //marco cuantos nodos de la clique llegan a cada nodo del grafo
 		for (uint j = 0; j < grafo.vecindad(s0[i]).size(); j++)	{
-			int nodo = grafo.vecindad(s0[i])[j];
+			uint nodo = grafo.vecindad(s0[i])[j];
 			bucket[nodo-1]++;
 		}
 	}
@@ -80,16 +96,16 @@ pair <int,vector<int> > mejorVecinaAgregando(Grafo grafo, vector<int> s0) { //qu
 	for (uint i = 0; i < s0.size(); i++)  //limpio los elementos de la clique
 		bucket[s0[i]-1] = 0;
 	
-	int tamClique = s0.size();
-	vector <int> posibleClique;
+	uint tamClique = s0.size();
+	vector <uint> posibleClique;
 	
 	for (uint i = 0; i < grafo.nodos(); i++) //busco a todos los elementos que pueden formar una clique
 		if (bucket[i] == tamClique)
 			posibleClique.push_back(i+1);		
 
-	int tamFrontera = 0;
-	int maxFrontera = 0;
-	int nodo;
+	uint tamFrontera = 0;
+	uint maxFrontera = 0;
+	uint nodo;
 	
 	for (uint i = 0; i < posibleClique.size(); i++)	{ //busco al de mayor frontera
 		s0.push_back(posibleClique[i]);
@@ -101,7 +117,7 @@ pair <int,vector<int> > mejorVecinaAgregando(Grafo grafo, vector<int> s0) { //qu
 		}		
 	}
 	
-	pair <int,vector<int> > res;
+	pair <uint,vector<uint> > res;
 	
 	if (posibleClique.size() == 0)
 		res = make_pair (0,s0);
@@ -112,43 +128,45 @@ pair <int,vector<int> > mejorVecinaAgregando(Grafo grafo, vector<int> s0) { //qu
 	}
 		
 	return res;
-	
-	
-	
-	
-	
 }
+
+pair<uint,vector<uint> > mejorVecinaPermutando(Grafo grafo, vector<uint> s0) { 
+	pair <uint,vector<uint> > res;
+	
+	if (s0.size() == 0) { //si esta vacio tomo el de mayor grado (no se si esto esta bien)
+		uint nodo = nodoDeMayorGrado(grafo);
+		vector<uint> s1(1,nodo);
+		res = make_pair (grafo.vecindad(nodo).size(), s1);
+		return res;
+	}
+	
+	return mejorVecinaAgregando(grafo, s0);
+}
+
 int main() {
 	Grafo grafo = leerInput(cin);
 	
 	if(grafo.nodos() != 0){
 		
 		//represento a la clique como un vector de nodos que perteneces a la clique
-		vector<int> s0(1,1); //creo la clique con un solo nodo (el 1); todo grafo no vacio tiene por lo menos un nodo
+		vector<uint> s0(1,1); //creo la clique con un solo nodo (el 1); todo grafo no vacio tiene por lo menos un nodo
 	
-		int tamFrontera = frontera(grafo, s0);
+		uint tamFrontera = frontera(grafo, s0);
 		
 		while(true){
-			pair <int,vector<int> > aux; //mejor vecina 
-			pair <int,vector<int> > maximo; //maximo hasta ahora de los vecinos
-			int maximaClique = 0; // 0 = no habia cliques; 1 = agregado; 2 = quitando; 3 = permutando
-			
+			pair <uint,vector<uint> > aux; //mejor vecina 
+			pair <uint,vector<uint> > maximo; //maximo hasta ahora de los vecinos
+		
 			// genero las vecindades y devuelvo la mejor
 			maximo = mejorVecinaAgregando(grafo, s0);
-			if (maximo.first != 0)
-				maximaClique = 1;
-				
+							
 			aux = mejorVecinaQuitando(grafo, s0);
-			if (aux.first > maximo.first){
+			if (aux.first > maximo.first)
 				maximo = aux;
-				maximaClique = 2;
-			}
 				
-			aux = mejorVecinaPermutando(grafo, s0);
-			if (aux.first > maximo.first){
+			aux = mejorVecinaPermutando(grafo, aux.second); //paso la solucion de mejorvecinaQuitando; puede ser la clique con un elemento menos o una clique vacia. Saco el nodo q menos aporta y agrego un nuevo nodo.
+			if (aux.first > maximo.first)
 				maximo = aux;
-				maximaClique = 3;
-			}
 			
 			if(maximo.first > tamFrontera){
 				tamFrontera = maximo.first;
