@@ -67,7 +67,7 @@ pair <int,vector<int> > mejorVecinaQuitando(grafo, s0) { //quito el de menor gra
 	return res;	
 }
 
-pair <int,vector<int> > mejorVecinaQuitando(grafo, s0) { //quito el de menor grado
+pair <int,vector<int> > mejorVecinaAgregando(grafo, s0) { //quito el de menor grado
 	vector<int> bucket (grafo.nodos(),0); //inicializo un arreglo de n posiciones en 0
 	
 	for (int i = 0; i < s0.size(); i++) { //marco cuantos nodos de la clique llegan a cada nodo del grafo
