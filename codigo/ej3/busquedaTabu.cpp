@@ -18,6 +18,14 @@ vector<bool> listabu;
 //evita entrar en un ciclo infinito de borrar y agregar
 int ultimoAgregado = 0;
 
+void mezclar(list<uint>& lista)
+{
+	vector<uint> vetor( lista.begin(), lista.end() );
+	random_shuffle( vetor.begin(), vetor.end() ); //http://en.cppreference.com/w/cpp/algorithm/random_shuffle
+	list<uint> lista_new( vetor.begin(), vetor.end() );
+	lista = lista_new;
+}
+
 class solucionTabu
 {
 public:
@@ -58,6 +66,7 @@ public:
 			if (estaEnClique)
 				candidato.push_back(i);
 		}
+		mezclar(candidato);
 		
 	}
 
@@ -75,6 +84,14 @@ public:
 ------------------------------------------------------- */
 solucionTabu& quitarNodo(uint n, solucionTabu& solucion, Grafo& g)
 {
+	if (solucion.candidato.size() == 0) //si los candidatos antes eran todos ahora tengo que quedarme con los corrector (alcanza con hacer esto solo con el primer nodo de la lista)
+	{
+		for (uint i=0;i<g.nodos();++i)
+		{ 
+				solucion.candidato.push_back(i);
+		}
+		mezclar(solucion.candidato); //Esto es para darle aleatoridad a las decisiones
+	}
 	solucionTabu salida = solucion;
 	salida.esta[n] = false;
 	salida.adentro.remove(n);
@@ -95,6 +112,15 @@ solucionTabu& quitarNodo(uint n, solucionTabu& solucion, Grafo& g)
 ------------------------------------------------------- */
 solucionTabu& agregarNodo(uint n, solucionTabu& solucion, Grafo& g)
 {
+	if (solucion.candidato.size() == g.nodos()) //si los candidatos antes eran todos ahora tengo que quedarme con los corrector (alcanza con hacer esto solo con el primer nodo de la lista)
+	{
+		for (uint i=0;i<g.nodos();++i)
+		{ 
+			if (g.sonVecinos(i,n))
+				solucion.candidato.push_back(i);
+		}
+		mezclar(solucion.candidato); //Esto es para darle aleatoridad a las decisiones
+	}
 	solucionTabu salida = solucion;
 	salida.esta[n] = true;
 	salida.adentro.push_back(n);
