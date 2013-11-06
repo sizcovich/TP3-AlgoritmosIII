@@ -128,55 +128,91 @@ uint cantFrontera(solucionTabu& sol )
 
 	Tabu Search
 
+	En la primera iteracion ("seguir"=1) encuentra un maximo local. Esto lo hace buscando el maximo entre quitar o agregar nodos pertenecientes a la clique de la solucion inicial. (La vecindad esta dada por cliques con mas, o menos, un nodo de la clique actual ).
+	Una vez alcanzado el maximo local realiza "seguir-1" iteraciones donde desciende del maximo local hasta "desviacion_permitida" (donde cada descenso esta dado por agregar o quitar un nodo que no mejora la frontera). Por cada iteracion (desde la segunda hasta la "seguir") limpia la lista tabu y va agregando los ultimos dos nodos agregados a la solucion parcial, permitiendo asi quitar los primeros o agregar nuevos en busca de mejores soluciones. 
+
 ------------------------------------------------------ */
 
 vector<uint> tabuSearch(vector<uint>& solIni, Grafo& g)
 {
-	uint seguir = 10; 			//cantidad de pasos
+	uint seguir = 10; 			//cantidad de pasos, con seguir=1 encuentra el maximo local.
 	uint desviacion_permitida = 30 ;	// cantidad de iteraciones maximas en las que va a disminuir
 	listabu.clear();
 	for(int i=0;i<g.nodos();++i)
 		listabu.push_back(true);				
-
-	uint desciacion_faltante = desviacion_permitida+1; 
-	solucionTabu solInicial(g,solIni); 	//solucion inicial
+	solucionTabu gt_inicial(g,solIni); 	//solucion inicial
 	solucionTabu gt_mejor(g,solIni);   	//mejor solucion
+	solucionTabu gt_actual(g,solIni);   	//mejor solucion
 	ultimoAgregado = g.nodos()+1;		
-	bool descender = false;
-	while (0<seguir) // Seguro lo va a hacer hasta llegar a un minimo local
+	int descender = 0; //empieza en 0 porque primero quiero llegar a un maximo local
+
+	while (0<seguir)
 	{
-		uint ultimoMejor = cantFrontera(gt_mejor);
-		do{
-			for (list<uint>::iterator it=solInicial.candidato.begin(); it != solInicial.candidato.end(); ++it)
+
+		uint cantFrontera_ini;
+		do{ // Busca el maximo local
+			cantFrontera_ini = cantFrontera(gt_inicial);
+
+			int i=0;
+			for (list<uint>::iterator it=gt_inicial.candidato.begin(); it != gt_inicial.candidato.end(); ++it)
 			{
-				if (!solInicial.esta[*it] && listabu[*it] && (ultimoAgregado - *it != 0))
+				if (!gt_inicial.esta[*it] && listabu[*it] && (ultimoAgregado - *it != 0))
 				{
-					uint fronteraAgregar = cantFrontera( agregarNodo(*it,gt_mejor,g) );
-					if (cantFrontera(gt_mejor)<fronteraAgregar)
+					uint fronteraAgregar = cantFrontera( agregarNodo(*it,gt_inicial,g) );
+					bool asciende = cantFrontera(gt_mejor) < fronteraAgregar; 					
+					if (asciende)
 					{
 						gt_mejor = agregarNodo(*it,gt_mejor,g);
 						ultimoAgregado = *it;
 					}
+					if (descender>0 && !asciende) //desciendo un poco la solucion cuando ya no puedo subir
+					{
+						gt_inicial = agregarNodo(*it,gt_inicial,g);
+						ultimoAgregado = *it;
+						--descender;
+					}
+					++i;
 				}	
 			}
-			for (list<uint>::iterator it=solInicial.adentro.begin(); it != solInicial.adentro.end(); ++it)
+
+			i=0;
+			for (list<uint>::iterator it=gt_inicial.adentro.begin(); it != gt_inicial.adentro.end(); ++it)
 			{
 				if ( listabu[*it] && (ultimoAgregado - *it != 0))
 				{
-					uint fronteraQuitar = cantFrontera( quitarNodo(*it,solInicial,g));		
-					if (cantFrontera(gt_mejor)<fronteraQuitar )
+					uint fronteraQuitar = cantFrontera( quitarNodo(*it,gt_inicial,g));
+					bool asciende = cantFrontera(gt_mejor) < fronteraQuitar; 		
+					if (asciende)
 					{
-						gt_mejor = quitarNodo(*it,solInicial,g);
+						gt_mejor = quitarNodo(*it,gt_inicial,g);
 						ultimoAgregado = *it * -1;
 					}
+					if (descender>0 && !asciende) //desciendo un poco la solucion cuando ya no puedo subir
+					{
+						gt_inicial = agregarNodo(*it,gt_inicial,g);
+						ultimoAgregado = *it;
+						--descender;
+					}
+					++i;
 				}
 			}
-		}while(0<descender);
-		solInicial = gt_mejor;
+			if (descender<=0)
+				gt_inicial = gt_mejor;
+
+		}while(cantFrontera_ini < cantFrontera(gt_mejor) || descender>0); //paro cuando no mejora la solucion o no puedo descender mas
+
 		//permito descender de manera aleatoria siempre acotado por desviacion_permitida
-		descender = rand()%(desciacion_faltante);
-		desciacion_faltante -= descender;
+		descender = desviacion_permitida;
+		//modifico lista tabu
+		for(int i=0;i<listabu.size();++i) //permito todos los anteriores tabu
+			listabu[i]=true;
+		list<uint>::iterator ultimo = gt_inicial.adentro.end();
+		if (!gt_inicial.adentro.empty()) //por si no hay un elemento en la solucion
+			listabu[*ultimo] = false;
+		if (ultimo != gt_inicial.adentro.begin()) //por si hay un elemento solo en la solucion
+			listabu[*(--ultimo)] = false;
 	}
+
 	return ( gt_mejor.toVec() );
 
 }
