@@ -6,25 +6,17 @@
 #include <vector> // http://www.cplusplus.com/reference/vector/vector/
 #include <queue>
 #include <ctgmath>
+#include <iterator>
 
 using namespace std; 
-
 
 vector<vector<int> > g;
 vector<int> cmf;
 int maxCmf=-1;
 
-bool esClique(vector<int> nodos);
+void backtracking(vector<int> clique, queue<int> candidatos);
 int calcularFrontera(vector<int> nodos);
 void exacto();
-
-bool esClique(vector<int> nodos) {
-	for (int i = 0; i < nodos.size(); ++i)
-		for (int j = 0; j < nodos.size(); ++j)
-			if (nodos[i]!=nodos[j] && !binary_search(g[nodos[i]].begin(), g[nodos[i]].end(), nodos[j]))
-				return false;
-	return true;
-}
 
 int calcularFrontera(vector<int> nodos) {
 	int res=0;
@@ -36,20 +28,67 @@ int calcularFrontera(vector<int> nodos) {
 	return res;
 }
 
+queue<int> interseccionNAdyacentes(vector<int> indices) {
 
+	vector<int> v_interseccion = g[indices[0]];
+	vector<int> v_tmp;
+	for (int i = 1; i < indices.size(); ++i) {
+		set_intersection(v_interseccion.begin(), v_interseccion.end(),
+							  g[indices[i]].begin(), g[indices[i]].end(),
+							  back_inserter(v_tmp));
+		v_interseccion = v_tmp;
+		v_tmp.clear();
+	}
+
+	queue<int> res;
+	for (int i = 0; i < v_interseccion.size(); ++i)
+	{
+		if (v_interseccion[i] > indices[indices.size()-1])
+			res.push(v_interseccion[i]);
+	}
+	return res;
+}
+
+ void backtracking(vector<int> clique, queue<int> candidatos) {  //Asumo que el ultimo elemento del array es el ultimo elemento que agregue
+
+ 	if (!candidatos.empty())
+ 		clique.resize(clique.size()+1);
+
+ 	while (!candidatos.empty()) {
+ 		clique[clique.size()-1] = candidatos.front(); candidatos.pop();
+ 		int fClique = calcularFrontera(clique);
+ 		if (fClique > maxCmf) {
+ 			maxCmf = fClique;
+ 			cmf = clique;
+ 		}
+ 		backtracking(clique, interseccionNAdyacentes(clique));
+ 	}
+ }
 
 void exacto() {
 
-	for (int i = 0; i < g.size(); ++i)
+	vector<int> clique;
+	queue<int> candidatos;
+	for (int i = 0; i < g.size(); ++i) {
 		sort(g[i].begin(), g[i].end());
-
-	bool existeClique = true;
-	int tamClique=2;
-	vector<int> nodosDeClique;
-	while (existeClique) {
-		
+		candidatos.push(i);		
 	}
 
+	backtracking(clique, candidatos);
+
+	// vector<int> prueba;
+	// prueba.push_back(3);
+	// prueba.push_back(0);
+	// prueba.push_back(4);
+	// prueba.push_back(7);
+	// prueba.push_back(18);
+
+	// cout << calcularFrontera(prueba) << endl;
+
+	cout << maxCmf << endl;
+	for (int i = 0; i < cmf.size(); ++i)
+		cout << cmf[i]+1 << " ";
+	cout << endl;
 }
 
 
@@ -76,7 +115,7 @@ int main() {
 		exacto();
 		auto t2 = chrono::high_resolution_clock::now();
 		auto x = chrono::duration_cast<std::chrono::nanoseconds>(t2-t1).count();
-		cerr << cantTrabajos << " " << x << endl;
+		cerr << n+m << " " << x << endl;
 		termino = (cin >> ws).peek();
 	}
 
