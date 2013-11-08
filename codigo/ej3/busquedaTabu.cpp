@@ -15,8 +15,6 @@ using namespace std;
 
 //lista tabu: restringe nodos
 vector<bool> listabu;
-//evita entrar en un ciclo infinito de borrar y agregar
-int ultimoAgregado = 0;
 
 void mezclar(list<uint>& lista)
 {
@@ -79,7 +77,7 @@ public:
 
 
 /* ----------------------------------------------------
-	Quita el nodo "n" de l solucion.
+	Quita el nodo "n" de la solucion.
 	Complejidad:
 ------------------------------------------------------- */
 solucionTabu& quitarNodo(uint n, solucionTabu& solucion, Grafo& g)
@@ -159,10 +157,8 @@ uint cantFrontera(solucionTabu& sol )
 
 ------------------------------------------------------ */
 
-vector<uint> tabuSearch(vector<uint>& solIni, Grafo& g)
+vector<uint> tabuSearch(vector<uint>& solIni, Grafo& g, uint cant_pasos, uint desviacion_permitida)
 {
-	uint seguir = 10; 			//cantidad de pasos, con seguir=1 encuentra el maximo local.
-	uint desviacion_permitida = 30 ;	// cantidad de iteraciones maximas en las que va a disminuir
 	listabu.clear();
 	for(int i=0;i<g.nodos();++i)
 		listabu.push_back(true);				
@@ -172,7 +168,7 @@ vector<uint> tabuSearch(vector<uint>& solIni, Grafo& g)
 	ultimoAgregado = g.nodos()+1;		
 	int descender = 0; //empieza en 0 porque primero quiero llegar a un maximo local
 
-	while (0<seguir)
+	while (0<cant_pasos)
 	{
 
 		uint cantFrontera_ini;
@@ -182,19 +178,19 @@ vector<uint> tabuSearch(vector<uint>& solIni, Grafo& g)
 			int i=0;
 			for (list<uint>::iterator it=gt_inicial.candidato.begin(); it != gt_inicial.candidato.end(); ++it)
 			{
-				if (!gt_inicial.esta[*it] && listabu[*it] && (ultimoAgregado - *it != 0))
+				if (!gt_inicial.esta[*it] && listabu[*it])
 				{
 					uint fronteraAgregar = cantFrontera( agregarNodo(*it,gt_inicial,g) );
 					bool asciende = cantFrontera(gt_mejor) < fronteraAgregar; 					
 					if (asciende)
 					{
 						gt_mejor = agregarNodo(*it,gt_mejor,g);
-						ultimoAgregado = *it;
+						listabu[*it] = false;
 					}
 					if (descender>0 && !asciende) //desciendo un poco la solucion cuando ya no puedo subir
 					{
 						gt_inicial = agregarNodo(*it,gt_inicial,g);
-						ultimoAgregado = *it;
+						listabu[*it] = false;
 						--descender;
 					}
 					++i;
@@ -204,19 +200,19 @@ vector<uint> tabuSearch(vector<uint>& solIni, Grafo& g)
 			i=0;
 			for (list<uint>::iterator it=gt_inicial.adentro.begin(); it != gt_inicial.adentro.end(); ++it)
 			{
-				if ( listabu[*it] && (ultimoAgregado - *it != 0))
+				if ( listabu[*it] )
 				{
 					uint fronteraQuitar = cantFrontera( quitarNodo(*it,gt_inicial,g));
 					bool asciende = cantFrontera(gt_mejor) < fronteraQuitar; 		
 					if (asciende)
 					{
 						gt_mejor = quitarNodo(*it,gt_inicial,g);
-						ultimoAgregado = *it * -1;
+						listabu[*it] = false;
 					}
 					if (descender>0 && !asciende) //desciendo un poco la solucion cuando ya no puedo subir
 					{
 						gt_inicial = agregarNodo(*it,gt_inicial,g);
-						ultimoAgregado = *it;
+						listabu[*it] = false;
 						--descender;
 					}
 					++i;
@@ -237,6 +233,8 @@ vector<uint> tabuSearch(vector<uint>& solIni, Grafo& g)
 			listabu[*ultimo] = false;
 		if (ultimo != gt_inicial.adentro.begin()) //por si hay un elemento solo en la solucion
 			listabu[*(--ultimo)] = false;
+
+		--cant_pasos;
 	}
 
 	return ( gt_mejor.toVec() );
@@ -244,6 +242,10 @@ vector<uint> tabuSearch(vector<uint>& solIni, Grafo& g)
 }
 
 int main() {
+
+	uint cant_pasos = 10; 			//cantidad de pasos, con seguir=1 encuentra el maximo local.
+	uint desviacion_permitida = 30 ;	// cantidad de iteraciones maximas en las que va a disminuir
+		
 
 	return 0;
 }
