@@ -134,16 +134,16 @@ pair<uint,vector<uint> > mejorVecinaPermutando(Grafo grafo, vector<uint> clique)
 	pair <uint,vector<uint> > res;
 	pair <uint,vector<uint> > aux;
 	
-	res = make_pair (frontera(grafo, clique),clique);
+	res = make_pair (frontera(grafo, clique),clique); //O(n)
 	
-	for (int i = 0; i < clique.size(); i++){
+	for (int i = 0; i < clique.size(); i++){ //O(n³)
 		vector<uint> cliqueQuitando;
-		for (uint j = 0; j < clique.size(); j++){
+		for (uint j = 0; j < clique.size(); j++){ //O(n)
 			if(i != j)
 				cliqueQuitando.push_back(clique[j]);
 		}
 	
-		aux = mejorVecinaAgregando(grafo, cliqueQuitando); 
+		aux = mejorVecinaAgregando(grafo, cliqueQuitando);  //O(n²)
 		if (aux.first > res.first)
 			res = aux;
 	}
@@ -167,13 +167,13 @@ int main() {
 			pair <uint,vector<uint> > maximo; //maximo hasta ahora de los vecinos
 		
 			// genero las vecindades y devuelvo la mejor
-			maximo = mejorVecinaAgregando(grafo, clique);
+			maximo = mejorVecinaAgregando(grafo, clique); //O(n²)
 							
-			aux = mejorVecinaQuitando(grafo, clique);
+			aux = mejorVecinaQuitando(grafo, clique); //O(n)
 			if (aux.first > maximo.first)
 				maximo = aux;
 				
-			aux = mejorVecinaPermutando(grafo, clique); 
+			aux = mejorVecinaPermutando(grafo, clique);  //O(n³)
 			if (aux.first > maximo.first)
 				maximo = aux;
 			
