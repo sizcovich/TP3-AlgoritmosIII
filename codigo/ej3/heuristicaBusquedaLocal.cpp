@@ -37,24 +37,25 @@ void escribirOutput(ostream& os, const vuint& solucion) {
 	cout << endl;
 }
 
-uint nodoDeMayorGrado(Grafo grafo){ //O(n)
+/*uint nodoDeMayorGrado(Grafo grafo){ //O(n)
 	uint mayorNodo = 1;
 	for(uint i = 1; i<grafo.nodos(); ++i){
 		if(grafo.vecindad(i).size()>grafo.vecindad(mayorNodo).size()) mayorNodo = i;
 	}
 	return mayorNodo;
 }
-
+*/
+/*
 uint frontera(Grafo grafo, vector<uint> clique){ //O(n)
 	uint res = 0;
 	for(int i = 1; i<clique.size(); ++i){
 		res = res + grafo.vecindad(clique[i]).size();
 	}
 	return res-clique.size()*(clique.size()-1);
-}
+}*/
 
 pair<uint,vector<uint> > mejorVecinaQuitando(Grafo grafo, vector<uint> clique) { //quito el de menor grado
-	uint fronteraClique = frontera(grafo, clique);//O(n)
+	uint fronteraClique = grafo.frontera(clique);//O(n)
 	
 	uint minimo = grafo.vecindad(clique[0]).size(); //seteo un grado
 	uint minimoNodo = 0;
@@ -109,7 +110,7 @@ pair <uint,vector<uint> > mejorVecinaAgregando(Grafo grafo, vector<uint> clique)
 	
 	for (uint i = 0; i < posibleClique.size(); i++)	{ //busco al de mayor frontera //O(n²)
 		clique.push_back(posibleClique[i]);
-		tamFrontera = frontera(grafo, clique); //O(n)
+		tamFrontera = grafo.frontera(clique); //O(n)
 		clique.pop_back();
 		if (tamFrontera > maxFrontera) {
 			maxFrontera = tamFrontera;
@@ -134,7 +135,7 @@ pair<uint,vector<uint> > mejorVecinaPermutando(Grafo grafo, vector<uint> clique)
 	pair <uint,vector<uint> > res;
 	
 	if (clique.size() == 0) { //si esta vacio tomo el de mayor grado (no se si esto esta bien) //O(n)
-		uint nodo = nodoDeMayorGrado(grafo); //O(n)
+		uint nodo = grafo.nodoDeMayorGrado(); //O(n)
 		vector<uint> s1(1,nodo);
 		res = make_pair (grafo.vecindad(nodo).size(), s1);
 		return res;
@@ -151,7 +152,7 @@ int main() {
 		//represento a la clique como un vector de nodos que perteneces a la clique
 		vector<uint> clique(1,1); //creo la clique con un solo nodo (el 1); todo grafo no vacio tiene por lo menos un nodo
 	
-		uint tamFrontera = frontera(grafo, clique); //O(n)
+		uint tamFrontera = grafo.frontera(clique); //O(n)
 		
 		while(true){
 			pair <uint,vector<uint> > aux; //mejor vecina 

@@ -42,8 +42,29 @@ class Grafo {
 				assert(nodo >= 0 && nodo < nodos());
 				return vecinos[nodo];
 			}				
-				
-				
+			
+			//Devuelve el nodo de mayor grado o 0 si el grafo es vacio
+			uint nodoDeMayorGrado(){
+				if (vecinos.empty())
+					return 0;
+					
+				uint mayorNodo = 0;
+				for(uint i = 1; i<cnodos; i++){
+					if(vecinos[i].size()>vecinos[mayorNodo].size()) mayorNodo = i;
+				}
+				return ++mayorNodo;
+			}	
+			
+			//Devuelve el valor de la frontera de la clique pasada por parametro
+			uint frontera(vector<uint> clique){
+				uint res = 0;
+				for(uint i = 0; i<clique.size(); i++){
+					res = res + vecinos[clique[i]].size();
+				}
+				return res-clique.size()*(clique.size()-1);
+			}
+			
+			
 		private:				
 			//La representacion del grafo es por lista de vecinos y además matriz de adyacencia, para tener la op. sonVecinos en O(1)
 			std::vector< vuint > vecinos;
