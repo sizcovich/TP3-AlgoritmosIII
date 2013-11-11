@@ -11,14 +11,16 @@
 using namespace std; 
 
 
-uint nodoDeMayorGrado(Grafo grafo){
+/*uint nodoDeMayorGrado(Grafo grafo){
 	uint mayorNodo = 1;
 	for(uint i = 1; i<grafo.nodos(); ++i){
 		if(grafo.vecindad(i).size()>grafo.vecindad(mayorNodo).size()) mayorNodo = i;
 	}
 	return mayorNodo;
 }
+*/
 
+/*
 uint frontera(Grafo grafo, vector<uint> clique){
 	uint res = 0;
 	for(uint i = 1; i<clique.size(); ++i){
@@ -26,6 +28,7 @@ uint frontera(Grafo grafo, vector<uint> clique){
 	}
 	return res-clique.size()*(clique.size()-1);
 }
+*/
 
 bool esClique(Grafo grafo, vector<uint> clique){
     for (uint i=1; i<clique.size(); ++i) {
@@ -44,8 +47,8 @@ vector<uint> VectorcliqueMaxima(Grafo grafo, uint nodoMayor){
 	for(uint i = 1; i<grafo.vecindad(nodoMayor).size();++i){
         cliqueHastaAhora.push_back(i);
         if(esClique(grafo, cliqueHastaAhora)){
-			if(frontera(grafo, cliqueHastaAhora) > fronteraHastaAhora){
-            	fronteraHastaAhora = frontera(grafo,cliqueHastaAhora);
+			if(grafo.frontera(cliqueHastaAhora) > fronteraHastaAhora){
+            	fronteraHastaAhora = grafo.frontera(cliqueHastaAhora);
         	}else{
                 cliqueHastaAhora.pop_back();
             }

@@ -37,6 +37,7 @@ void escribirOutput(ostream& os, const vuint& solucion) {
 	cout << endl;
 }
 
+/*
 uint nodoDeMayorGrado(Grafo grafo){
 	uint mayorNodo = 1;
 	for(uint i = 1; i<grafo.nodos(); ++i){
@@ -44,7 +45,9 @@ uint nodoDeMayorGrado(Grafo grafo){
 	}
 	return mayorNodo;
 }
+*/
 
+/*
 uint frontera(Grafo grafo, vector<uint> clique){
 	uint res = 0;
 	for(int i = 1; i<clique.size(); ++i){
@@ -52,9 +55,10 @@ uint frontera(Grafo grafo, vector<uint> clique){
 	}
 	return res-clique.size()*(clique.size()-1);
 }
+*/
 
 pair<uint,vector<uint> > mejorVecinaQuitando(Grafo grafo, vector<uint> clique) { //quito el de menor grado
-	uint fronteraClique = frontera(grafo, clique);
+	uint fronteraClique = grafo.frontera(clique);
 	
 	uint minimo = grafo.vecindad(clique[0]).size(); //seteo un grado
 	uint minimoNodo = 0;
@@ -109,7 +113,7 @@ pair <uint,vector<uint> > mejorVecinaAgregando(Grafo grafo, vector<uint> clique)
 	
 	for (uint i = 0; i < posibleClique.size(); i++)	{ //busco al de mayor frontera
 		clique.push_back(posibleClique[i]);
-		tamFrontera = frontera(grafo, clique);
+		tamFrontera = grafo.frontera(clique);
 		clique.pop_back();
 		if (tamFrontera > maxFrontera) {
 			maxFrontera = tamFrontera;
@@ -134,7 +138,7 @@ pair<uint,vector<uint> > mejorVecinaPermutando(Grafo grafo, vector<uint> clique)
 	pair <uint,vector<uint> > res;
 	pair <uint,vector<uint> > aux;
 	
-	res = make_pair (frontera(grafo, clique),clique); //O(n)
+	res = make_pair (grafo.frontera(clique),clique); //O(n)
 	
 	for (int i = 0; i < clique.size(); i++){ //O(n³)
 		vector<uint> cliqueQuitando;
@@ -160,7 +164,7 @@ int main() {
 		//represento a la clique como un vector de nodos que perteneces a la clique
 		vector<uint> clique(1,1); //creo la clique con un solo nodo (el 1); todo grafo no vacio tiene por lo menos un nodo
 	
-		uint tamFrontera = frontera(grafo, clique);
+		uint tamFrontera = grafo.frontera(clique);
 		
 		while(true){
 			pair <uint,vector<uint> > aux; //mejor vecina 
