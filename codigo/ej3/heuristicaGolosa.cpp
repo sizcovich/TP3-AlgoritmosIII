@@ -29,6 +29,23 @@ uint frontera(Grafo grafo, vector<uint> clique){
 	return res-clique.size()*(clique.size()-1);
 }
 */
+class Grafo leerInput(istream&);
+
+Grafo leerInput(istream& is) {
+	uint n, m;
+	is >> n >> m;
+
+	Grafo grafo(n);
+	FORN(k, m) {
+		uint i,j;
+		is >> i >> j;
+		i--; j--;
+
+		grafo.agregarArista(i, j);
+	}
+
+	return grafo;
+}
 
 bool esClique(Grafo grafo, vector<uint> clique){
     for (uint i=1; i<clique.size(); ++i) {
@@ -59,6 +76,19 @@ vector<uint> VectorcliqueMaxima(Grafo grafo, uint nodoMayor){
 
 
 int main() {
-
+	
+	int termino = '1';
+	while (termino != '0') {
+		Grafo grafo = leerInput(cin);
+		
+		cout << tamFrontera << " " << clique.size() << " ";
+		for (int i = 0; i < clique.size(); i++)
+			cout << clique[i] << " ";
+			
+		cout << endl;
+		
+		termino = (cin >> ws).peek();
+	}
+		
 	return 0;
 }

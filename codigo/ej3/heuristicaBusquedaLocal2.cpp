@@ -12,7 +12,6 @@ using namespace std;
 
 
 class Grafo leerInput(istream&);
-void escribirOutput(ostream&, const vuint&);
 
 Grafo leerInput(istream& is) {
 	uint n, m;
@@ -28,13 +27,6 @@ Grafo leerInput(istream& is) {
 	}
 
 	return grafo;
-}
-
-void escribirOutput(ostream& os, const vuint& solucion) {
-	os << solucion.size() << endl;
-	FORN(i, solucion.size())
-		os << (solucion[i]+1) << " ";
-	cout << endl;
 }
 
 /*
@@ -157,13 +149,14 @@ pair<uint,vector<uint> > mejorVecinaPermutando(Grafo grafo, vector<uint> clique)
 }
 
 int main() {
-	Grafo grafo = leerInput(cin);
 	
-	if(grafo.nodos() != 0){
-		
+	int termino = '1';
+	while (termino != '0') {
+		Grafo grafo = leerInput(cin);
+	
 		//represento a la clique como un vector de nodos que perteneces a la clique
 		vector<uint> clique(1,1); //creo la clique con un solo nodo (el 1); todo grafo no vacio tiene por lo menos un nodo
-	
+
 		uint tamFrontera = grafo.frontera(clique);
 		
 		while(true){
@@ -187,9 +180,16 @@ int main() {
 			}
 			else
 				break;
-		}	
-		//escribirOutput(cout, solucion);
-
+		}
+		
+		cout << tamFrontera << " " << clique.size() << " ";
+		for (int i = 0; i < clique.size(); i++)
+			cout << clique[i] << " ";
+			
+		cout << endl;
+		
+		termino = (cin >> ws).peek();
 	}
+		
 	return 0;
 }
