@@ -141,7 +141,7 @@ int main() {
 
 	int termino = '1';
 	while (termino != '0') {
-		Grafo grafo = leerInput(cin);
+		Grafo grafo = leerInput(cin); //O(n²)
 	
 		//represento a la clique como un vector de nodos que perteneces a la clique
 		vector<uint> clique(1,1); //creo la clique con un solo nodo (el 1); todo grafo no vacio tiene por lo menos un nodo
@@ -172,7 +172,7 @@ int main() {
 		}	
 		
 		cout << tamFrontera << " " << clique.size() << " ";
-		for (int i = 0; i < clique.size(); i++)
+		for (int i = 0; i < clique.size(); i++) //O(n)
 			cout << clique[i] << " ";
 			
 		cout << endl;
