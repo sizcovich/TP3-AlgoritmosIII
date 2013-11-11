@@ -79,10 +79,10 @@ int main() {
 	
 	int termino = '1';
 	while (termino != '0') {
-		Grafo grafo = leerInput(cin);
+		Grafo grafo = leerInput(cin); //O(n²)
 		
 		cout << tamFrontera << " " << clique.size() << " ";
-		for (int i = 0; i < clique.size(); i++)
+		for (int i = 0; i < clique.size(); i++) //O(n)
 			cout << clique[i] << " ";
 			
 		cout << endl;

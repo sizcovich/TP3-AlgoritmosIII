@@ -14,12 +14,12 @@ class Grafo {
 				}
 			
 			//Cantidad de nodos
-			uint nodos() const{
+			uint nodos() const{ //O(1)
 				return cnodos;
 			}
 			
 			//Indica si dos nodos son vecinos
-			bool sonVecinos(uint v, uint w) const{
+			bool sonVecinos(uint v, uint w) const{ //O(1)
 				assert(v >= 0 && v < nodos());
 				assert(w >= 0 && w < nodos());
 
@@ -27,7 +27,7 @@ class Grafo {
 			}
 
 			//Agrega una arista no dirigida entre inicio y fin.
-			void agregarArista(uint inicio, uint fin){
+			void agregarArista(uint inicio, uint fin){ //O(1)
 				assert(inicio >= 0 && inicio < nodos());
 				assert(fin >= 0 && fin < nodos());
 				assert(inicio != fin);
@@ -38,13 +38,13 @@ class Grafo {
 			}
 
 			//Devuelve los vecinos de un nodo.
-			const vuint& vecindad(uint nodo) const{
+			const vuint& vecindad(uint nodo) const{ //O(1)
 				assert(nodo >= 0 && nodo < nodos());
 				return vecinos[nodo];
 			}				
 			
 			//Devuelve el nodo de mayor grado o 0 si el grafo es vacio
-			uint nodoDeMayorGrado(){
+			uint nodoDeMayorGrado(){ //O(n)
 				if (vecinos.empty())
 					return 0;
 					
@@ -56,7 +56,7 @@ class Grafo {
 			}	
 			
 			//Devuelve el valor de la frontera de la clique pasada por parametro
-			uint frontera(vector<uint> clique){
+			uint frontera(vector<uint> clique){ //O(n)
 				uint res = 0;
 				for(uint i = 0; i<clique.size(); i++){
 					res = res + vecinos[clique[i]].size();
