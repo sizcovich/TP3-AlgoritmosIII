@@ -18,13 +18,10 @@ void backtracking(vector<int> clique, queue<int> candidatos);
 int calcularFrontera(vector<int> nodos);
 void exacto();
 
-int calcularFrontera(vector<int> nodos) {
+int calcularFrontera(vector<int> nodos) { //ASUME QUE LO QUE ENTRA ES UNA CLIQUE
 	int res=0;
-	sort(nodos.begin(), nodos.end());
 	for (int i = 0; i < nodos.size(); ++i)
-		for (int j = 0; j < g[nodos[i]].size(); ++j)
-			if (!binary_search(nodos.begin(), nodos.end(), g[nodos[i]][j]))
-				res++;
+		res = res + (g[nodos[i]].size() - (nodos.size() - 1));
 	return res;
 }
 
@@ -51,6 +48,8 @@ queue<int> interseccionNAdyacentes(vector<int> indices) {
 
  void backtracking(vector<int> clique, queue<int> candidatos) {  //Asumo que el ultimo elemento del array es el ultimo elemento que agregue
 
+ 	int fronteraActual = calcularFrontera(clique);
+
  	if (!candidatos.empty())
  		clique.resize(clique.size()+1);
 
@@ -61,7 +60,8 @@ queue<int> interseccionNAdyacentes(vector<int> indices) {
  			maxCmf = fClique;
  			cmf = clique;
  		}
- 		backtracking(clique, interseccionNAdyacentes(clique));
+ 		if (calcularFrontera(clique) > fronteraActual)
+ 			backtracking(clique, interseccionNAdyacentes(clique));
  	}
  }
 
@@ -76,16 +76,7 @@ void exacto() {
 
 	backtracking(clique, candidatos);
 
-	// vector<int> prueba;
-	// prueba.push_back(3);
-	// prueba.push_back(0);
-	// prueba.push_back(4);
-	// prueba.push_back(7);
-	// prueba.push_back(18);
-
-	// cout << calcularFrontera(prueba) << endl;
-
-	cout << maxCmf << endl;
+	cout << maxCmf << " " << cmf.size() << " ";
 	for (int i = 0; i < cmf.size(); ++i)
 		cout << cmf[i]+1 << " ";
 	cout << endl;
