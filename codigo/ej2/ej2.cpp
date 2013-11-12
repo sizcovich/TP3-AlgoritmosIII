@@ -3,7 +3,7 @@
 #include <chrono>
 #include <iostream>
 #include <algorithm>
-#include <vector> // http://www.cplusplus.com/reference/vector/vector/
+#include <vector>
 #include <queue>
 #include <ctgmath>
 #include <iterator>
@@ -106,7 +106,7 @@ int main() {
 		exacto();
 		auto t2 = chrono::high_resolution_clock::now();
 		auto x = chrono::duration_cast<std::chrono::nanoseconds>(t2-t1).count();
-		cerr << n+m << " " << x << endl;
+		cerr << n << " " << x << endl;
 		termino = (cin >> ws).peek();
 	}
 
