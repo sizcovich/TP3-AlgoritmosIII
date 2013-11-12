@@ -56,7 +56,7 @@ class Grafo {
 			}	
 			
 			//Devuelve el valor de la frontera de la clique pasada por parametro
-			uint frontera(vector<uint> clique){ //O(n)
+			uint frontera(vuint clique){ //O(n)
 				uint res = 0;
 				for(uint i = 0; i<clique.size(); i++){
 					res = res + vecinos[clique[i]].size();
