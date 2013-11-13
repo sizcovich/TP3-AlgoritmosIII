@@ -3,32 +3,13 @@
 #include <chrono>
 #include <iostream>
 #include <algorithm>
-#include <vector> // http://www.cplusplus.com/reference/vector/vector/
+#include <vector>
 #include <queue>
 #include <ctgmath>
+#include <iterator>
 #include "grafo.h"
 
 using namespace std; 
-
-
-class Grafo leerInput(istream&);
-
-Grafo leerInput(istream& is) {
-	uint n, m;
-	is >> n >> m;
-
-	Grafo grafo(n);
-	FORN(k, m) {
-		uint i,j;
-		is >> i >> j;
-		i--; j--;
-
-		grafo.agregarArista(i, j);
-	}
-
-	return grafo;
-}
-
 
 /*uint nodoDeMayorGrado(Grafo grafo){ //O(n)
 	uint mayorNodo = 1;
@@ -83,19 +64,19 @@ pair <uint,vector<uint> > mejorVecinaAgregando(Grafo grafo, vector<uint> clique)
 	for (uint i = 0; i < clique.size(); i++) { //marco cuantos nodos de la clique llegan a cada nodo del grafo //O(n²)
 		for (uint j = 0; j < grafo.vecindad(clique[i]).size(); j++)	{
 			uint nodo = grafo.vecindad(clique[i])[j];
-			bucket[nodo-1]++;
+			bucket[nodo]++;
 		}
 	}
 	
 	for (uint i = 0; i < clique.size(); i++)  //limpio los elementos de la clique //O(n)
-		bucket[clique[i]-1] = 0;
+		bucket[clique[i]] = 0;
 	
 	uint tamClique = clique.size();
 	vector <uint> posibleClique;
 	
 	for (uint i = 0; i < grafo.nodos(); i++) //busco a todos los elementos que pueden formar una clique //O(n)
 		if (bucket[i] == tamClique)
-			posibleClique.push_back(i+1);		
+			posibleClique.push_back(i);		
 
 	uint tamFrontera = 0;
 	uint maxFrontera = 0;
@@ -141,10 +122,23 @@ int main() {
 
 	int termino = '1';
 	while (termino != '0') {
-		Grafo grafo = leerInput(cin); //O(n²)
-	
+		uint n, m;
+		cin >> n >> m;
+
+		Grafo grafo(n);
+		for (int i=0; i<m; i++) {  //O(n²)
+			uint i,j;
+			cin >> i >> j;
+			i--; j--;
+
+			grafo.agregarArista(i, j);
+		}
+		
+		auto t1 = chrono::high_resolution_clock::now();
+		
+		
 		//represento a la clique como un vector de nodos que perteneces a la clique
-		vector<uint> clique(1,1); //creo la clique con un solo nodo (el 1); todo grafo no vacio tiene por lo menos un nodo
+		vector<uint> clique(1,0); //creo la clique con un solo nodo (el 1); todo grafo no vacio tiene por lo menos un nodo
 	
 		uint tamFrontera = grafo.frontera(clique); //O(n)
 		
@@ -154,7 +148,8 @@ int main() {
 		
 			// genero las vecindades y devuelvo la mejor
 			maximo = mejorVecinaAgregando(grafo, clique); //O(n²)
-							
+					
+					
 			aux = mejorVecinaQuitando(grafo, clique); //O(n)
 			if (aux.first > maximo.first)
 				maximo = aux;
@@ -173,9 +168,13 @@ int main() {
 		
 		cout << tamFrontera << " " << clique.size() << " ";
 		for (int i = 0; i < clique.size(); i++) //O(n)
-			cout << clique[i] << " ";
+			cout << clique[i] + 1<< " ";
 			
 		cout << endl;
+		
+		auto t2 = chrono::high_resolution_clock::now();
+		auto x = chrono::duration_cast<std::chrono::nanoseconds>(t2-t1).count();
+		cerr << n << " " << m << " " << x << endl;
 		
 		termino = (cin >> ws).peek();
 	}

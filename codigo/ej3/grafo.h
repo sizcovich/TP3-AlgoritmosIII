@@ -52,7 +52,7 @@ class Grafo {
 				for(uint i = 1; i<cnodos; i++){
 					if(vecinos[i].size()>vecinos[mayorNodo].size()) mayorNodo = i;
 				}
-				return ++mayorNodo;
+				return mayorNodo;
 			}	
 			
 			//Devuelve el valor de la frontera de la clique pasada por parametro
