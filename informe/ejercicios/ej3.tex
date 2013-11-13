@@ -27,3 +27,57 @@ de todo este conjunto tomo el que tiene mayor frontera (si es que esta es mayor 
 
 
 \subsection{Heurística de Búsqueda Tabú}
+
+\begin{algorithm}[H]
+    \SetAlgoLined
+    \caption{TabuSearch}
+    \KwIn{\textbf{Conj(nodos)} $solucion$\_$inicial$, \textbf{Grafo} $g$, \textbf{Entero} $cantidad$\_$pasos$, \textbf{Entero} $desviacion$\_$permitida$}
+    \KwOut{\textbf{Conj(nodos)} $solucion$\_$final$}
+		
+	\textbf{Entero} desviacion$\_$permitida$\_$aux = 0 \\
+	\textbf{Conj(nodos)} $solucion$\_$final$ = $solucion$\_$inicial$ \\
+		
+	\textbf{Mientras} ($cantidad$\_$pasos$ $>$ 0) \\
+	\hspace{4mm} \textbf{Hacer} \\
+	\hspace{8mm}     \textbf{Entero} $frontera$\_$ini$ = frontera($solucion$\_$inicial$) \\
+	\hspace{8mm} \textbf{Para} ( u \in Candidatos$\_$clique(g,u) ) \\
+	\hspace{12mm} \textbf{Si} ( $\neg$ es tabu(u) $\wedge$ $\neg$ esta agregado $u$ en $solucion$\_$inicial$ ) \\
+	\hspace{16mm} \textbf{Si} (frontera($solucion$\_$final$) $<$ Frontera con $u$ en $solucion$\_$inicial$) \\
+	\hspace{20mm}  $solucion$\_$final$ = $solucion$\_$inicial$ con $u$ \\
+	\hspace{16mm} \textbf{Sino} \\
+	\hspace{20mm}  \textbf{Si} (desviacion$\_$permitida$\_$aux $>$ 0) \\
+	\hspace{24mm} $solucion$\_$inicial$ = $solucion$\_$inicial$ con $u$ \\
+	\hspace{24mm} Poner en lista Tabu a $u$ \\
+	\hspace{24mm} $desviacion$\_$permitida$\_$aux$  - 1 \\
+	\hspace{8mm} \textbf{Fin Para} \\
+	\hspace{8mm} \textbf{Para} ( u \in Nodos($solucion$\_$inicial$) ) \\
+	\hspace{12mm} \textbf{Si} ( \neg es tabu(u) ) \\
+	\hspace{16mm} \textbf{Si }(frontera($solucion$\_$final$) $<$ Frontera sin $u$ en $solucion$\_$inicial$) \\
+	\hspace{20mm} $solucion$\_$final$ = $solucion$\_$inicial$ sin $u$ \\
+	\hspace{16mm} \textbf{Sino} \\
+	\hspace{20mm} \textbf{Si} ($desviacion$\_$permitida$\_$aux$ $>$ 0) \\
+	\hspace{24mm} $solucion$\_$inicial$ = $solucion$\_$inicial$ sin $u$ \\
+	\hspace{24mm} Poner en lista Tabu a $u$ \\
+	\hspace{24mm} $desviacion$\_$permitida$\_$aux$  - 1 \\
+	\hspace{8mm} \textbf{Fin Para} \\
+							
+	\hspace{8mm} \textbf{Si} ($desviacion$\_$permitida$\_$aux$ \leq 0) \\
+	\hspace{12mm} $solucion$\_$inicial$ = $solucion$\_$final$ \\
+	\hspace{4mm} \textbf{Mientras}( $frontera$\_$ini$ $<$ frontera($solucion$\_$final$)  $\vee$ $desviacion$\_$permitida$\_$aux$ $>$ 0 ) \\
+	\hspace{4mm} $desviacion$\_$permitida$\_$aux$ = $desviacion$\_$permitida$  \\
+	\hspace{4mm} Vaciamos la lista Tabu \\
+	\hspace{4mm} Agregamos los ultimos dos nodos de $solucion$\_$final$ a la lista Tabu \\
+	\hspace{4mm} $cantidad$\_$pasos$ - 1 \\
+ 	\textbf{Fin Mientras} \\
+    	\textbf{devolver} $solucion$\_$final$ \\
+		
+\end{algorithm}
+
+Donde:
+\begin{itemize}
+ \item $desviacion$\_$permitida$ dice la cantidad de veces que se agrega o quita un nodo por iteracion (empeorando la solucion parcial).
+ \item $cantidad$\_$pasos$ son la cantidad de veces que se aplica el algoritmo. Tener en cuenta que la primera iteracion $desviacion$\_$permitida$ es 0, por lo que se toma el maximo local.
+ \item frontera : Dice, dada una solucion como parametro, el numero de nodos adyacentes a la frontera (es lo que pide maximizar el enunciado).
+ \item Candidatos$\_$clique : Dice los nodos que pertenecen a la clique del nodo pasado como parametro.
+ \item Nodos : da los nodos pertenecientes a la solucion pasada como parametro.
+\end{itemize}
