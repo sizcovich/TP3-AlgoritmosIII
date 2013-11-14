@@ -13,14 +13,17 @@ Hay que decir que es asíntico, que se rompe muy fácil, como por ejemplo cuando
 
 \subsection{Heurística de Búsqueda Local}
 
-Arranco desde cualquier nodo o arista (este es mi $S_{0}$). Defino como vecindad a todos los posibles conjuntos de nodos que son una clique y que cumplen lo siguiente:
+Los algoritmos de búsqueda local parten de una solución inicial $S_{0}$ y en cada paso intentan mejorarla. Para esto, se calculan todas las posibles variaciones de $S_{0}$ que forman una solucion al problema. Al conjunto de todas estas se lo llama vecindad. 
+Estos algoritmos se ejecutan siempre y cuando exista una solucion, perteneciente a la vecindad, que sea mejor a la que ya teniamos. \newline \newline
+Para nuestro ejercicio, utilizamos como $S_{0}$ al nodo 1. Dicha eleccion se debio a que un nodo forma una clique, con lo cual es una posible solucion a nuestro problema. Ademas, sabemos que este existe para cualquier grafo ya que la menor cantidad de nodos que se pueden ingresar en nuestro programa es uno. Por otro lado, definimos como vecindad a todos los posibles conjuntos de nodos que forman una clique y cumplen lo siguiente:
 \begin{itemize}
-\item Tiene todos los nodos de $S_{0}$ salvo 1.
-\item Tiene todos los nodos de $S_{0}$ mas uno que no pertenecia a $S_{0}$ y que forma una clique con los demas 
-\item Tiene todos los nodos de $S_{0}$ salvo 1 que se lo reemplaza por uno q no estaba en $S_{0}$. Esto significa que agrego un nodo y quito otro (al mismo tiempo).
+\item Tiene todos los nodos de $S_{0}$ salvo 1: \newline El nodo que se elimina de la clique es aquel cuyo grado es el menor de todos. 
+\item Tiene todos los nodos de $S_{0}$ mas uno que no pertenecia a $S_{0}$.
+\item Tiene todos los nodos de $S_{0}$ salvo 1 que se lo reemplaza por uno que no estaba en $S_{0}$. Esto significa que agrego un nodo y quito otro.
 \end{itemize}
+Una vez que generamos la vecindad, tomamos la clique de mayor frontera, $S_{maxima}$ y la comparamos con $S_{0}$. Si la frontera de $S_{0}$ es menor, $S_{maxima}$ es nuestra nueva solucion inicial. Caso contrario, el programa finaliza ya que ningun elemento de la vecindad puede mejorar nuestra solucion.
 
-de todo este conjunto tomo el que tiene mayor frontera (si es que esta es mayor a la frontera de $S_{0}$)
+
 
 %no entendi esto! 
 %Hay que ver cuánto dura cada vértice en cantidad de ejecuciones.
