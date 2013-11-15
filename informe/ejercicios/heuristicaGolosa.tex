@@ -1,0 +1,29 @@
+\subsection{Heurística Constructiva Golosa}
+
+\subsubsection{Explicación del algoritmo realizado}
+Para resolver el algoritmo presentado anteriormente con una técnica golosa, decidimos utilizar el procedimiento que se presenta a continuación:\newline
+\newline
+\begin{algorithm}[H]
+    \SetAlgoLined
+    \caption{HeurísticaGolosa}
+    \KwIn{\textbf{Entero} $cantVertices$, \textbf{Entero} $cantAristas$, \textbf{Grafo} $g$} %esto hay que ponerlo bien
+    \KwOut{\textbf{Conj(nodos)} $clique$}
+	Entero $nodoDeMayorGrado$ = nodoDeMasGrado($g$)\\
+	Grafo $cliqueHastaAhora$ = $\emptyset$\\
+	agregar($v$, $cliqueHastaAhora$)\\
+	\ForAll{$u \in$ adyacentes(nodoDeMayorGrado, nodos($g$))}{
+		\If{forma una clique($g$, agregar($u$, $cliqueHastaAhora$)) $\land$ frontera($g$, agregar($u$, $cliqueHastaAhora$) $>$ frontera($cliqueHastaAhora$)}{
+		agregar($u$, $cliqueHastaAhora$)}}
+\textbf{devolver} $cliqueHastaAhora$
+\end{algorithm}
+
+donde $nodoDeMasGrado$ consiste en una función que toma el nodo del grafo cuyo grado es el mayor, $frontera$ es una función que calcula la frontera de un conjunto de nodos dentro de un grafo y $adyacentes$ consiste en una lista de nodos adyacentes a un determinado nodo.\newline
+
+
+Hay que decir que es asíntico, que se rompe muy fácil, como por ejemplo cuando la clique de maxima frontera no contiene al nodo de mayor grado.
+\subsubsection{Complejidad Temporal}
+\subsubsection{Instancias problemáticas}
+\subsubsection{Experimentación}
+
+
+
