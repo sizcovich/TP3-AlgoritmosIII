@@ -24,7 +24,7 @@ bool esClique(Grafo grafo, vector<uint> clique){
 
 vector<uint> VectorcliqueMaxima(Grafo grafo){
     vector<uint> cliqueHastaAhora(1,grafo.nodoDeMayorGrado());
-    uint fronteraHastaAhora = grafo.frontera(grafo.nodoDeMayorGrado()); //pongo el grado del nodo de mayor grado
+    uint fronteraHastaAhora = grafo.frontera(cliqueHastaAhora); //pongo el grado del nodo de mayor grado
 	for(uint i = 0; i<grafo.nodos();++i){
         cliqueHastaAhora.push_back(i); //inserto el nodo i
         if(esClique(grafo, cliqueHastaAhora)){ //pregunto si con el elemento insertado forma una clique 
@@ -33,7 +33,9 @@ vector<uint> VectorcliqueMaxima(Grafo grafo){
         	}else{
                 cliqueHastaAhora.pop_back();
             }
-        }
+        }else{
+                cliqueHastaAhora.pop_back();
+		}
 	}
 	return cliqueHastaAhora;
 }
