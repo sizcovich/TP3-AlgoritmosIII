@@ -25,7 +25,7 @@ bool esClique(Grafo grafo, vector<uint> clique){
 vector<uint> VectorcliqueMaxima(Grafo grafo, uint nodoMayor){
     vector<uint> cliqueHastaAhora;
     uint fronteraHastaAhora = 0;
-	for(uint i = 0; i<grafo.vecindad(nodoMayor).size();++i){
+	for(uint i = 0; i<grafo.size();++i){
         cliqueHastaAhora.push_back(i);
         if(esClique(grafo, cliqueHastaAhora)){
 			if(grafo.frontera(cliqueHastaAhora) > fronteraHastaAhora){
