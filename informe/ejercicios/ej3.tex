@@ -1,4 +1,13 @@
 \subsection{Heurística Constructiva Golosa}
+Para resolver el algoritmo presentado anteriormente con una técnica golosa, decidimos utilizar el procedimiento presentado a continuación:\newline
+\begin{algorithm}[H]
+    \SetAlgoLined
+    \caption{HeurísticaGolosa}
+    \KwIn{\textbf{Conj(nodos)} $solucion$\_$inicial$, \textbf{Grafo} $g$, \textbf{Entero} $cantidad$\_$pasos$, \textbf{Entero} $desviacion$\_$permitida$}
+    \KwOut{\textbf{Conj(nodos)} $solucion$\_$final$}
+	Entero $v$ = nodoDeMayorGrado($g$)\\
+	\ForAll{$v \in$ nodos($g$)}{}
+\end{algorithm}
 Idea:
 \begin{itemize}
 \item Agarro nodo $v$ de mayor grado
@@ -34,46 +43,41 @@ Una vez que generamos la vecindad, tomamos la clique de mayor frontera, $S_{maxi
 \begin{algorithm}[H]
     \SetAlgoLined
     \caption{TabuSearch}
-    \KwIn{\textbf{Conj(nodos)} $solucion$\_$inicial$, \textbf{Grafo} $g$, \textbf{Entero} $cantidad$\_$pasos$, \textbf{Entero} $desviacion$\_$permitida$}
-    \KwOut{\textbf{Conj(nodos)} $solucion$\_$final$}
+    \KwIn{\textbf{Conj(nodos)} $solucion\_inicial$, \textbf{Grafo} $g$, \textbf{Entero} $cantidad\_pasos$, \textbf{Entero} $desviacion\_permitida$}
+    \KwOut{\textbf{Conj(nodos)} $solucion\_final$}
 		
-	\textbf{Entero} desviacion$\_$permitida$\_$aux = 0 \\
-	\textbf{Conj(nodos)} $solucion$\_$final$ = $solucion$\_$inicial$ \\
+	\textbf{Entero} $desviacion\_permitida\_aux$ = 0 \\
+	\textbf{Conj(nodos)} $solucion\_final$ = $solucion\_inicial$ \\
 		
-	\textbf{Mientras} ($cantidad$\_$pasos$ $>$ 0) \\
-	\hspace{4mm} \textbf{Hacer} \\
-	\hspace{8mm}     \textbf{Entero} $frontera$\_$ini$ = frontera($solucion$\_$inicial$) \\
-	\hspace{8mm} \textbf{Para} ( u \in Candidatos$\_$clique(g,u) ) \\
-	\hspace{12mm} \textbf{Si} ( $\neg$ es tabu(u) $\wedge$ $\neg$ esta agregado $u$ en $solucion$\_$inicial$ ) \\
-	\hspace{16mm} \textbf{Si} (frontera($solucion$\_$final$) $<$ Frontera con $u$ en $solucion$\_$inicial$) \\
-	\hspace{20mm}  $solucion$\_$final$ = $solucion$\_$inicial$ con $u$ \\
-	\hspace{16mm} \textbf{Sino} \\
-	\hspace{20mm}  \textbf{Si} (desviacion$\_$permitida$\_$aux $>$ 0) \\
-	\hspace{24mm} $solucion$\_$inicial$ = $solucion$\_$inicial$ con $u$ \\
-	\hspace{24mm} Poner en lista Tabu a $u$ \\
-	\hspace{24mm} $desviacion$\_$permitida$\_$aux$  - 1 \\
-	\hspace{8mm} \textbf{Fin Para} \\
-	\hspace{8mm} \textbf{Para} ( u \in Nodos($solucion$\_$inicial$) ) \\
-	\hspace{12mm} \textbf{Si} ( \neg es tabu(u) ) \\
-	\hspace{16mm} \textbf{Si }(frontera($solucion$\_$final$) $<$ Frontera sin $u$ en $solucion$\_$inicial$) \\
-	\hspace{20mm} $solucion$\_$final$ = $solucion$\_$inicial$ sin $u$ \\
-	\hspace{16mm} \textbf{Sino} \\
-	\hspace{20mm} \textbf{Si} ($desviacion$\_$permitida$\_$aux$ $>$ 0) \\
-	\hspace{24mm} $solucion$\_$inicial$ = $solucion$\_$inicial$ sin $u$ \\
-	\hspace{24mm} Poner en lista Tabu a $u$ \\
-	\hspace{24mm} $desviacion$\_$permitida$\_$aux$  - 1 \\
-	\hspace{8mm} \textbf{Fin Para} \\
+	\While{$cantidad\_pasos >$ 0}{
+		\textbf{Entero} $frontera\_ini$ = frontera($solucion\_inicial$) \\
+	 	\For{$u \in Candidatos\_clique(g,u)$}{
+	 		\If{$\neg$ es tabu($u$) $\land \neg$ esta agregado $u$ en $solucion\_inicial$}{
+	 			\eIf{frontera($solucion\_final$) $<$ Frontera con $u$ en $solucion\_inicial$}{
+					$solucion\_final$ = $solucion\_inicial$ con $u$}{
+	  				\If{$desviacion\_permitida\_aux >$ 0}{
+	 				$solucion\_inicial$ = $solucion\_inicial$ con $u$ \\
+	 				Poner en lista Tabu a $u$ \\
+	 				$desviacion\_permitida\_aux$ - 1}}}}}
+	
+	\ForAll{$u \in$ Nodos($solucion$\_$inicial$)}{
+		\If{$\neg$ es tabu($u$)}{
+	 		\eIf{frontera($solucion\_final$) $<$ Frontera sin $u$ en $solucion\_inicial$}{
+	 			$solucion\_final$ = $solucion\_inicial$ sin $u$}{
+				\If{$desviacion\_permitida\_aux >$ 0}{
+					$solucion\_inicial$ = $solucion\_inicial$ sin $u$ \\
+					Poner en lista Tabu a $u$ \\
+					$desviacion\_permitida\_aux$ - 1}}}}
 							
-	\hspace{8mm} \textbf{Si} ($desviacion$\_$permitida$\_$aux$ \leq 0) \\
-	\hspace{12mm} $solucion$\_$inicial$ = $solucion$\_$final$ \\
-	\hspace{4mm} \textbf{Mientras}( $frontera$\_$ini$ $<$ frontera($solucion$\_$final$)  $\vee$ $desviacion$\_$permitida$\_$aux$ $>$ 0 ) \\
-	\hspace{4mm} $desviacion$\_$permitida$\_$aux$ = $desviacion$\_$permitida$  \\
-	\hspace{4mm} Vaciamos la lista Tabu \\
-	\hspace{4mm} Agregamos los ultimos dos nodos de $solucion$\_$final$ a la lista Tabu \\
-	\hspace{4mm} $cantidad$\_$pasos$ - 1 \\
- 	\textbf{Fin Mientras} \\
-    	\textbf{devolver} $solucion$\_$final$ \\
-		
+	\If{$desviacion\_permitida\_aux \leq$ 0}{
+		$solucion\_inicial$ = $solucion\_final$}
+	\While{$frontera\_ini <$ frontera($solucion\_final$) $\vee \ desviacion\_permitida\_aux >$ 0}{
+		$desviacion\_permitida\_aux$ = $desviacion\_permitida$ \\
+		Vaciar la lista Tabu \\
+		Agregar los ultimos dos nodos de $solucion\_final$ a la lista Tabu \\
+		$cantidad\_pasos$ - 1}
+    	\textbf{devolver} $solucion\_final$ \\
+
 \end{algorithm}
 
 Donde:
