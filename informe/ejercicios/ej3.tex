@@ -26,6 +26,7 @@ Hay que decir que es asíntico, que se rompe muy fácil, como por ejemplo cuando
 \subsubsection{Experimentación}
 \subsection{Heurística de Búsqueda Local}
 
+\subsubsection{Explicación del algoritmo realizado}
 Los algoritmos de búsqueda local parten de una solución inicial $S_{0}$ y en cada paso intentan mejorarla. Para esto, se calculan todas las posibles variaciones de $S_{0}$ que forman una solución al problema. Al conjunto de todas estas se lo llama vecindad. 
 Estos algoritmos se ejecutan siempre y cuando exista una solución, perteneciente a la vecindad, que sea mejor a la que ya teníamos. \newline \newline
 Para nuestro ejercicio, utilizamos como $S_{0}$ al nodo 1. Dicha elección se debió a que un nodo forma una clique, con lo cual es una posible solución a nuestro problema. Además, sabemos que este existe para cualquier grafo ya que la menor cantidad de nodos que se pueden ingresar en nuestro programa es uno. 
@@ -44,14 +45,15 @@ Como nosotros queremos encontrar el mayor \delta$(S'_{0})$, debemos quedarnos co
 \item \textbf{Tiene todos los nodos de $S_{0}$ más uno que no pertenecía a el:} \newline
 Para poder obtener la clique de frontera máxima de este subconjunto, buscamos todos los nodos del grafo que pueden formar una clique con $S_{0}$. Para esto, contamos cuantos nodos de la clique se conectan a cada nodo del grafo. Si un nodo es alcanzado por todos los que pertenecen a $S_{0}$, entonces ese nodo forma una clique. Una vez que tenemos a todos los posibles candidatos, calculamos la frontera de cada uno y nos quedamos con la mayor.
 \item \textbf{Tiene todos los nodos de $S_{0}$ salvo 1 que se lo reemplaza por otro que no estaba en el:} \newline
-En este subconjunto lo primero que hicimos fue quitar un nodo de $S_{0}$ y posteriormente, con la clique que nos quedo, agregarle otro. Para esto, utilizamos la clique que obtuvimos en el primer subconjunto y luego utilizamos la funcion que nos calculaba el subconjunto anterior. Al hacer esto, logramos que nuestra clique no quede centrada en el nodo de mayor grado ya que este eventualmente podria dejar de formar parte de la solucion. \newline
-Elijimos 
+En este subconjunto lo primero que hicimos fue quitar un nodo de $S_{0}$ y posteriormente, con la clique que nos quedo, agregarle otro. Para esto, utilizamos la clique que obtuvimos en el primer subconjunto y luego, utilizamos la funcion que nos calculaba el subconjunto anterior para agregar el nuevo nodo. Al hacer esto, logramos que nuestra clique no quede centrada en el nodo de mayor grado ya que este eventualmente podria dejar de formar parte de la solucion. \newline
 \end{itemize}
 
 Una vez que generamos la vecindad, tomamos la clique de mayor frontera, $S_{maxima}$ y la comparamos con $S_{0}$. Si la frontera de $S_{0}$ es menor, $S_{maxima}$ es nuestra nueva solución inicial. Caso contrario, el programa finaliza ya que ningún elemento de la vecindad puede mejorarla.
 
 
-
+\subsubsection{Complejidad Temporal}
+\subsubsection{Instancias problemáticas}
+\subsubsection{Experimentación}
 %no entendi esto! 
 %Hay que ver cuánto dura cada vértice en cantidad de ejecuciones.
 
