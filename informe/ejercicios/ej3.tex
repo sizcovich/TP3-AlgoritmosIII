@@ -1,16 +1,18 @@
 \subsection{Heurística Constructiva Golosa}
-Para resolver el algoritmo presentado anteriormente con una técnica golosa, decidimos utilizar el procedimiento presentado a continuación:\newline
+Para resolver el algoritmo presentado anteriormente con una técnica golosa, decidimos utilizar el procedimiento que se presenta a continuación:\newline
+\newline
 \begin{algorithm}[H]
     \SetAlgoLined
     \caption{HeurísticaGolosa}
-    \KwIn{\textbf{Conj(nodos)} $solucion$\_$inicial$, \textbf{Grafo} $g$, \textbf{Entero} $cantidad$\_$pasos$, \textbf{Entero} $desviacion$\_$permitida$}
-    \KwOut{\textbf{Conj(nodos)} $solucion$\_$final$}
+    \KwIn{\textbf{Entero} $cantVertices$, \textbf{Entero} $cantAristas$, \textbf{Grafo} $g$} %esto hay que ponerlo bien
+    \KwOut{\textbf{Conj(nodos)} $clique$}
 	Entero $v$ = nodoDeMayorGrado($g$)\\
 	Grafo $cliqueHastaAhora$ = $\emptyset$\\
 	agregar($v$, $cliqueHastaAhora$)\\
 	\ForAll{$u \in$ adyacentes(nodoDeMayorGrado, nodos($g$))}{
-		\If{forma una clique(agregar($u$, $cliqueHastaAhora$)) $\land$ frontera(agregar($u$, $cliqueHastaAhora$) $>$ frontera($cliqueHastaAhora$)}{
+		\If{forma una clique($g$, agregar($u$, $cliqueHastaAhora$)) $\land$ frontera($g$, agregar($u$, $cliqueHastaAhora$) $>$ frontera($cliqueHastaAhora$)}{
 		agregar($u$, $cliqueHastaAhora$)}}
+\textbf{devolver} $cliqueHastaAhora$
 \end{algorithm}
 
 Hay que decir que es asíntico, que se rompe muy fácil, como por ejemplo cuando la clique de maxima frontera no contiene al nodo de mayor grado.
