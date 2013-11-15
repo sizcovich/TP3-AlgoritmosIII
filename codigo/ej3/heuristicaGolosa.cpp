@@ -14,7 +14,7 @@ using namespace std;
 bool esClique(Grafo grafo, vector<uint> clique){
     for (uint i=0; i<clique.size(); ++i) {
         for (uint j=0; j<clique.size(); ++j) {
-            if(clique[i] != clique[j]){
+            if(i != j){
             	if(!grafo.sonVecinos(clique[i],clique[j])) return false;
             }
     	}
@@ -22,12 +22,14 @@ bool esClique(Grafo grafo, vector<uint> clique){
     return true;
 }
 
+
 vector<uint> VectorcliqueMaxima(Grafo grafo, uint nodoMayor){
-    vector<uint> cliqueHastaAhora;
+    vector<uint> cliqueHastaAhora();
+    grafo.push_back(grafo.nodoDeMayorGrado());
     uint fronteraHastaAhora = 0;
 	for(uint i = 0; i<grafo.size();++i){
-        cliqueHastaAhora.push_back(i);
-        if(esClique(grafo, cliqueHastaAhora)){
+        cliqueHastaAhora.push_back(i); //inserto el nodo i
+        if(esClique(grafo, cliqueHastaAhora)){ //pregunto si con elemento insertado forma una clique 
 			if(grafo.frontera(cliqueHastaAhora) > fronteraHastaAhora){
             	fronteraHastaAhora = grafo.frontera(cliqueHastaAhora);
         	}else{
