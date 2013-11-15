@@ -6,17 +6,12 @@ Para resolver el algoritmo presentado anteriormente con una técnica golosa, dec
     \KwIn{\textbf{Conj(nodos)} $solucion$\_$inicial$, \textbf{Grafo} $g$, \textbf{Entero} $cantidad$\_$pasos$, \textbf{Entero} $desviacion$\_$permitida$}
     \KwOut{\textbf{Conj(nodos)} $solucion$\_$final$}
 	Entero $v$ = nodoDeMayorGrado($g$)\\
-	\ForAll{$v \in$ nodos($g$)}{}
+	Grafo $cliqueHastaAhora$ = $\emptyset$\\
+	agregar($v$, $cliqueHastaAhora$)\\
+	\ForAll{$u \in$ adyacentes(nodoDeMayorGrado, nodos($g$))}{
+		\If{forma una clique(agregar($u$, $cliqueHastaAhora$)) $\land$ frontera(agregar($u$, $cliqueHastaAhora$) $>$ frontera($cliqueHastaAhora$)}{
+		agregar($u$, $cliqueHastaAhora$)}}
 \end{algorithm}
-Idea:
-\begin{itemize}
-\item Agarro nodo $v$ de mayor grado
-\item Meto $v$ en la bolsa de nodos seleccionados
-\item Agarro el nodo de mayor grado adyacente a $v$ que forme una clique con todos los de la bolsa y que tenga mayor frontera
-\item Meto en la bolsa el elegido
-\item vuelvo al segundo 'Agarro' hasta que ninguno cumpla la clique
-\end{itemize}
-
 
 Hay que decir que es asíntico, que se rompe muy fácil, como por ejemplo cuando la clique de maxima frontera no contiene al nodo de mayor grado.
 
