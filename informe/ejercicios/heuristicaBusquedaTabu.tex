@@ -1,0 +1,56 @@
+\subsection{Heurística de Búsqueda Tabú}
+
+\subsubsection{Explicación del algoritmo realizado}
+\subsubsection{Complejidad Temporal}
+\subsubsection{Instancias problemáticas}
+\subsubsection{Experimentación}
+
+
+\begin{algorithm}[H]
+    \SetAlgoLined
+    \caption{TabuSearch}
+    \KwIn{\textbf{Conj(nodos)} $solución\_inicial$, \textbf{Grafo} $g$, \textbf{Entero} $cantidad\_pasos$, \textbf{Entero} $desviacion\_permitida$}
+    \KwOut{\textbf{Conj(nodos)} $solución\_final$}
+		
+	\textbf{Entero} $desviacion\_permitida\_aux$ = 0 \\
+	\textbf{Conj(nodos)} $solución\_final$ = $solución\_inicial$ \\
+		
+	\While{$cantidad\_pasos >$ 0}{
+		\textbf{Entero} $frontera\_ini$ = frontera($solución\_inicial$) \\
+	 	\For{$u \in Candidatos\_clique(g,u)$}{
+	 		\If{$\neg$ es tabu($u$) $\land \neg$ esta agregado $u$ en $solución\_inicial$}{
+	 			\eIf{frontera($solución\_final$) $<$ Frontera con $u$ en $solución\_inicial$}{
+					$solución\_final$ = $solución\_inicial$ con $u$}{
+	  				\If{$desviacion\_permitida\_aux >$ 0}{
+	 				$solución\_inicial$ = $solución\_inicial$ con $u$ \\
+	 				Poner en lista Tabu a $u$ \\
+	 				$desviacion\_permitida\_aux$ - 1}}}}}
+	
+	\ForAll{$u \in$ Nodos($solución$\_$inicial$)}{
+		\If{$\neg$ es tabu($u$)}{
+	 		\eIf{frontera($solución\_final$) $<$ Frontera sin $u$ en $solución\_inicial$}{
+	 			$solución\_final$ = $solución\_inicial$ sin $u$}{
+				\If{$desviacion\_permitida\_aux >$ 0}{
+					$solución\_inicial$ = $solución\_inicial$ sin $u$ \\
+					Poner en lista Tabu a $u$ \\
+					$desviacion\_permitida\_aux$ - 1}}}}
+							
+	\If{$desviacion\_permitida\_aux \leq$ 0}{
+		$solución\_inicial$ = $solución\_final$}
+	\While{$frontera\_ini <$ frontera($solución\_final$) $\vee \ desviacion\_permitida\_aux >$ 0}{
+		$desviacion\_permitida\_aux$ = $desviacion\_permitida$ \\
+		Vaciar la lista Tabu \\
+		Agregar los ultimos dos nodos de $solución\_final$ a la lista Tabu \\
+		$cantidad\_pasos$ - 1}
+    	\textbf{devolver} $solución\_final$ \\
+
+\end{algorithm}
+
+Donde:
+\begin{itemize}
+ \item $desviacion$\_$permitida$ dice la cantidad de veces que se agrega o quita un nodo por iteracion (empeorando la solución parcial).
+ \item $cantidad$\_$pasos$ son la cantidad de veces que se aplica el algoritmo. Tener en cuenta que la primera iteracion $desviacion$\_$permitida$ es 0, por lo que se toma el maximo local.
+ \item frontera : Dice, dada una solución como parametro, el numero de nodos adyacentes a la frontera (es lo que pide maximizar el enunciado).
+ \item Candidatos$\_$clique : Dice los nodos que pertenecen a la clique del nodo pasado como parametro.
+ \item Nodos : da los nodos pertenecientes a la solución pasada como parametro.
+\end{itemize}
