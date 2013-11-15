@@ -28,7 +28,7 @@ uint frontera(Grafo grafo, vector<uint> clique){ //O(n)
 	return res-clique.size()*(clique.size()-1);
 }*/
 
-pair<uint,vector<uint> > mejorVecinaQuitando(Grafo grafo, vector<uint> clique) { //quito el de menor grado
+pair<uint,vector<uint> > quitarNodo(Grafo grafo, vector<uint> clique) { //quito el de menor grado
 	uint fronteraClique = grafo.frontera(clique);//O(n)
 	
 	uint minimo = grafo.vecindad(clique[0]).size(); //seteo un grado
@@ -58,7 +58,7 @@ pair<uint,vector<uint> > mejorVecinaQuitando(Grafo grafo, vector<uint> clique) {
 	return res;	
 }
 
-pair <uint,vector<uint> > mejorVecinaAgregando(Grafo grafo, vector<uint> clique) { 
+pair <uint,vector<uint> > agregarNodo(Grafo grafo, vector<uint> clique) { 
 	vector<uint> bucket (grafo.nodos(),0); //inicializo un arreglo de n posiciones en 0
 	
 	for (uint i = 0; i < clique.size(); i++) { //marco cuantos nodos de la clique llegan a cada nodo del grafo //O(n²)
@@ -105,7 +105,7 @@ pair <uint,vector<uint> > mejorVecinaAgregando(Grafo grafo, vector<uint> clique)
 	return res;
 }
 
-pair<uint,vector<uint> > mejorVecinaPermutando(Grafo grafo, vector<uint> clique) { 
+pair<uint,vector<uint> > permutarNodo(Grafo grafo, vector<uint> clique) { 
 	pair <uint,vector<uint> > res;
 	
 	if (clique.size() == 0) { //si esta vacio tomo el de mayor grado (no se si esto esta bien) //O(n)
@@ -115,7 +115,7 @@ pair<uint,vector<uint> > mejorVecinaPermutando(Grafo grafo, vector<uint> clique)
 		return res;
 	}
 	
-	return mejorVecinaAgregando(grafo, clique); //O(n²)
+	return agregarNodo(grafo, clique); //O(n²)
 }
 
 int main() {	
@@ -147,14 +147,14 @@ int main() {
 			pair <uint,vector<uint> > maximo; //maximo hasta ahora de los vecinos
 		
 			// genero las vecindades y devuelvo la mejor
-			maximo = mejorVecinaAgregando(grafo, clique); //O(n²)
+			maximo = agregarNodo(grafo, clique); //O(n²)
 					
 					
-			aux = mejorVecinaQuitando(grafo, clique); //O(n)
+			aux = quitarNodo(grafo, clique); //O(n)
 			if (aux.first > maximo.first)
 				maximo = aux;
 				
-			aux = mejorVecinaPermutando(grafo, aux.second); //paso la solucion de mejorvecinaQuitando; puede ser la clique con un elemento menos o una clique vacia. Saco el nodo q menos aporta y agrego un nuevo nodo. //O(n²)
+			aux = permutarNodo(grafo, aux.second); //paso la solucion de quitarNodo; puede ser la clique con un elemento menos o una clique vacia. Saco el nodo q menos aporta y agrego un nuevo nodo. //O(n²)
 			if (aux.first > maximo.first)
 				maximo = aux;
 			
