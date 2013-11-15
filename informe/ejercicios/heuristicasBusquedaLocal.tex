@@ -1,10 +1,8 @@
-\subsection{Heurística de Búsqueda Local}
-
-\subsubsection{Explicación del algoritmo realizado}
+\subsection{Explicación del algoritmo realizado}
 Los algoritmos de búsqueda local parten de una solución inicial $S_{0}$ y en cada paso intentan mejorarla. Para esto, se calculan todas las posibles variaciones de $S_{0}$ que forman una solución al problema. Al conjunto de todas estas se lo llama vecindad. 
 Estos algoritmos se ejecutan siempre y cuando exista una solución, perteneciente a la vecindad, que sea mejor a la que ya teníamos. \newline \newline
 Para nuestro ejercicio, utilizamos como $S_{0}$ al nodo 1. Dicha elección se debió a que un nodo forma una clique, con lo cual es una posible solución a nuestro problema. Además, sabemos que este existe para cualquier grafo ya que la menor cantidad de nodos que se pueden ingresar en nuestro programa es uno. 
-\newline Por otro lado, decidimos separar la vecindad en 3 subconjuntos y para cada uno de estos, tomar la clique de mayor frontera. Al hacer esto, nos evitamos tener que almacenar todas las posibles cliques para posteriormente elegir la mejor. Los tres subconjuntos se formaron con las cliques que cumplen lo siguiente:
+\newline Por otro lado, decidimos definir como vecindad a todas las posibles cliques que difieran en a lo sumo un nodo con nuestro $S_{0}$. Esta decision la tomamos para que nuestra clique no quede fija alrededor del nodo inicial. Para evitarnos tener que almacenar todas las posibles cliques para posteriormente elegir la mejor, decidimos separar la vecindad en tres subconjuntos. Estos se formaron con las cliques que cumplen lo siguiente:
 \begin{itemize}
 \item \textbf{Tiene todos los nodos de $S_{0}$ salvo 1:} \newline En lugar de calcular todas las posibles cliques de este subconjunto, decidimos quedarnos únicamente con la clique que se obtiene de quitarle el nodo de menor grado a $S_{0}$. Esto se debe a que la frontera de una clique se puede calcular con la siguiente formula:\newline
 Sea $S_{0}$ = ($V$,$E$) y n = $|$$V$$|$
@@ -22,11 +20,9 @@ Para poder obtener la clique de frontera máxima de este subconjunto, buscamos t
 En este subconjunto lo primero que hicimos fue quitar un nodo de $S_{0}$ y posteriormente, con la clique que nos quedo, agregarle otro. Para esto, utilizamos la clique que obtuvimos en el primer subconjunto y luego, utilizamos la funcion que nos calculaba el subconjunto anterior para agregar el nuevo nodo. Al hacer esto, logramos que nuestra clique no quede centrada en el nodo de mayor grado ya que este eventualmente podria dejar de formar parte de la solucion. \newline
 \end{itemize}
 
-Una vez que generamos la vecindad, tomamos la clique de mayor frontera, $S_{maxima}$ y la comparamos con $S_{0}$. Si la frontera de $S_{0}$ es menor, $S_{maxima}$ es nuestra nueva solución inicial. Caso contrario, el programa finaliza ya que ningún elemento de la vecindad puede mejorarla.
+Una vez que generamos a los tres candidatos de la vecindad, tomamos al que tiene mayor frontera y lo comparamos con $S_{0}$. Si la frontera de $S_{0}$ es menor, entonces la clique de frontera maxima de nuestra vecindad es nuestra nueva solución inicial. Caso contrario, el programa finaliza ya que ningún elemento de la vecindad puede mejorarla.
 
+\subsection{Complejidad Temporal}
+\subsection{Instancias problemáticas}
+\subsection{Experimentación}
 
-\subsubsection{Complejidad Temporal}
-\subsubsection{Instancias problemáticas}
-\subsubsection{Experimentación}
-%no entendi esto! 
-%Hay que ver cuánto dura cada vértice en cantidad de ejecuciones.
