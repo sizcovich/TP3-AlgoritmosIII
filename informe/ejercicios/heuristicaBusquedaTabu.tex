@@ -6,6 +6,8 @@
 \subsubsection{Experimentación}
 
 
+\subsection{Heurística de Búsqueda Tabú}
+
 \begin{algorithm}[H]
     \SetAlgoLined
     \caption{TabuSearch}
@@ -13,44 +15,91 @@
     \KwOut{\textbf{Conj(nodos)} $solución\_final$}
 		
 	\textbf{Entero} $desviacion\_permitida\_aux$ = 0 \\
-	\textbf{Conj(nodos)} $solución\_final$ = $solución\_inicial$ \\
-		
+	\textbf{Conj(nodos)} $solución\_final$ = LocalSearch($solución\_inicial$, $g$)	\\		
+	
 	\While{$cantidad\_pasos >$ 0}{
-		\textbf{Entero} $frontera\_ini$ = frontera($solución\_inicial$) \\
-	 	\For{$u \in Candidatos\_clique(g,u)$}{
-	 		\If{$\neg$ es tabu($u$) $\land \neg$ esta agregado $u$ en $solución\_inicial$}{
-	 			\eIf{frontera($solución\_final$) $<$ Frontera con $u$ en $solución\_inicial$}{
+
+	$solución\_inicial$ = $solución\_final$ \\
+	mezclar(Candidatos\_clique($solución\_inicial$)) \\
+	mezclar(Nodos($solución$\_$inicial$)) \\
+	$desviacion\_actual$ = $desviacion\_permitida$ \\
+
+	\While{ Mejore la frontera $\vee \ desviacion\_actual >$ 0}{
+
+	 	Buscar Mejor Nodo a Agregar No Tabu () \\
+		Buscar Mejor Nodo a Quitar No Tabu ( ) \\
+					
+	}
+
+	Vaciar la lista Tabu \\
+	Agregar los ultimos dos nodos de $solución\_final$ a la lista Tabu \\
+	$cantidad\_pasos$ - 1
+	}
+    	\textbf{devolver} $solución\_final$ \\
+
+\end{algorithm}
+
+\begin{algorithm}[H]
+    \SetAlgoLined
+    \caption{Buscar Mejor Nodo a Agregar No Tabu}
+
+	\ForAll{$u \in Candidatos\_clique($solución\_inicial$)$}{
+	 		\If{$\neg$ es tabu($u$) $\land$ $u$ $\notin Nodos(solución\_inicial)$}{
+	 			\eIf{frontera($solución\_final$) $<$ frontera( $solución\_inicial$ con $u$) }{
 					$solución\_final$ = $solución\_inicial$ con $u$}{
 	  				\If{$desviacion\_permitida\_aux >$ 0}{
 	 				$solución\_inicial$ = $solución\_inicial$ con $u$ \\
 	 				Poner en lista Tabu a $u$ \\
-	 				$desviacion\_permitida\_aux$ - 1}}}}}
-	
+	 				$desviacion\_actual$ - 1}}}}
+
+\end{algorithm}
+
+\begin{algorithm}[H]
+    \SetAlgoLined
+    \caption{Buscar Mejor Nodo a Quitar No Tabu}
+
 	\ForAll{$u \in$ Nodos($solución$\_$inicial$)}{
 		\If{$\neg$ es tabu($u$)}{
-	 		\eIf{frontera($solución\_final$) $<$ Frontera sin $u$ en $solución\_inicial$}{
+	 		\eIf{frontera($solución\_final$) $<$ frontera( $solución\_inicial$ sin $u$)}{
 	 			$solución\_final$ = $solución\_inicial$ sin $u$}{
 				\If{$desviacion\_permitida\_aux >$ 0}{
 					$solución\_inicial$ = $solución\_inicial$ sin $u$ \\
 					Poner en lista Tabu a $u$ \\
-					$desviacion\_permitida\_aux$ - 1}}}}
-							
-	\If{$desviacion\_permitida\_aux \leq$ 0}{
-		$solución\_inicial$ = $solución\_final$}
-	\While{$frontera\_ini <$ frontera($solución\_final$) $\vee \ desviacion\_permitida\_aux >$ 0}{
-		$desviacion\_permitida\_aux$ = $desviacion\_permitida$ \\
-		Vaciar la lista Tabu \\
-		Agregar los ultimos dos nodos de $solución\_final$ a la lista Tabu \\
-		$cantidad\_pasos$ - 1}
-    	\textbf{devolver} $solución\_final$ \\
+					$desviacion\_actual$ - 1}}}}
 
 \end{algorithm}
 
 Donde:
 \begin{itemize}
- \item $desviacion$\_$permitida$ dice la cantidad de veces que se agrega o quita un nodo por iteracion (empeorando la solución parcial).
- \item $cantidad$\_$pasos$ son la cantidad de veces que se aplica el algoritmo. Tener en cuenta que la primera iteracion $desviacion$\_$permitida$ es 0, por lo que se toma el maximo local.
+ \item $desviacion$\_$permitida$ Dice la cantidad de veces que se agrega o quita un nodo por iteracion (empeorando la solución parcial).
+ \item $cantidad$\_$pasos$ Son la cantidad de veces que se aplica el algoritmo.
  \item frontera : Dice, dada una solución como parametro, el numero de nodos adyacentes a la frontera (es lo que pide maximizar el enunciado).
- \item Candidatos$\_$clique : Dice los nodos que pertenecen a la clique del nodo pasado como parametro.
- \item Nodos : da los nodos pertenecientes a la solución pasada como parametro.
+ \item Candidatos$\_$clique : Dice los nodos que pertenecen a la clique maxima de los nodos pasados como parametro.
+ \item Nodos : Da los nodos pertenecientes a la solución pasada como parametro.
+ \item mezclar: Mezcla de manera aleatoria un conjunto.
+ \item Mejore la frontera : es esquivalente a poner $frontera\_ini <$ frontera($solución\_final$).
 \end{itemize}
+
+\begin{algorithm}[H]
+    \SetAlgoLined
+    \caption{LocalSearch}
+    \KwIn{\textbf{Conj(nodos)} $solución\_inicial$, \textbf{Grafo} $g$ }
+    \KwOut{\textbf{Conj(nodos)} $solución\_final$}
+
+	\textbf{Conj(nodos)} $solución\_final$ = $solución\_inicial$ \\
+
+	\While{Mejore la frontera}{
+	 	\ForAll{$u \in Candidatos\_clique( $solución\_inicial$ )$}{
+	 		\If{ $u$ $\notin Nodos(solución\_inicial)$ $\wedge$ frontera($solución\_final$) $<$ frontera($solución\_inicial$ con $u$)}
+			{ $solución\_final$ = $solución\_inicial$ con $u$ }
+		}
+	
+	\ForAll{ $u \in$ Nodos($solución\_inicial$) }{
+		\If{$\neg$ es tabu($u$) $\wedge$ frontera($solución\_final$) $<$ frontera($solución\_inicial$ sin $u$) }
+			 { $solución\_final$ = $solución\_inicial$ sin $u$ }
+	}
+	$solución\_inicial$ = $solución\_final$ 
+	}
+    	\textbf{devolver} $solución\_final$ \\
+
+\end{algorithm}
