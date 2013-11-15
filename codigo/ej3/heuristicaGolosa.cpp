@@ -22,23 +22,14 @@ bool esClique(Grafo grafo, vector<uint> clique){
     return true;
 }
 
-uint nodoDeMayorGradoMio(Grafo grafo){
-	uint mayorNodo = 1;
-	for(uint i = 1; i<grafo.nodos(); ++i){
-		if(grafo.vecindad(i).size()>grafo.vecindad(mayorNodo).size()) mayorNodo = i;
-	}
-	return mayorNodo;
-}
-
-vector<uint> VectorcliqueMaxima(Grafo grafo, uint nodoMayor){
-    vector<uint> cliqueHastaAhora;
-    cliqueHastaAhora.push_back(nodoDeMayorGradoMio(grafo));
-    uint fronteraHastaAhora = 0;
+vector<uint> VectorcliqueMaxima(Grafo grafo){
+    vector<uint> cliqueHastaAhora(1,grafo.nodoDeMayorGrado());
+    uint fronteraHastaAhora = grafo.frontera(grafo.nodoDeMayorGrado()); //pongo el grado del nodo de mayor grado
 	for(uint i = 0; i<grafo.nodos();++i){
         cliqueHastaAhora.push_back(i); //inserto el nodo i
-        if(esClique(grafo, cliqueHastaAhora)){ //pregunto si con elemento insertado forma una clique 
-			if(grafo.frontera(cliqueHastaAhora) > fronteraHastaAhora){
-            	fronteraHastaAhora = grafo.frontera(cliqueHastaAhora);
+        if(esClique(grafo, cliqueHastaAhora)){ //pregunto si con el elemento insertado forma una clique 
+			if(grafo.frontera(cliqueHastaAhora) > fronteraHastaAhora){ //me fijo si la frontera de la nueva clique es mayor que la de la clique sin i
+            	fronteraHastaAhora = grafo.frontera(cliqueHastaAhora); //me guardo la nueva frontera
         	}else{
                 cliqueHastaAhora.pop_back();
             }
@@ -65,7 +56,7 @@ int main() {
 		}
 		
 		auto t1 = chrono::high_resolution_clock::now();
-		clique = VectorcliqueMaxima(grafo, grafo.nodoDeMayorGrado());
+		clique = VectorcliqueMaxima(grafo);
 		
 		cout << grafo.frontera(clique) << " " << clique.size() << " ";
 		for (uint i = 0; i < clique.size(); i++) //O(n)
