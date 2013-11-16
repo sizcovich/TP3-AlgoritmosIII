@@ -99,6 +99,28 @@ El trabajo se organizó de la siguiente forma:
 \input{ejercicios/ej1.tex}
 \newpage
 
+\section{Detalles de implementación}
+Para la realización de las Heurísticas Golosa, Búsqueda Local y Búsqueda Tabú, utilizamos la clase \textit{Grafo}. Dicha clase fue establecida a partir del Taller de Heurísticas\footnote{http://www.dc.uba.ar/materias/aed3/2013/2c/laboratorio/taller-heuristicas/view} realizado en los laboratorios. En ella, se hace uso de un vector de adyacencia y una matriz de adyacencia, dependiendo del caso. Por ejemplo, para saber si dos nodos son vecinos, resulta más simple utilizar una matriz de adyacencia pues simplemente debe verificarse una única posición. Por otro lado, para obtener la totalidad de los vecinos de un nodo, es conveniente usar un vector de adyacencia pues no es necesario recorrer ninguna estructura para obtener dicho resultado. 
+
+Analicemos la complejidad temporal de la clase \textit{Grafo}:
+\begin{itemize}
+\item \textbf{Definición de grafo:}
+\begin{itemize}
+\item $vecinos(nodos, vuint()) \rightarrow \mathcal{O}(n)$ pues $vecinos$ es $std::vector< vuint > vecinos$ y por cada elemento debe realizarse un $push\_back$\footnote{http://www.cplusplus.com/reference/vector/vector/push\_back/}, siendo $\mathcal{O}(n)*\mathcal{O}(1) = \mathcal{O}(n)$ el resultado final.
+\item $adyacencia(nodos, std::vector<bool>(nodos, false)) \rightarrow \mathcal{O}(n^2)$ pues $adyacencia$ es $std::vector<std::vector<bool> > adyacencia$ y realiza $n\ push\_back$ por cada elemento, luego, su complejidad temporal resulta $\mathcal{O}(n)*\mathcal{O}(1)*\mathcal{O}(n)*\mathcal{O}(1) = \mathcal{O}(n^2)$.
+\item $cnodos(nodos) \rightarrow \mathcal{O}(1)$ pues $nodos$ es $uint\ cnodos$.
+\end{itemize}
+\item \textbf{Funciones públicas:}
+\begin{itemize}
+\item $nodos$ devuelve $cnodos$, luego su complejidad es $\mathcal{O}(1)$.
+\item $sonVecinos$ accede a una posición de $adyacencia$, luego, su complejidad temporal es $\mathcal{O}(1)*\mathcal{O}(1) = \mathcal{O}(1)$\footnote{http://www.cplusplus.com/reference/vector/vector/operator[]/}.
+\item $agregarArista$ realiza dos $push\_back (\mathcal{O}(1) + \mathcal{O}(1) = \mathcal{O}(1)$) al vector $vecinos$ y, finalmente, le asigna un valor booleano a dos posiciones de $adyacencia$, siendo esto $\mathcal{O}(1)$\footnote{http://www.cplusplus.com/reference/vector/vector/assign/}.
+\item $vecindad$ retorna el valor de un elemento del vector $vecinos$, luego, la complejidad resulta $\mathcal{O}(1)$\footnote{http://www.cplusplus.com/reference/vector/vector/operator[]/}.
+\item $nodoDeMayorGrado$ recorre la totalidad de los nodos ($cnodos$) del grafo (en $\mathcal{O}(n)$). En cada iteración, compara el tamaño (utilizando la función size() ($\mathcal{O}(1)$)\footnote{http://www.cplusplus.com/reference/vector/vector/size/}) de los vecinos de dos nodos y asigna un valor a un uint ($\mathcal{O}(1)$) dependiendo del resultado de la comparación. Luego, la complejidad temporal de dicha función resulta $\mathcal{O}(n)$.
+\item $frontera$ recorre los nodos de una clique del grafo (cuyo tamaño máximo es $n$) y le asigna a un $uint$ el tamaño (utilizando size()) de un acceso a $vecinos$ ($\mathcal{O}(1)$). Luego, la complejidad de la función resulta $\mathcal{O}(n)*\mathcal{O}(1) = \mathcal{O}(n)$.
+\end{itemize}
+\end{itemize}
+
 \section{Algoritmo Exacto}
 \input{ejercicios/ej2.tex}
 \newpage
