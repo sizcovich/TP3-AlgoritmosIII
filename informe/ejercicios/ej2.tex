@@ -80,3 +80,6 @@ En este caso el programa comienza con la funcion Exacto, esta es la encargada de
 La funcion $calcularCandidatos$ busca aquellos nodos que no son los de la clique actual pero que estan conectados con todos ellos, eso se logra calculando la interseccion entre los nodos adyacentes a los nodos de la clique. \\
 La funcion $frontera$ devuelve el valor numerico de la frontera de una clique, como tenemos por pre-condicion que todo conjunto de nodos que reciba como parametro la funcion es una clique, entonces calcular la frontera se puede hacer restandole a la cantidad de nodos adyacentes de cada nodo la cantidad de nodos de la clique menos 1. 
 
+\subsection{Analisis de complejidad}
+
+El analisis de complejidad del algoritmo posee una cota superior definida por la funcion recursiva de backtracking, esta funcion se pueden analizar calcular el arbol de soluciones del problema en cuestion. Como buscamos cliques y puede haber cliques de tamaño 1 hasta tamaño $n$ inclusive, entonces el arbol de soluciones va a tener un tamaño de 
