@@ -7,10 +7,9 @@ class Grafo {
 		public:
 			//Crea un grafo dada su cantidad de nodos.
 			Grafo(uint nodos) : 
-				vecinos(nodos, vuint()),
-				adyacencia(nodos, std::vector<bool>(nodos, false)),
+				vecinos(nodos, vuint()), //O(n)
+				adyacencia(nodos, std::vector<bool>(nodos, false)), //O(n²)
 				cnodos(nodos) {
-						assert(nodos > 0);
 				}
 			
 			//Cantidad de nodos
@@ -20,18 +19,11 @@ class Grafo {
 			
 			//Indica si dos nodos son vecinos
 			bool sonVecinos(uint v, uint w) const{ //O(1)
-				assert(v >= 0 && v < nodos());
-				assert(w >= 0 && w < nodos());
-
 				return adyacencia[v][w];
 			}
 
 			//Agrega una arista no dirigida entre inicio y fin.
 			void agregarArista(uint inicio, uint fin){ //O(1)
-				assert(inicio >= 0 && inicio < nodos());
-				assert(fin >= 0 && fin < nodos());
-				assert(inicio != fin);
-
 				vecinos[inicio].push_back(fin);
 				vecinos[fin].push_back(inicio);
 				adyacencia[inicio][fin] = adyacencia[fin][inicio] = true;
@@ -39,7 +31,6 @@ class Grafo {
 
 			//Devuelve los vecinos de un nodo.
 			const vuint& vecindad(uint nodo) const{ //O(1)
-				assert(nodo >= 0 && nodo < nodos());
 				return vecinos[nodo];
 			}				
 			
@@ -49,8 +40,8 @@ class Grafo {
 					return 0;
 					
 				uint mayorNodo = 0;
-				for(uint i = 1; i<cnodos; i++){
-					if(vecinos[i].size()>vecinos[mayorNodo].size()) mayorNodo = i;
+				for(uint i = 1; i<cnodos; i++){ //O(n)
+					if(vecinos[i].size()>vecinos[mayorNodo].size()) mayorNodo = i; //O(1) pues usa vector
 				}
 				return mayorNodo;
 			}	
@@ -58,8 +49,8 @@ class Grafo {
 			//Devuelve el valor de la frontera de la clique pasada por parametro
 			uint frontera(vuint clique){ //O(n)
 				uint res = 0;
-				for(uint i = 0; i<clique.size(); i++){
-					res = res + vecinos[clique[i]].size();
+				for(uint i = 0; i<clique.size(); i++){ //O(n)
+					res = res + vecinos[clique[i]].size(); //O(1) porque usa vector
 				}
 				return res-clique.size()*(clique.size()-1);
 			}

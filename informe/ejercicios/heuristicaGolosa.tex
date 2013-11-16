@@ -18,9 +18,14 @@ Para resolver el algoritmo presentado anteriormente con una técnica golosa, dec
 donde $nodoDeMasGrado$ consiste en una función que toma el nodo del grafo cuyo grado es el mayor, $frontera$ es una función que calcula la frontera de un conjunto de nodos dentro de un grafo y $adyacentes$ consiste en una lista de nodos adyacentes a un determinado nodo.\newline
 
 
-Hay que decir que es asíntico, que se rompe muy fácil, como por ejemplo cuando la clique de maxima frontera no contiene al nodo de mayor grado.
+
 \subsection{Complejidad Temporal}
+Veamos cuál es la complejidad temporal del algoritmo realizado:
+\begin{itemize}
+\item En primer lugar, para hallar el $nodoDeMayorGrado$, el único procedimiento a realizar consiste en recorrer todos los nodos ($\mathcal{O}(n)$) y almacenar el de mayor grado en cada paso.
+\end{itemize}
 \subsection{Instancias problemáticas}
+Hay que decir que es asíntico, que se rompe muy fácil, como por ejemplo cuando la clique de maxima frontera no contiene al nodo de mayor grado.
 \subsection{Experimentación}
 
 
