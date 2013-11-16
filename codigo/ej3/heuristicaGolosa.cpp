@@ -11,11 +11,11 @@
 
 using namespace std; 
 
-bool esClique(Grafo grafo, vector<uint> clique){
-    for (uint i=0; i<clique.size(); ++i) {
-        for (uint j=0; j<clique.size(); ++j) {
+bool esClique(Grafo grafo, vector<uint> clique){ //O(n²)
+    for (uint i=0; i<clique.size(); ++i) { //O(n)
+        for (uint j=0; j<clique.size(); ++j) { //O(n)
             if(i != j){
-            	if(!grafo.sonVecinos(clique[i],clique[j])) return false;
+            	if(!grafo.sonVecinos(clique[i],clique[j])) return false; //O(1)
             }
     	}
     }
@@ -23,8 +23,8 @@ bool esClique(Grafo grafo, vector<uint> clique){
 }
 
 vector<uint> VectorcliqueMaxima(Grafo grafo){
-    vector<uint> cliqueHastaAhora(1,grafo.nodoDeMayorGrado());
-    uint fronteraHastaAhora = grafo.frontera(cliqueHastaAhora); //pongo el grado del nodo de mayor grado
+    vector<uint> cliqueHastaAhora(1,grafo.nodoDeMayorGrado()); //O(1)
+    uint fronteraHastaAhora = grafo.frontera(cliqueHastaAhora); //pongo el grado del nodo de mayor grado O()
 	for(uint i = 0; i<grafo.nodos();++i){
         cliqueHastaAhora.push_back(i); //inserto el nodo i
         if(esClique(grafo, cliqueHastaAhora)){ //pregunto si con el elemento insertado forma una clique 
@@ -48,7 +48,7 @@ int main() {
 		uint n, m;
 		cin >> n >> m;
 
-		Grafo grafo(n);
+		Grafo grafo(n); //O(n²)
 		for (uint i=0; i<m; i++) {  //O(n²)
 			uint i,j;
 			cin >> i >> j;
