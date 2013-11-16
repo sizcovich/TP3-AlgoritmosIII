@@ -22,19 +22,19 @@ bool esClique(Grafo grafo, vector<uint> clique){ //O(n²)
     return true;
 }
 
-vector<uint> VectorcliqueMaxima(Grafo grafo){
+vector<uint> VectorcliqueMaxima(Grafo grafo){ //O(n⁴)
     vector<uint> cliqueHastaAhora(1,grafo.nodoDeMayorGrado()); //O(1)
-    uint fronteraHastaAhora = grafo.frontera(cliqueHastaAhora); //pongo el grado del nodo de mayor grado O()
-	for(uint i = 0; i<grafo.nodos();++i){
-        cliqueHastaAhora.push_back(i); //inserto el nodo i
-        if(esClique(grafo, cliqueHastaAhora)){ //pregunto si con el elemento insertado forma una clique 
-			if(grafo.frontera(cliqueHastaAhora) > fronteraHastaAhora){ //me fijo si la frontera de la nueva clique es mayor que la de la clique sin i
-            	fronteraHastaAhora = grafo.frontera(cliqueHastaAhora); //me guardo la nueva frontera
+    uint fronteraHastaAhora = grafo.frontera(cliqueHastaAhora); //pongo el grado del nodo de mayor grado - O(n)
+	for(uint i = 0; i<grafo.nodos();++i){ //O(n)
+        cliqueHastaAhora.push_back(i); //inserto el nodo i - O(1)
+        if(esClique(grafo, cliqueHastaAhora)){ //pregunto si con el elemento insertado forma una clique - O(n²)
+			if(grafo.frontera(cliqueHastaAhora) > fronteraHastaAhora){ //me fijo si la frontera de la nueva clique es mayor que la de la clique sin i - O(n)
+            	fronteraHastaAhora = grafo.frontera(cliqueHastaAhora); //me guardo la nueva frontera - O(n)
         	}else{
-                cliqueHastaAhora.pop_back();
+                cliqueHastaAhora.pop_back(); //O(1)
             }
         }else{
-                cliqueHastaAhora.pop_back();
+                cliqueHastaAhora.pop_back(); //O(1)
 		}
 	}
 	return cliqueHastaAhora;
