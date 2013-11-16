@@ -118,31 +118,13 @@ pair<uint,vector<uint> > permutarNodo(Grafo grafo, vector<uint> clique) {
 	return agregarNodo(grafo, clique); //O(n²)
 }
 
-int main() {	
-
-	int termino = '1';
-	while (termino != '0') {
-		uint n, m;
-		cin >> n >> m;
-
-		Grafo grafo(n);
-		for (int i=0; i<m; i++) {  //O(n²)
-			uint i,j;
-			cin >> i >> j;
-			i--; j--;
-
-			grafo.agregarArista(i, j);
-		}
-		
-		auto t1 = chrono::high_resolution_clock::now();
-		
-		
+vector<uint> busquedaLocal(Grafo grafo) { 
 		//represento a la clique como un vector de nodos que perteneces a la clique
 		vector<uint> clique(1,0); //creo la clique con un solo nodo (el 1); todo grafo no vacio tiene por lo menos un nodo
 	
 		uint tamFrontera = grafo.frontera(clique); //O(n)
 		
-		while(true){
+		for (int j = 0; i < m*m; i++)	{
 			pair <uint,vector<uint> > aux; //mejor vecina 
 			pair <uint,vector<uint> > maximo; //maximo hasta ahora de los vecinos
 		
@@ -171,6 +153,27 @@ int main() {
 			cout << clique[i] + 1<< " ";
 			
 		cout << endl;
+		return clique;
+}
+int main() {	
+
+	int termino = '1';
+	while (termino != '0') {
+		uint n, m;
+		cin >> n >> m;
+
+		Grafo grafo(n);
+		for (int i=0; i<m; i++) {  //O(n²)
+			uint i,j;
+			cin >> i >> j;
+			i--; j--;
+
+			grafo.agregarArista(i, j);
+		}
+		
+		auto t1 = chrono::high_resolution_clock::now();
+		
+		vector <uint> res = busquedaLocal(grafo);
 		
 		auto t2 = chrono::high_resolution_clock::now();
 		auto x = chrono::duration_cast<std::chrono::nanoseconds>(t2-t1).count();
