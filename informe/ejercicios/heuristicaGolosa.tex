@@ -4,7 +4,7 @@ Para resolver el algoritmo presentado anteriormente con una técnica golosa, dec
 \begin{algorithm}[H]
     \SetAlgoLined
     \caption{HeurísticaGolosa}
-    \KwIn{\textbf{Entero} $cantVertices$, \textbf{Entero} $cantAristas$, \textbf{Grafo} $g$} %esto hay que ponerlo bien
+    \KwIn{\textbf{Grafo} $g$}
     \KwOut{\textbf{Conj(nodos)} $clique$}
 	Entero $nodoDeMayorGrado$ = nodoDeMasGrado($g$)\\
 	Grafo $cliqueHastaAhora$ = $\emptyset$\\
@@ -22,7 +22,7 @@ donde $nodoDeMasGrado$ consiste en una función que toma el nodo del grafo cuyo 
 \subsection{Complejidad Temporal}
 Veamos cuál es la complejidad temporal del algoritmo realizado:
 \begin{itemize}
-\item En primer lugar, para hallar el $nodoDeMayorGrado$, el único procedimiento a realizar consiste en recorrer todos los nodos ($\mathcal{O}(n)$) y almacenar el de mayor grado en cada paso.
+\item En primer lugar, para hallar el $nodoDeMayorGrado$, el único procedimiento a realizar consiste en recorrer todos los nodos ($\mathcal{O}(n)$) y almacenar el de mayor grado en cada paso ($\mathcal{O}(1)$).
 \end{itemize}
 \subsection{Instancias problemáticas}
 Hay que decir que es asíntico, que se rompe muy fácil, como por ejemplo cuando la clique de maxima frontera no contiene al nodo de mayor grado.
