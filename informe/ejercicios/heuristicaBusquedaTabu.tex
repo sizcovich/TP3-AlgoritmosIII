@@ -1,6 +1,6 @@
 \subsection{Heurística de Búsqueda Tabú}
 
- Busqueda Tabu (Tabu search\footnote{Glover, F. "Tabu Search — Part I", ORSA Journal on Computing 1989}) es una estrategia para resolver problemas combinatorios cuya aplicacion es en teoria de grafos y varios problemas de programaciones, entre otros. Este metodo tiene origenes en aplicaciones combinatorias a fines de los 70, y consecuentemente fue aplicado en diversas colecciones de problemas de programacion. El mismo consiste en utilizar el procedimiento de busqueda local\footnote{Ver seccione anterior} para moverse a una mejor solucion en un entorno. Dado que hay veces que no se puede mejorar la solucion la misma permite empeorar parcialmente esta solucion en busca de otras mejores. A su vez esta heuristica concede una estructura llamada $lista\ tabu$ utilizada para varios aspectos, en los que se destacan: guardar movimientos para no repetirlos, guardar caracteristicas o soluciones, por ejemplo. A continuacion mostraremos el pseudocodigo\footnote{Pseudocodigo tomado de la clase de heuristicas correspondiente a Algoritmos y Estructuras III, UBA} que describe al mismo:
+En este sector, se busca resolver el problema de CMF a partir de una Heurística de Búsqueda Tabú (Tabu search\footnote{Glover, F. "Tabu Search — Part I", ORSA Journal on Computing 1989}). Dicha heurística consiste en una estrategia para resolver problemas combinatorios, aplicable tanto en grafos como en otras estructuras utilizadas para resolver problemas de lógica. Este método utiliza el mismo procedimiento que Búsqueda Local\footnote{Ver sección anterior.} para acercarse progresivamente a una mejor solución dentro de un entorno. Dado que en ciertos casos la solución no puede ser mejorada, la técnica de Búsqueda Tabú permite empeorarla parcialmente para proseguir la búsqueda de una mejor. A su vez, esta heurística concede una estructura llamada $lista\ tabu$ con distintas utilidades. Principalmente, sirve para guardar movimientos de modo a no repetirlos y/o guardar características o soluciones, entre otras. A continuación, se encuentra explicitado el pseudocódigo\footnote{http://www.dc.uba.ar/materias/aed3/2013/2c/laboratorio/heuristicas.pdf} de la heurística de Búsqueda Tabú:
 
 \begin{algorithm}[H]
 \SetAlgoLined
@@ -15,16 +15,14 @@ s $\leftarrow$ mejor solucion en N. \\
 Actualizar la lista tabu T }
 \end{algorithm}
 
-
-
 \subsubsection{Explicación del algoritmo realizado}
 
- El mismo parte de una solucion provista por el algoritmo de busqueda local, y un valor entero positivo ingresado como parametro llamado $desviacion\_permitida$. A partir de la solucion, el algoritmo va buscando una mejor solucion de la siguiente forma:
+ El algoritmo realizado parte de un valor entero positivo ingresado como parámetro, $desviacion\_permitida$, y de una solución provista por la Heurística de Búsqueda Local. A partir de esta última, el algoritmo busca, paulatinamente, una mejor solución siguiendo las siguientes opciones:
 \begin{itemize}
- \item Agrega un nodo: Dada una solucion actual (una clique) procede a $agregar$ el mejor nodo\footnote{el que genere mayor frontera a dicha solucion}.
- \item Quita un nodo: Dada una solucion actual procede a $quitar$ el mejor nodo.
+ \item Agregando un nodo: Dada la solución actual (una clique), procede a $agregar$ un nodo que la mejore, es decir, que aumente su frontera.
+ \item Quitando un nodo: Dada la solución actual (una clique), procede a $quitar$ un nodo que la mejore, es decir, que aumente su frontera.
 \end{itemize}
- De esta manera en cada paso se busca la mejor solucion, en otras palabras, el algoritmo avanza hasta un maximo local. \newline
+A diferencia de la Búsqueda Local, se buscan nuevas soluciones que no necesariamente mejoren la solución obtenida hasta el momento pero que sí lo hagan a largo plazo. Sin embargo, dentro de las formas de empeorar la solucion, se toma aquella que empeora lo menos posible. A su vez, a medida que agregamos o quitamos un nodo lo vamos poniendo en la lista tabu. Esto lo hace sin olvidar que siempre que pueda subir lo va a hacer, entonces, si descendiendo se encuentra con que puede volver a ascender, lo va a hacer hasta volver a estar en un máximo local.\newline
 
 \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
@@ -33,7 +31,6 @@ Actualizar la lista tabu T }
 \end{center}
 \end{figure}
 
- Luego, y a diferencia de la busqueda Local, empezamos a buscar nuevas soluciones pero que no mejoren la solucion. Sin embargo, dentro de las formas que hay de empeorar la solucion, tomamos aquella que empeora lo menos posible. A su vez, a medida que agregamos o quitamos un nodo lo vamos poniendo en la lista tabu. Esto lo hace sin olvidar que siempre que pueda subir lo va a hacer, entonces, si descendiendo se encuentra con que puede volver a ascender, lo va a hacer hasta volver a estar en un maximo local. \newline
 
 \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
@@ -42,7 +39,7 @@ Actualizar la lista tabu T }
 \end{center}
 \end{figure}
 
-Al final el algoritmo retorna la mejor solucion encontrada. \newline
+Al finalizar, el algoritmo retorna la mejor solución hallada. \newline
 
 \textbf{Descripcion de la lista tabu} \newline
 
