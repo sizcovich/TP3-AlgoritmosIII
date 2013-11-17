@@ -49,7 +49,7 @@ int main() {
 		cin >> n >> m;
 
 		Grafo grafo(n); //O(n²)
-		for (uint i=0; i<m; i++) {  //O(n²)
+		for (uint k=0; k<m; k++) {  //O(n²)
 			uint i,j;
 			cin >> i >> j;
 			i--; j--;
