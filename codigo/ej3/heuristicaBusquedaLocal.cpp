@@ -108,19 +108,31 @@ pair <uint,vector<uint> > agregarNodo(Grafo grafo, vector<uint> clique) {
 pair<uint,vector<uint> > permutarNodo(Grafo grafo, vector<uint> clique) { 
 	pair <uint,vector<uint> > res;
 	
-	if (clique.size() == 0) { //si esta vacio tomo el de mayor grado (no se si esto esta bien) //O(n)
-		uint nodo = grafo.nodoDeMayorGrado(); //O(n)
+	vector<uint> cliqueResultante = quitarNodo(grafo, clique).second;
+	
+	if (cliqueResultante.size() == 0) { //si esta vacio tomo el de mayor grado de sus vecinos //O(n)
+		uint maxFrontera = 0;
+		uint nodo = 0;
+		for (int i = 0; i < grafo.vecindad(clique[0]).size(); i++)	{
+			nodo = grafo.vecindad(clique[0])[i];
+			uint tamFrontera = grafo.vecindad(nodo).size();
+			if (tamFrontera > maxFrontera) {
+				maxFrontera = tamFrontera;
+				nodo = grafo.vecindad(clique[0])[i];
+			}			
+		}
+		
 		vector<uint> s1(1,nodo);
-		res = make_pair (grafo.vecindad(nodo).size(), s1);
+		res = make_pair (maxFrontera, s1);
 		return res;
 	}
 	
-	return agregarNodo(grafo, clique); //O(n²)
+	return agregarNodo(grafo, cliqueResultante); //O(n²)
 }
 
 vector<uint> busquedaLocal(Grafo grafo, uint m) { 
 		//represento a la clique como un vector de nodos que perteneces a la clique
-		vector<uint> clique(1,0); //creo la clique con un solo nodo (el 1); todo grafo no vacio tiene por lo menos un nodo
+		vector<uint> clique(1,grafo.nodoDeMayorGrado()); //creo la clique con un solo nodo (el de mayor grado); todo grafo no vacio tiene por lo menos un nodo
 	
 		uint tamFrontera = grafo.frontera(clique); //O(n)
 		
@@ -137,7 +149,7 @@ vector<uint> busquedaLocal(Grafo grafo, uint m) {
 			if (aux.first > maximo.first)
 				maximo = aux;
 				
-			aux = permutarNodo(grafo, aux.second); //paso la solucion de quitarNodo; puede ser la clique con un elemento menos o una clique vacia. Saco el nodo q menos aporta y agrego un nuevo nodo. //O(n²)
+			aux = permutarNodo(grafo, clique);  //O(n²)
 			if (aux.first > maximo.first)
 				maximo = aux;
 			
