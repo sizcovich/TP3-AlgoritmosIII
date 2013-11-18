@@ -1,7 +1,7 @@
 \subsection{Explicación del algoritmo realizado}
 Los algoritmos de búsqueda local parten de una solución inicial $S_{0}$ y en cada paso intentan mejorarla. Para esto, se calculan todas las posibles variaciones de $S_{0}$ que forman una solución al problema. Al conjunto de todas estas se lo llama vecindad. 
 Estos algoritmos se ejecutan siempre y cuando exista una solución, perteneciente a la vecindad, que sea mejor a la que ya teníamos. \newline \newline
-Para nuestro ejercicio, utilizamos como $S_{0}$ al nodo 1. Dicha elección se debió a que un nodo forma una clique, con lo cual es una posible solución a nuestro problema. Además, sabemos que este existe para cualquier grafo ya que la menor cantidad de nodos que se pueden ingresar en nuestro programa es uno. 
+Para nuestro ejercicio, utilizamos como $S_{0}$ al nodo de mayor frontera. Dicha elección se debió a que un nodo forma una clique, con lo cual es una posible solución a nuestro problema. Además, sabemos que este existe para cualquier grafo ya que la menor cantidad de nodos que se pueden ingresar en nuestro programa es uno. 
 \newline Por otro lado, decidimos definir como vecindad a todas las posibles cliques que difieran en a lo sumo un nodo con nuestro $S_{0}$. Esta decision la tomamos para que nuestra clique no quede fija alrededor del nodo inicial. Para evitarnos tener que almacenar todas las posibles cliques para posteriormente elegir la mejor, decidimos separar la vecindad en tres subconjuntos. Estos se formaron con las cliques que cumplen lo siguiente:
 \begin{itemize}
 \item \textbf{Tiene todos los nodos de $S_{0}$ salvo 1:} \newline En lugar de calcular todas las posibles cliques de este subconjunto, decidimos quedarnos únicamente con la clique que se obtiene de quitarle el nodo de menor grado a $S_{0}$. Esto se debe a que la frontera de una clique se puede calcular con la siguiente formula:\newline
@@ -24,26 +24,26 @@ El pseudo codigo de este subconjunto de la vecindad es:\newline
 	
     \textbf{Entero} $minimo$ = $|$vecindad(0)$|$ \\	
     \textbf{Entero} $minimoNodo = 0$ \\
-    \ForAll{$v \in$ Nodos($clique$)}{
+    \ForAll{$v \in$ $|clique|$}{
         $aux$ = $|$vecindad($v$)$|$ \\
 		\If{$aux < minimo$}{
-            $minimo$ = $aux$
+            $minimo$ = $aux$ \\
 			$minimoNodo$ = $v$
 	 		}}
     
     \textbf{Conj(Entero)} $cliqueQuitando$\\
 
-    \ForAll{$v \in$ Nodos($clique$)}{
+    \ForAll{$v \in$ $|clique|$}{
 		\If{$v \neq minimoNodo$}{
             agregar($cliqueQuitando$, $v$)
 	 		}}
     
     \textbf{Entero} $fronteraRes$ = frontera($grafo$, $cliqueQuitando$)\\
-    $res$ = hacerPar($cliqueQuitando$, $fronteraRes$)\\
+    $res$ = hacerPar($fronteraRes$, $cliqueQuitando$)\\
     \textbf{devolver} $res$ \\
 \end{algorithm}
 
-Donde $frontera$ calcula la frontera del subgrafo pasado por parametro, $Nodos$ devuelve todos los nodos del subgrafo y $agregar$ inserta un elemento en un arreglo. \newline
+Donde $frontera$ calcula la frontera del subgrafo pasado por parametro, $agregar$ inserta un elemento en un arreglo, $vecindad$ nos devuelve todos los nodos adyacentes al nodo pasado por parametro y $hacerPar$ genera un par con lo dos elementos pasados por parametro. \newline
 
 
 \item \textbf{Tiene todos los nodos de $S_{0}$ más uno que no pertenecía a el:} \newline
@@ -55,7 +55,7 @@ Para poder obtener la clique de frontera máxima de este subconjunto, buscamos t
     \KwIn{\textbf{Grafo} $grafo$, \textbf{Conj(Entero)} $clique$}
     \KwOut{\textbf{par(Entero,Conj(Entero))} $res$}
 	
-    \textbf{Conj(Entero)} $bucket[$nodos($grafo$)$] = 0$  \\
+    \textbf{Conj(Entero)} $bucket[$Nodos($grafo$)$] = 0$  \\
 	
     \ForAll{$u \in$ Nodos($clique$)}{
 	\ForAll{$v \in$ vecindad($u$)}{
@@ -91,31 +91,51 @@ Para poder obtener la clique de frontera máxima de este subconjunto, buscamos t
 
     \textbf{devolver} $res$ \\
 \end{algorithm}
-\newline
+Donde $frontera$ calcula la frontera del subgrafo pasado por parametro, $Nodos$ devuelve todos los nodos del subgrafo, $agregar$ inserta un elemento en un arreglo, $quitar$ quita un elemento en un arreglo, $vecindad$ nos devuelve todos los nodos adyacentes al nodo pasado por parametro y $hacerPar$ genera un par con lo dos elementos pasados por parametro. \newline
+
 \item \textbf{Tiene todos los nodos de $S_{0}$ salvo 1 que se lo reemplaza por otro que no estaba en el:} \newline
-En este subconjunto lo primero que hicimos fue quitar un nodo de $S_{0}$ y posteriormente, con la clique que nos quedo, agregarle otro. Para esto, utilizamos la clique que obtuvimos en el primer subconjunto y luego, utilizamos la funcion que nos calculaba el subconjunto anterior para agregar el nuevo nodo. Al hacer esto, logramos que nuestra clique no quede centrada en el nodo de mayor grado ya que este eventualmente podria dejar de formar parte de la solucion. \newline
+En este subconjunto lo primero que hicimos fue quitar un nodo de $S_{0}$ y posteriormente, con la clique que nos quedo, agregarle otro. Para esto, utilizamos la funcion que quitaba un nodo a la clique y luego, utilizamos la funcion que nos calculaba el subconjunto anterior para agregar el nuevo nodo. Al hacer esto, logramos que nuestra clique no quede centrada en el nodo de mayor grado ya que este eventualmente podria dejar de formar parte de la solucion.
+En el caso de que la clique tenga un solo elemento, dicidimos que este sea reemplazado por el nodo adyasente a el de mayor grado \newline
 \begin{algorithm}[H]
     \SetAlgoLined
-    \caption{agregarNodo}
+    \caption{permutarNodo}
     \KwIn{\textbf{Grafo} $grafo$, \textbf{Conj(Entero)} $clique$}
     \KwOut{\textbf{par(Entero,Conj(Entero))} $res$}
 	
-    $clique$ = segundo(quitarNodo($grafo$, $clique$)) \\
-    \textbf{Conj(Entero)} $cliqueRes$ \\
-    \eIf{$|clique| = 0$}{
-	    \textbf{Entero} $nodo$ = nodoDeMayorGrado($grafo$) \\
+   \textbf{Conj(Entero)} $cliqueResultante$ = segundo(quitarNodo($grafo$, $clique$)) \\
+
+    \eIf{$|cliqueResultante| = 0$}{
+	    \textbf{Entero} $nodo$ = vecinoDeMayorGrado($grafo$,$clique[0]$) \\
             agregar($cliqueRes$, $nodo$)\\
-	    $res$ = hacerPar (vecindad($nodo$), $cliqueRes$)	
+	    $res$ = hacerPar ($|$vecindad($nodo$)$|$, $cliqueRes$)	
 	 		}{$res$ = agregarNodo($grafo$, $clique$)}
 
     \textbf{devolver} $res$ \\
 \end{algorithm}
-\newline
+Donde $segundo$ nos devuelve el segundo elemento de una tupla,  $agregar$ inserta un elemento en un arreglo, $vecinoDeMayorGrado$ nos da el nodo de mayor grado entre todos los vecinos del vertice pasado por parametro, $vecindad$ nos devuelve todos los nodos adyacentes al nodo pasado por parametro y $hacerPar$ genera un par con lo dos elementos pasados por parametro. \newline
 \end{itemize}
 
 Una vez que generamos a los tres candidatos de la vecindad, tomamos al que tiene mayor frontera y lo comparamos con $S_{0}$. Si la frontera de $S_{0}$ es menor, entonces la clique de frontera maxima de nuestra vecindad es nuestra nueva solución inicial. Caso contrario, el programa finaliza ya que ningún elemento de la vecindad puede mejorarla.
 
 \subsection{Complejidad Temporal}
+Para analizar la complejidad de nuestro algoritmo, vamos a separarlo en 4 funciones:
+\begin{itemize}
+\item \textbf{quitarNodo:} \newline
+Como podemos observar en el pseudocodigo Nº 6, lo primero que hace nuestro algoritmo es calcular $vecindad$ del nodo 0, la cual tiene una complejidad $\mathcal{O}(1)$. Posteriormente, hay un ciclo el cual consiste en recorrer todos los nodos de la clique($\mathcal{O}(n)$) y almacenar el de menor grado en cada paso ($\mathcal{O}(1)$).
+\newline
+Luego, hay un ciclo el cual nuevamente recorre todos los nodos de la clique ($\mathcal{O}(n)$) y en cada paso utiliza la funcion $agregar$ la cual fue implementada con $push_back$\footnote{http://www.cplusplus.com/reference/vector/vector/push\_back/} con una complejidad de $\mathcal{O}(1)$.
+\newline
+Por ultimo, se calcula el valor de la frontera mediante la funcion $frontera$ la cual tiene una complejidad de $\mathcal{O}(n)$ y se genera un par con la solucion del problema. Este par es generado mediante la funcion $make\_pair$\footnote{http://www.cplusplus.com/reference/utility/make\_pair/} cuya complejidad es $\mathcal{O}(1)$.
+\newline
+Como se puede observar, la complejidad final de $quitarNodo$ es $\mathcal{O}(n)$
+
+\item \textbf{agregarNodo:} \newline 
+Como podemos observar en el pseudocodigo Nº 7, lo primero que hace nuestro algoritmo es crear un arreglo de n pocisiones ($\mathcal{O}(n)$)en donde va a marcar, para cada nodo, cuantos adyacentes pertenecen a la clique. Luego, recorre cada nodo de la clique y le suma uno a cada uno de sus vecinos ($\mathcal{O}(n^{2})$). Por ultimo, recorre todos los nodos de la clique y coloca su posicion en el arreglo en 0 para que no figuren como posibles candidatos ($\mathcal{O}(n)$). \newline
+Una vez hecho esto, agrega en un arreglo, mediante la funcion $push_back$,\footnote{http://www.cplusplus.com/reference/vector/vector/push\_back/} todos los nodos que pueden formar una clique. Finalmente, compara la frontera ($\mathcal{O}(n)$) de todas las posibles soluciones agregando (con $push_back$\footnote{http://www.cplusplus.com/reference/vector/vector/push\_back/}) y quitando (con $pop_back$\footnote{http://www.cplusplus.com/reference/vector/vector/pop\_back/} cuya complejidad es $\mathcal{O}(1)$) los nodos que formaban una clique con la que teniamos anteriormente. el costo de realizar esto es $\mathcal{O}(n^{2})$. \newline
+Una vez que tiene la solucion, genera un par con esta mediante la funcion $make\_pair$\footnote{http://www.cplusplus.com/reference/utility/make\_pair/} cuya complejidad es $\mathcal{O}(1)$.
+\newline
+Como se puede observar, la complejidad final de $agregarNodo$ es $\mathcal{O}(n^{2})$
+
 \subsection{Instancias problemáticas}
 \subsection{Experimentación}
 
