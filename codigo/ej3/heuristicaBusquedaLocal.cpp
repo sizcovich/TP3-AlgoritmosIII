@@ -137,7 +137,7 @@ vector<uint> busquedaLocal(Grafo grafo, uint m) {
 		uint tamFrontera = grafo.frontera(clique); //O(n)
 		
 		
-		for (int j = 0; j < m*m; j++)	{
+		for (int j = 0; j < m; j++)	{
 			pair <uint,vector<uint> > aux; //mejor vecina 
 			pair <uint,vector<uint> > maximo; //maximo hasta ahora de los vecinos
 		
