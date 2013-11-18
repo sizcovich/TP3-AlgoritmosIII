@@ -118,8 +118,11 @@ Donde $segundo$ nos devuelve el segundo elemento de una tupla,  $agregar$ insert
 Una vez que generamos a los tres candidatos de la vecindad, tomamos al que tiene mayor frontera y lo comparamos con $S_{0}$. Si la frontera de $S_{0}$ es menor, entonces la clique de frontera maxima de nuestra vecindad es nuestra nueva solución inicial. Caso contrario, el programa finaliza ya que ningún elemento de la vecindad puede mejorarla.
 
 \subsection{Complejidad Temporal}
-Para analizar la complejidad de nuestro algoritmo, vamos a separarlo en 4 funciones:
+Para analizar la complejidad de nuestro algoritmo, vamos a separarlo en 5 funciones:
 \begin{itemize}
+\item \textbf{Generar grafo:} \newline
+Para poder generar un grafo con los parametros de entrada, utilizamos una lista y una matriz de adyacencia para poder obtener la mayoria de las operaciones en $\mathcal{O}(1)$ y asi no aumentar la complejidad de nuestro algoritmo. Por consiguiente, la complejidad es $\mathcal{O}(n^{2})$.
+
 \item \textbf{quitarNodo:} \newline
 Como podemos observar en el pseudocodigo Nº 6, lo primero que hace nuestro algoritmo es calcular $vecindad$ del nodo 0, la cual tiene una complejidad $\mathcal{O}(1)$. Posteriormente, hay un ciclo el cual consiste en recorrer todos los nodos de la clique($\mathcal{O}(n)$) y almacenar el de menor grado en cada paso ($\mathcal{O}(1)$).
 \newline
@@ -135,6 +138,75 @@ Una vez hecho esto, agrega en un arreglo, mediante la funcion $push_back$,\footn
 Una vez que tiene la solucion, genera un par con esta mediante la funcion $make\_pair$\footnote{http://www.cplusplus.com/reference/utility/make\_pair/} cuya complejidad es $\mathcal{O}(1)$.
 \newline
 Como se puede observar, la complejidad final de $agregarNodo$ es $\mathcal{O}(n^{2})$
+
+\item \textbf{permutarNodo:} \newline 
+Como podemos observar en el pseudocodigo Nº 8, nuestro algoritmo hace dos cosas. Primero le quita un nodo a la clique mediante la funcion $quitarNodo$ cuya complejidad es $\mathcal{O}(n)$. Posteriormente, se fija si el resultado de $quitarNodo$ es vacio o no. \newline
+En el caso de que sea vacio, calcula mediante $vecinoDeMayorGrado$ cual de todos los nodos adyacentes al pasado por parametro tiene mayor grado. Para esto, recorre todos los nodos adyacentes y compara en $\mathcal{O}(1)$ sus grados, por lo tanto su complejidad es $\mathcal{O}(n)$. Una vez que tiene la solucion, la coloca en un arreglo mediante $push_back$\footnote{http://www.cplusplus.com/reference/vector/vector/push\_back/} y genera un par con esta mediante la funcion $make\_pair$\footnote{http://www.cplusplus.com/reference/utility/make\_pair/} cuya complejidad es $\mathcal{O}(1)$.
+\newline
+Si por el contrario, la clique no estaba vacia, obtiene la solucion mediante la funcion $agregarNodo$ cuya complejidad es $\mathcal{O}(n^{2})$
+\newline
+Como se puede observar, la complejidad final de $permutarNodo$ es $\mathcal{O}(n^{2})$
+
+\item \textbf{busquedaLocal:} \newline 
+
+\begin{algorithm}[H]
+    \SetAlgoLined
+    \caption{busquedaLocal}
+    \KwIn{\textbf{Grafo} $grafo$, \textbf{Entero} $m$}
+    \KwOut{\textbf{Conj(Entero)} $res$}
+	
+    agregar($res$, nodoDeMayorGrado($grafo$))\\
+    	
+    \textbf{Entero} $tamFrontera =$ frontera($grafo, res$)\\
+    \For{i = 0}{i $<$ m}{
+        $aux$ = $|$vecindad($v$)$|$ \\
+		\If{$aux < minimo$}{
+            $minimo$ = $aux$ \\
+			$minimoNodo$ = $v$
+	 		}}
+    
+    \textbf{Conj(Entero)} $cliqueQuitando$\\
+
+    \ForAll{$v \in$ $|clique|$}{
+		\If{$v \neq minimoNodo$}{
+            agregar($cliqueQuitando$, $v$)
+	 		}}
+    
+    \textbf{Entero} $fronteraRes$ = frontera($grafo$, $cliqueQuitando$)\\
+    $res$ = hacerPar($fronteraRes$, $cliqueQuitando$)\\
+    \textbf{devolver} $res$ \\
+\end{algorithm}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Como podemos observar en el pseudocodigo Nº 8, nuestro algoritmo hace dos cosas. Primero le quita un nodo a la clique mediante la funcion $quitarNodo$ cuya complejidad es $\mathcal{O}(n)$. Posteriormente, se fija si el resultado de $quitarNodo$ es vacio o no. \newline
+En el caso de que sea vacio, calcula mediante $vecinoDeMayorGrado$ cual de todos los nodos adyacentes al pasado por parametro tiene mayor grado. Para esto, recorre todos los nodos adyacentes y compara en $\mathcal{O}(1)$ sus grados, por lo tanto su complejidad es $\mathcal{O}(n)$. Una vez que tiene la solucion, la coloca en un arreglo mediante $push_back$\footnote{http://www.cplusplus.com/reference/vector/vector/push\_back/} y genera un par con esta mediante la funcion $make\_pair$\footnote{http://www.cplusplus.com/reference/utility/make\_pair/} cuya complejidad es $\mathcal{O}(1)$.
+\newline
+Si por el contrario, la clique no estaba vacia, obtiene la solucion mediante la funcion $agregarNodo$ cuya complejidad es $\mathcal{O}(n^{2})$
+\newline
+Como se puede observar, la complejidad final de $permutarNodo$ es $\mathcal{O}(n^{2})$
+
 
 \subsection{Instancias problemáticas}
 \subsection{Experimentación}
