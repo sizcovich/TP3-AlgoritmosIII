@@ -2,7 +2,7 @@
 Los algoritmos de búsqueda local parten de una solución inicial $S_{0}$ y en cada paso intentan mejorarla. Para esto, se calculan todas las posibles variaciones de $S_{0}$ que forman una solución al problema. Al conjunto de todas estas se lo llama vecindad. 
 Estos algoritmos se ejecutan siempre y cuando exista una solución, perteneciente a la vecindad, que sea mejor a la que ya teníamos. \newline \newline
 Para nuestro ejercicio, utilizamos como $S_{0}$ al nodo de mayor frontera. Dicha elección se debió a que un nodo forma una clique, con lo cual es una posible solución a nuestro problema. Además, sabemos que este existe para cualquier grafo ya que la menor cantidad de nodos que se pueden ingresar en nuestro programa es uno. 
-\newline Por otro lado, decidimos definir como vecindad a todas las posibles cliques que difieran en a lo sumo un nodo con nuestro $S_{0}$. Esta decision la tomamos para que nuestra clique no quede fija alrededor del nodo inicial. Para evitarnos tener que almacenar todas las posibles cliques para posteriormente elegir la mejor, decidimos separar la vecindad en tres subconjuntos. Estos se formaron con las cliques que cumplen lo siguiente:
+\newline Por otro lado, decidimos definir como vecindad a todas las posibles cliques que difieran en a lo sumo un nodo con nuestro $S_{0}$. Esta decisión la tomamos para que nuestra clique no quede fija alrededor del nodo inicial. Para evitarnos tener que almacenar todas las posibles cliques para posteriormente elegir la mejor, decidimos separar la vecindad en tres subconjuntos. Estos se formaron con las cliques que cumplen lo siguiente:
 \begin{itemize}
 \item \textbf{Tiene todos los nodos de $S_{0}$ salvo 1:} \newline En lugar de calcular todas las posibles cliques de este subconjunto, decidimos quedarnos únicamente con la clique que se obtiene de quitarle el nodo de menor grado a $S_{0}$. Esto se debe a que la frontera de una clique se puede calcular con la siguiente formula:\newline
 Sea $S_{0}$ = ($V$,$E$) y n = $|$$V$$|$
@@ -15,7 +15,7 @@ Ahora, si quitamos un nodo $v'$ de $S_{0}$, obtenemos lo siguiente:
 \end{equation}
 Como nosotros queremos encontrar el mayor \delta$(S'_{0})$, debemos quedarnos con el que tiene la sumatoria de mayor valor ya que (n-1)*(n-2) es igual para todas las cliques. Con lo cual, el nodo que debemos eliminar para poder maximizar la sumatoria, es el de menor grado.
 
-El pseudo codigo de este subconjunto de la vecindad es:\newline
+El pseudo código de este subconjunto de la vecindad es:\newline
 \begin{algorithm}[H]
     \SetAlgoLined
     \caption{quitarNodo}
@@ -43,7 +43,7 @@ El pseudo codigo de este subconjunto de la vecindad es:\newline
     \textbf{devolver} $res$ \\
 \end{algorithm}
 
-Donde $frontera$ calcula la frontera del subgrafo pasado por parametro, $agregar$ inserta un elemento en un arreglo, $vecindad$ nos devuelve todos los nodos adyacentes al nodo pasado por parametro y $hacerPar$ genera un par con lo dos elementos pasados por parametro. \newline
+Donde $frontera$ calcula la frontera del subgrafo pasado por parámetro, $agregar$ inserta un elemento en un arreglo, $vecindad$ nos devuelve todos los nodos adyacentes al nodo pasado por parámetro y $hacerPar$ genera un par con lo dos elementos pasados por parámetro. \newline
 
 
 \item \textbf{Tiene todos los nodos de $S_{0}$ más uno que no pertenecía a el:} \newline
@@ -91,11 +91,11 @@ Para poder obtener la clique de frontera máxima de este subconjunto, buscamos t
 
     \textbf{devolver} $res$ \\
 \end{algorithm}
-Donde $frontera$ calcula la frontera del subgrafo pasado por parametro, $Nodos$ devuelve todos los nodos del subgrafo, $agregar$ inserta un elemento en un arreglo, $quitar$ quita un elemento en un arreglo, $vecindad$ nos devuelve todos los nodos adyacentes al nodo pasado por parametro y $hacerPar$ genera un par con lo dos elementos pasados por parametro. \newline
+Donde $frontera$ calcula la frontera del subgrafo pasado por parámetro, $Nodos$ devuelve todos los nodos del subgrafo, $agregar$ inserta un elemento en un arreglo, $quitar$ quita un elemento en un arreglo, $vecindad$ nos devuelve todos los nodos adyacentes al nodo pasado por parámetro y $hacerPar$ genera un par con lo dos elementos pasados por parámetro. \newline
 
 \item \textbf{Tiene todos los nodos de $S_{0}$ salvo 1 que se lo reemplaza por otro que no estaba en el:} \newline
-En este subconjunto lo primero que hicimos fue quitar un nodo de $S_{0}$ y posteriormente, con la clique que nos quedo, agregarle otro. Para esto, utilizamos la funcion que quitaba un nodo a la clique y luego, utilizamos la funcion que nos calculaba el subconjunto anterior para agregar el nuevo nodo. Al hacer esto, logramos que nuestra clique no quede centrada en el nodo de mayor grado ya que este eventualmente podria dejar de formar parte de la solucion.
-En el caso de que la clique tenga un solo elemento, dicidimos que este sea reemplazado por el nodo adyasente a el de mayor grado \newline
+En este subconjunto lo primero que hicimos fue quitar un nodo de $S_{0}$ y posteriormente, con la clique que nos quedo, agregarle otro. Para esto, utilizamos la función que quitaba un nodo a la clique y luego, utilizamos la función que nos calculaba el subconjunto anterior para agregar el nuevo nodo. Al hacer esto, logramos que nuestra clique no quede centrada en el nodo de mayor grado ya que este eventualmente podría dejar de formar parte de la solución.
+En el caso de que la clique tenga un solo elemento, decidimos que este sea reemplazado por el nodo adyacente a el de mayor grado \newline
 \begin{algorithm}[H]
     \SetAlgoLined
     \caption{permutarNodo}
@@ -112,38 +112,38 @@ En el caso de que la clique tenga un solo elemento, dicidimos que este sea reemp
 
     \textbf{devolver} $res$ \\
 \end{algorithm}
-Donde $segundo$ nos devuelve el segundo elemento de una tupla,  $agregar$ inserta un elemento en un arreglo, $vecinoDeMayorGrado$ nos da el nodo de mayor grado entre todos los vecinos del vertice pasado por parametro, $vecindad$ nos devuelve todos los nodos adyacentes al nodo pasado por parametro y $hacerPar$ genera un par con lo dos elementos pasados por parametro. \newline
+Donde $segundo$ nos devuelve el segundo elemento de una tupla,  $agregar$ inserta un elemento en un arreglo, $vecinoDeMayorGrado$ nos da el nodo de mayor grado entre todos los vecinos del vértice pasado por parámetro, $vecindad$ nos devuelve todos los nodos adyacentes al nodo pasado por parámetro y $hacerPar$ genera un par con lo dos elementos pasados por parámetro. \newline
 \end{itemize}
 
-Una vez que generamos a los tres candidatos de la vecindad, tomamos al que tiene mayor frontera y lo comparamos con $S_{0}$. Si la frontera de $S_{0}$ es menor, entonces la clique de frontera maxima de nuestra vecindad es nuestra nueva solución inicial. Caso contrario, el programa finaliza ya que ningún elemento de la vecindad puede mejorarla.
+Una vez que generamos a los tres candidatos de la vecindad, tomamos al que tiene mayor frontera y lo comparamos con $S_{0}$. Si la frontera de $S_{0}$ es menor, entonces la clique de frontera máxima de nuestra vecindad es nuestra nueva solución inicial. Caso contrario, el programa finaliza ya que ningún elemento de la vecindad puede mejorarla.
 
 \subsection{Complejidad Temporal}
 Para analizar la complejidad de nuestro algoritmo, vamos a separarlo en 5 funciones:
 \begin{itemize}
 \item \textbf{Generar grafo:} \newline
-Para poder generar un grafo con los parametros de entrada, utilizamos una lista y una matriz de adyacencia para poder obtener la mayoria de las operaciones en $\mathcal{O}(1)$ y asi no aumentar la complejidad de nuestro algoritmo. Por consiguiente, la complejidad es $\mathcal{O}(n^{2})$.
+Para poder generar un grafo con los parámetros de entrada, utilizamos una lista y una matriz de adyacencia para poder obtener la mayoría de las operaciones en $\mathcal{O}(1)$ y así no aumentar la complejidad de nuestro algoritmo. Por consiguiente, la complejidad es $\mathcal{O}(n^{2})$.
 
 \item \textbf{quitarNodo:} \newline
-Como podemos observar en el pseudocodigo Nº 6, lo primero que hace nuestro algoritmo es calcular $vecindad$ del nodo 0, la cual tiene una complejidad $\mathcal{O}(1)$. Posteriormente, hay un ciclo el cual consiste en recorrer todos los nodos de la clique($\mathcal{O}(n)$) y almacenar el de menor grado en cada paso ($\mathcal{O}(1)$).
+Como podemos observar en el pseudocódigo Nº 6, lo primero que hace nuestro algoritmo es calcular $vecindad$ del nodo 0, la cual tiene una complejidad $\mathcal{O}(1)$. Posteriormente, hay un ciclo el cual consiste en recorrer todos los nodos de la clique($\mathcal{O}(n)$) y almacenar el de menor grado en cada paso ($\mathcal{O}(1)$).
 \newline
-Luego, hay un ciclo el cual nuevamente recorre todos los nodos de la clique ($\mathcal{O}(n)$) y en cada paso utiliza la funcion $agregar$ la cual fue implementada con $push\_back$\footnote{http://www.cplusplus.com/reference/vector/vector/push\_back/} con una complejidad de $\mathcal{O}(1)$.
+Luego, hay un ciclo el cual nuevamente recorre todos los nodos de la clique ($\mathcal{O}(n)$) y en cada paso utiliza la función $agregar$ la cual fue implementada con $push\_back$\footnote{http://www.cplusplus.com/reference/vector/vector/push\_back/} con una complejidad de $\mathcal{O}(1)$.
 \newline
-Por ultimo, se calcula el valor de la frontera mediante la funcion $frontera$ la cual tiene una complejidad de $\mathcal{O}(n)$ y se genera un par con la solucion del problema. Este par es generado mediante la funcion $make\_pair$\footnote{http://www.cplusplus.com/reference/utility/make\_pair/} cuya complejidad es $\mathcal{O}(1)$.
+Por ultimo, se calcula el valor de la frontera mediante la función $frontera$ la cual tiene una complejidad de $\mathcal{O}(n)$ y se genera un par con la solución del problema. Este par es generado mediante la función $make\_pair$\footnote{http://www.cplusplus.com/reference/utility/make\_pair/} cuya complejidad es $\mathcal{O}(1)$.
 \newline
 Como se puede observar, la complejidad final de $quitarNodo$ es $\mathcal{O}(n)$
 
 \item \textbf{agregarNodo:} \newline 
-Como podemos observar en el pseudocodigo Nº 7, lo primero que hace nuestro algoritmo es crear un arreglo de $n$ pocisiones ($\mathcal{O}(n)$) en donde va a marcar, para cada nodo, cuantos adyacentes pertenecen a la clique. Luego, recorre cada nodo de la clique y le suma uno a cada uno de sus vecinos ($\mathcal{O}(n^{2})$). Por ultimo, recorre todos los nodos de la clique y coloca su posicion en el arreglo en 0 para que no figuren como posibles candidatos ($\mathcal{O}(n)$). \newline
-Una vez hecho esto, agrega en un arreglo, mediante la funcion $push\_back$,\footnote{http://www.cplusplus.com/reference/vector/vector/push\_back/} todos los nodos que pueden formar una clique. Finalmente, compara la frontera ($\mathcal{O}(n)$) de todas las posibles soluciones agregando (con $push\_back$) y quitando (con $pop\_back$\footnote{http://www.cplusplus.com/reference/vector/vector/pop\_back/} cuya complejidad es $\mathcal{O}(1)$) los nodos que formaban una clique con la que teniamos anteriormente. El costo de realizar esto es $\mathcal{O}(n^{2})$. \newline
-Una vez que tiene la solucion, genera un par con esta mediante la funcion $make\_pair$\footnote{http://www.cplusplus.com/reference/utility/make\_pair/} cuya complejidad es $\mathcal{O}(1)$.
+Como podemos observar en el pseudocódigo Nº 7, lo primero que hace nuestro algoritmo es crear un arreglo de $n$ posiciones ($\mathcal{O}(n)$) en donde va a marcar, para cada nodo, cuantos adyacentes pertenecen a la clique. Luego, recorre cada nodo de la clique y le suma uno a cada uno de sus vecinos ($\mathcal{O}(n^{2})$). Por ultimo, recorre todos los nodos de la clique y coloca su posición en el arreglo en 0 para que no figuren como posibles candidatos ($\mathcal{O}(n)$). \newline
+Una vez hecho esto, agrega en un arreglo, mediante la función $push\_back$,\footnote{http://www.cplusplus.com/reference/vector/vector/push\_back/} todos los nodos que pueden formar una clique. Finalmente, compara la frontera ($\mathcal{O}(n)$) de todas las posibles soluciones agregando (con $push\_back$) y quitando (con $pop\_back$\footnote{http://www.cplusplus.com/reference/vector/vector/pop\_back/} cuya complejidad es $\mathcal{O}(1)$) los nodos que formaban una clique con la que teníamos anteriormente. El costo de realizar esto es $\mathcal{O}(n^{2})$. \newline
+Una vez que tiene la solución, genera un par con esta mediante la función $make\_pair$\footnote{http://www.cplusplus.com/reference/utility/make\_pair/} cuya complejidad es $\mathcal{O}(1)$.
 \newline
 Como se puede observar, la complejidad final de $agregarNodo$ es $\mathcal{O}(n^{2})$
 
 \item \textbf{permutarNodo:} \newline 
-Como podemos observar en el pseudocodigo Nº 8, nuestro algoritmo hace dos cosas. Primero le quita un nodo a la clique mediante la funcion $quitarNodo$ cuya complejidad es $\mathcal{O}(n)$. Posteriormente, se fija si el resultado de $quitarNodo$ es vacio o no. \newline
-En el caso de que sea vacio, calcula mediante $vecinoDeMayorGrado$ cual de todos los nodos adyacentes al pasado por parametro tiene mayor grado. Para esto, recorre todos los nodos adyacentes y compara en $\mathcal{O}(1)$ sus grados, por lo tanto su complejidad es $\mathcal{O}(n)$. Una vez que tiene la solucion, la coloca en un arreglo mediante $push\_back$ y genera un par con esta mediante la funcion $make\_pair$ cuya complejidad es $\mathcal{O}(1)$.
+Como podemos observar en el pseudocódigo Nº 8, nuestro algoritmo hace dos cosas. Primero le quita un nodo a la clique mediante la función $quitarNodo$ cuya complejidad es $\mathcal{O}(n)$. Posteriormente, se fija si el resultado de $quitarNodo$ es vacío o no. \newline
+En el caso de que sea vacío, calcula mediante $vecinoDeMayorGrado$ cual de todos los nodos adyacentes al pasado por parámetro tiene mayor grado. Para esto, recorre todos los nodos adyacentes y compara en $\mathcal{O}(1)$ sus grados, por lo tanto su complejidad es $\mathcal{O}(n)$. Una vez que tiene la solución, la coloca en un arreglo mediante $push\_back$ y genera un par con esta mediante la función $make\_pair$ cuya complejidad es $\mathcal{O}(1)$.
 \newline
-Si por el contrario, la clique no estaba vacia, obtiene la solucion mediante la funcion $agregarNodo$ cuya complejidad es $\mathcal{O}(n^{2})$
+Si por el contrario, la clique no estaba vacía, obtiene la solución mediante la función $agregarNodo$ cuya complejidad es $\mathcal{O}(n^{2})$
 \newline
 Como se puede observar, la complejidad final de $permutarNodo$ es $\mathcal{O}(n^{2})$
 
@@ -172,11 +172,35 @@ Como se puede observar, la complejidad final de $permutarNodo$ es $\mathcal{O}(n
     \textbf{devolver} $res$ \\
 \end{algorithm}
 
-Como se observa en el pseudocodigo Nº 9, nuestro algoritmo coloca en $res$ el nodo de mayor grado del grafo. Esta funcion tiene complejidad $\mathcal{O}(n)$. Posteriormente, ejecuta agregarNodo ($\mathcal{O}(n^{2})$), quitarNodo ($\mathcal{O}(n)$) y permutarNodo ($\mathcal{O}(n^{2})$). Estas tres funciones se ejecutan como maximo $m$ veces. Esto se debe a que la forntera debe ser siempre creciente en la cantidad de aristas. Por lo tanto, en cada paso a lo sumo puede crecer en una unidad llegando a un maximo de $m$. Con lo cual, la complejidad del ciclo es $\mathcal{O}(n^{2})$ * $\mathcal{O}(n^{2})$
+Como se observa en el pseudocódigo Nº 9, nuestro algoritmo coloca en $res$ el nodo de mayor grado del grafo. Esta función tiene complejidad $\mathcal{O}(n)$. Posteriormente, ejecuta agregarNodo ($\mathcal{O}(n^{2})$), quitarNodo ($\mathcal{O}(n)$) y permutarNodo ($\mathcal{O}(n^{2})$). Estas tres funciones se ejecutan como máximo $m$ veces. Esto se debe a que la frontera debe ser siempre creciente en la cantidad de aristas. Por lo tanto, en cada paso a lo sumo puede crecer en una unidad llegando a un máximo de $m$. Con lo cual, la complejidad del ciclo es $\mathcal{O}(n^{2})$ * $\mathcal{O}(n^{2})$
 \newline
 Como se puede observar, la complejidad final de $busquedaLocal$ es $\mathcal{O}(n^{4})$
 
-
 \subsection{Instancias problemáticas}
+Si observamos nuestro algoritmo, podemos notar que este siempre arranca por el nodo de mayor grado. Posteriormente, se va moviendo, en cada iteracion, a una clique la cual dista a lo sumo en una unidad con la clique actual. Teniendo en cuenta esto, nuestro algoritmo va a encontrar la solucion exacta siempre y cuando haya cliques, con fronteras cada vez mas grande, entre el nodo de mayor grado y la clique de frontera maxima.
+\newline
+veamos 2 casos en donde nuestro algoritmo no encuentra la solucion optima:
+\begin {itemize}
+\item
+\textbf{Formato de entrada:}
+
+$$14\ \  14$$
+$$1\ \  2$$
+$$2\ \  3$$
+$$3\ \  1$$
+$$1\ \  4$$
+$$1\ \  5$$
+$$2\ \  6$$
+$$2\ \  7$$
+$$3\ \  8$$
+$$3\ \  9$$
+$$9\ \  14$$
+$$10\ \  14$$
+$$11\ \  14$$
+$$12\ \  14$$
+$$13\ \  14$$
+
+\textbf{Formato de salida:}
+$$5\ \   1\ \   14$$
 \subsection{Experimentación}
 
