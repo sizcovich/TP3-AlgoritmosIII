@@ -78,30 +78,22 @@ int main() {
 		cin >> n >> m;
 
 		Grafo grafo(n);
-		for (int i=0; i<m; i++) {  //O(n²)
-			uint u,v;
-			cin >> u >> v;
-			u--; v--;
+		for (int k=0; k<m; k++) {  //O(n²)
+			uint i,j;
+			cin >> i >> j;
+			i--; j--;
 
-			grafo.agregarArista(u, v);
+			grafo.agregarArista(i, j);
 		}
-	auto t1 = chrono::high_resolution_clock::now();
-	vector<uint> solinicial,clique;
-	solinicial.push_back(2);
-	clique = tabusearch(solinicial, grafo,desviacion_permitida);
-	         //testFunctions(solinicial,grafo,desviacion_permitida);
-	cout << grafo.frontera(clique) << " " << clique.size() << " ";
-	for (int i = 0; i < clique.size(); i++) //O(n)
-		cout << clique[i] + 1<< " ";
 		
-	cout << endl;
-	
-	auto t2 = chrono::high_resolution_clock::now();
-	auto x = chrono::duration_cast<std::chrono::nanoseconds>(t2-t1).count();
-	cerr << n << " " << m << " " << x << endl;
-	
-	termino = (cin >> ws).peek();
+		auto t1 = chrono::high_resolution_clock::now();
+		vector<uint> solucion_inicial(1,0);
+		vector <uint> res = tabusearch(solucion_inicial, grafo,desviacion_permitida);
+		auto t2 = chrono::high_resolution_clock::now();
+		auto x = chrono::duration_cast<std::chrono::nanoseconds>(t2-t1).count();
+		cerr << n << " " << m << " " << x << endl;
+		
+		termino = (cin >> ws).peek();
 	}
-
 	return 0;
 }
