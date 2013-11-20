@@ -25,9 +25,9 @@ El pseudo código de este subconjunto de la vecindad es:\newline
     \textbf{Entero} $minimo$ = $|$vecindad(0)$|$ \\	
     \textbf{Entero} $minimoNodo = 0$ \\
     \ForAll{$v \in$ $|clique|$}{
-        $aux$ = $|$vecindad($v$)$|$ \\
-		\If{$aux < minimo$}{
-            $minimo$ = $aux$ \\
+        $tamañoVecindad$ = $|$vecindad($v$)$|$ \\
+		\If{$tamañoVecindad < minimo$}{
+            $minimo$ = $tamañoVecindad$ \\
 			$minimoNodo$ = $v$
 	 		}}
     
@@ -284,6 +284,7 @@ comprobemos que esto satisface nuestra cota:
 \begin{equation}
   máximo\ error = \frac{1 - 2 * 5 + 5^{2}}{4} = 4
 \end{equation}
+
 \begin{equation}
   algoritmo\ exacto - heurística = 9 - 5 = 4
 \end{equation}
