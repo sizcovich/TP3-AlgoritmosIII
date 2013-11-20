@@ -124,33 +124,47 @@ int main(int argc,char* argv[]){
     ofstream output_file;
 
     //Pedimos data al usuario
-    cout << HOLE                        << ".  Agujero" << endl;
-    cout << STAR                        << ".  Estrella" << endl;
-    cout << WHEEL                       << ".  Rueda" << endl;
-    cout << BANANA                      << ".  Banana Tree" << endl;
-    cout << COMPLETE                    << ".  Completo" << endl;
-    cout << BIPARTITE                   << ".  Bipartito" << endl;
-    cout << BIPARTITE_DENSITY           << ".  Bipartito por densidad de ejes" << endl;
-    cout << BIPARTITE_CONNECTED         << ".  Bipartito Conexo" << endl;
-    cout << BIPARTITE_CONNECTED_DENSITY << ".  Bipartito Conexo por densidad de ejes" << endl;
-    cout << BIPARTITE_COMPLETE          << ".  Bipartito Completo" << endl;
-    cout << TREE                        << ". Arbol" << endl;
-    cout << CONNECTED                   << ". Conexo" << endl;
-    cout << CONNECTED_DENSITY           << ". Conexo por densidad de ejes" << endl;
-    cout << CONNECTED_DENSITY_RANGE     << ". Conexo por rango de densidad de ejes" << endl;
-    cout << GREEDY_NOT_IN_CMF           << ". Estrella+Puente+CMF" << endl;
-    cout << GREEDY_IN_CMF               << ". Estrella+CMF" << endl;
-    cout << PLANAR                      << ". Planar" << endl;
-    cout << STAR_BRIDGE_DOUBLE_STAR     << ". Estrella+Puente+Doble Estrella" << endl;
-    cout << "Seleccione una opcion: ";
-    cin >> choice;
+    // 0 cout << HOLE                        << ".  Agujero" << endl;
+    // 1 cout << STAR                        << ".  Estrella" << endl;
+    // 2 cout << WHEEL                       << ".  Rueda" << endl;
+    // 3 cout << BANANA                      << ".  Banana Tree" << endl;
+    // 4 cout << COMPLETE                    << ".  Completo" << endl;
+    // 5 cout << BIPARTITE                   << ".  Bipartito" << endl;
+    // 6 cout << BIPARTITE_DENSITY           << ".  Bipartito por densidad de ejes" << endl;
+    // 7 cout << BIPARTITE_CONNECTED         << ".  Bipartito Conexo" << endl;
+    // 8 cout << BIPARTITE_CONNECTED_DENSITY << ".  Bipartito Conexo por densidad de ejes" << endl;
+    // 9 cout << BIPARTITE_COMPLETE          << ".  Bipartito Completo" << endl;
+    // 10 cout << TREE                        << ". Arbol" << endl;
+    // 11 cout << CONNECTED                   << ". Conexo" << endl;
+    // 12 cout << CONNECTED_DENSITY           << ". Conexo por densidad de ejes" << endl;
+    // 13 cout << CONNECTED_DENSITY_RANGE     << ". Conexo por rango de densidad de ejes" << endl;
+    // 14 cout << GREEDY_NOT_IN_CMF           << ". Estrella+Puente+CMF" << endl;
+    // 15 cout << GREEDY_IN_CMF               << ". Estrella+CMF" << endl;
+    // 16 cout << PLANAR                      << ". Planar" << endl;
+    // 17 cout << STAR_BRIDGE_DOUBLE_STAR     << ". Estrella+Puente+Doble Estrella" << endl;
+    // 18 cout << "Seleccione una opcion: ";
+    // cin >> choice;
 
     
-    nodes_lower = from_how_many_nodes(choice);
-    nodes_upper = to_how_many_nodes(nodes_lower);
-    output_file.open(ask_output_file().c_str(),std::ios::app);
-    quant_per_size = ask_how_many_per_size();
-    inc = ask_increment();
+    // nodes_lower = from_how_many_nodes(choice);
+    // nodes_upper = to_how_many_nodes(nodes_lower);
+    // output_file.open(ask_output_file().c_str(),std::ios::app);
+    // quant_per_size = ask_how_many_per_size();
+    // inc = ask_increment();
+
+
+    choice = atoi(argv[1]);
+    nodes_lower = atoi(argv[2]);
+    nodes_upper = atoi(argv[3]);
+    output_file.open(argv[4], std::ios::app);
+    quant_per_size = atoi(argv[5]);
+    inc = atoi(argv[6]);
+    if (argc == 8) {
+        density = atof(argv[7]);
+    }
+    if (argc == 9) {
+        density_upper = atof(argv[8]);
+    }
 
     switch(choice){
         case HOLE:
@@ -190,7 +204,7 @@ int main(int argc,char* argv[]){
             break;
 
         case BIPARTITE_DENSITY:
-            density = ask_density(nodes_lower);
+            // density = ask_density(nodes_lower);
             for(uint nodes = nodes_lower; nodes<=nodes_upper;nodes+=inc)
                 for(uint quant = 0; quant<quant_per_size;++quant)
                     random_bipartite_graph(output_file,nodes,density,false);
@@ -203,7 +217,7 @@ int main(int argc,char* argv[]){
             break;
 
         case BIPARTITE_CONNECTED_DENSITY:
-            density = ask_density(nodes_lower);
+            // density = ask_density(nodes_lower);
             for(uint nodes = nodes_lower; nodes<=nodes_upper;nodes+=inc)
                 for(uint quant = 0; quant<quant_per_size;++quant)
                     random_bipartite_graph(output_file,nodes,density,true);
@@ -228,15 +242,15 @@ int main(int argc,char* argv[]){
             break;
 
         case CONNECTED_DENSITY:
-            density = ask_density(nodes_lower);
+            // density = ask_density(nodes_lower);
             for(uint nodes = nodes_lower; nodes<=nodes_upper;nodes+=inc)
                 for(uint quant = 0; quant<quant_per_size;++quant)
                     random_connected_graph(output_file,nodes,density);
             break;
 
         case CONNECTED_DENSITY_RANGE:
-            density = ask_density_range_low();
-            density_upper = ask_density_range_up(density);
+            // density = ask_density_range_low();
+            // density_upper = ask_density_range_up(density);
             for(uint nodes = nodes_lower; nodes<=nodes_upper;nodes+=inc)
                 for(uint quant = 0; quant<quant_per_size;++quant)
                     random_connected_graph(output_file,nodes,density,density_upper);
