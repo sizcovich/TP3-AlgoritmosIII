@@ -81,4 +81,36 @@ La funcion $frontera$ devuelve el valor numerico de la frontera de una clique, c
 
 \subsection{Análisis de complejidad}
 
-El analisis de complejidad del algoritmo posee una cota superior definida por la funcion recursiva de backtracking, esta funcion se pueden analizar calculando el arbol de soluciones del problema en cuestión. Como buscamos cliques y puede haber cliques de tamaño 1 hasta tamaño $n$ inclusive. Entonces encontrar las cliques de tamaño supongamos $k$ para una cantidad de nodos $n$ tiene un costo de {$n \choose k$} que en términos de complejidad es equivalente a $\frac{n!}{(n-k)!}$ 
+El analisis de complejidad del algoritmo posee una cota superior definida por la funcion recursiva de backtracking, esta funcion se pueden analizar calculando el arbol de soluciones del problema en cuestión. Como buscamos cliques y puede haber cliques de tamaño 1 hasta tamaño $n$ inclusive. Entonces encontrar las cliques de tamaño supongamos $k$ para una cantidad de nodos $n$ tiene un costo de {$n \choose k$} que en términos de complejidad es equivalente a $\frac{n!}{(n-k)!*k!}$, de esta forma podemos definir la complejidad del algoritmo analizando el arbol de decisiones donde cada nivel del arbol representa una cantidad fija de nodos que posee una clique, sienod la raiz el unico caso donde hay 0 nodos, y siendo el primer nivel, la clique que contiene $1$ nodo, para $n$ nodos el segundo nivel tendra $n$ nodos, y asi sucesivamente, con todas las posibles combinaciones. Luego la complejidad se puede definir de la siguiente manera: $\sum{n}{i=1} \{n \choose i\}$	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
