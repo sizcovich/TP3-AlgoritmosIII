@@ -55,23 +55,12 @@ Para poder obtener la clique de frontera máxima de este subconjunto, buscamos t
     \KwIn{\textbf{Grafo} $grafo$, \textbf{Conj(Entero)} $clique$}
     \KwOut{\textbf{par(Entero,Conj(Entero))} $res$}
 	
-    \textbf{Conj(Entero)} $bucket[$Nodos($grafo$)$] = 0$  \\
+    \textbf{Conj(Entero)} $bucket[$Nodos($grafo$)$]$  \\
 	
-    \ForAll{$u \in$ Nodos($clique$)}{
-	\ForAll{$v \in$ vecindad($u$)}{
-		$bucket[v]$++
-	 		}}
-
-    \ForAll{$u \in$ Nodos($clique$)}{
-	$bucket[u] = 0$
-	}
+    $bucket$ = marcarNodos
 	
-    \textbf{Conj(Entero)} $posibleClique$ \\
-    \ForAll{$u \in$ Nodos($grafo$)}{
-	\If{$bucket[u] = |clique|$}{
-            agregar($posibleClique$, $u$)
-	 		}}
-
+    \textbf{Conj(Entero)} $posibleClique$ = dameCandidatosAClique($bucket$)\\
+   
     \textbf{Entero} $maxFrontera = 0$ \\
     \textbf{Entero} $nodo = 0$ \\
 
@@ -91,7 +80,8 @@ Para poder obtener la clique de frontera máxima de este subconjunto, buscamos t
 
     \textbf{devolver} $res$ \\
 \end{algorithm}
-Donde $frontera$ calcula la frontera del subgrafo pasado por parámetro, $Nodos$ devuelve todos los nodos del subgrafo, $agregar$ inserta un elemento en un arreglo, $quitar$ quita un elemento en un arreglo, $vecindad$ nos devuelve todos los nodos adyacentes al nodo pasado por parámetro y $hacerPar$ genera un par con lo dos elementos pasados por parámetro. \newline
+
+Donde $marcarNodos$ calcula para cada nodo, cuantos nodos de la clique son adyacentes a el, $dameCandidatosAClique$ nos devuelve los nodos de marcarNodos que fueron marcados por todos los nodos de la clique, $frontera$ calcula la frontera del subgrafo pasado por parámetro, $Nodos$ devuelve todos los nodos del subgrafo, $agregar$ inserta un elemento en un arreglo, $quitar$ quita un elemento en un arreglo, $vecindad$ nos devuelve todos los nodos adyacentes al nodo pasado por parámetro y $hacerPar$ genera un par con lo dos elementos pasados por parámetro. \newline
 
 \item \textbf{Tiene todos los nodos de $S_{0}$ salvo 1 que se lo reemplaza por otro que no estaba en el:} \newline
 En este subconjunto lo primero que hicimos fue quitar un nodo de $S_{0}$ y posteriormente, con la clique que nos quedo, agregarle otro. Para esto, utilizamos la función que quitaba un nodo a la clique y luego, utilizamos la función que nos calculaba el subconjunto anterior para agregar el nuevo nodo. Al hacer esto, logramos que nuestra clique no quede centrada en el nodo de mayor grado ya que este eventualmente podría dejar de formar parte de la solución.
@@ -124,17 +114,18 @@ Para analizar la complejidad de nuestro algoritmo, vamos a separarlo en 5 funcio
 Para poder generar un grafo con los parámetros de entrada, utilizamos una lista y una matriz de adyacencia para poder obtener la mayoría de las operaciones en $\mathcal{O}(1)$ y así no aumentar la complejidad de nuestro algoritmo. Por consiguiente, la complejidad es $\mathcal{O}(n^{2})$.
 
 \item \textbf{quitarNodo:} \newline
-Como podemos observar en el pseudocódigo Nº 6, lo primero que hace nuestro algoritmo es calcular $vecindad$ del nodo 0, la cual tiene una complejidad $\mathcal{O}(1)$. Posteriormente, hay un ciclo el cual consiste en recorrer todos los nodos de la clique($\mathcal{O}(n)$) y almacenar el de menor grado en cada paso ($\mathcal{O}(1)$).
+Como podemos observar en el pseudocódigo Nº 6, lo primero que hace nuestro algoritmo es calcular mediante la funcion $vecindad$ ($\mathcal{O}(1)$) de la clase grafo, el tamaño de la vecindad del nodo 0. Posteriormente, hay un ciclo el cual consiste en recorrer todos los nodos de la clique($\mathcal{O}(n)$) y almacenar el de menor grado en cada paso ($\mathcal{O}(1)$).
 \newline
 Luego, hay un ciclo el cual nuevamente recorre todos los nodos de la clique ($\mathcal{O}(n)$) y en cada paso utiliza la función $agregar$ la cual fue implementada con $push\_back$\footnote{http://www.cplusplus.com/reference/vector/vector/push\_back/} con una complejidad de $\mathcal{O}(1)$.
 \newline
-Por ultimo, se calcula el valor de la frontera mediante la función $frontera$ la cual tiene una complejidad de $\mathcal{O}(n)$ y se genera un par con la solución del problema. Este par es generado mediante la función $make\_pair$\footnote{http://www.cplusplus.com/reference/utility/make\_pair/} cuya complejidad es $\mathcal{O}(1)$.
+Por ultimo, se calcula el valor de la frontera mediante la función $frontera$ de la clase grafo, la cual tiene una complejidad de $\mathcal{O}(n)$ y se genera un par con la solución del problema. Este par es generado mediante la función $make\_pair$\footnote{http://www.cplusplus.com/reference/utility/make\_pair/} cuya complejidad es $\mathcal{O}(1)$.
 \newline
 Como se puede observar, la complejidad final de $quitarNodo$ es $\mathcal{O}(n)$
 
 \item \textbf{agregarNodo:} \newline 
-Como podemos observar en el pseudocódigo Nº 7, lo primero que hace nuestro algoritmo es crear un arreglo de $n$ posiciones ($\mathcal{O}(n)$) en donde va a marcar, para cada nodo, cuantos adyacentes pertenecen a la clique. Luego, recorre cada nodo de la clique y le suma uno a cada uno de sus vecinos ($\mathcal{O}(n^{2})$). Por ultimo, recorre todos los nodos de la clique y coloca su posición en el arreglo en 0 para que no figuren como posibles candidatos ($\mathcal{O}(n)$). \newline
-Una vez hecho esto, agrega en un arreglo, mediante la función $push\_back$,\footnote{http://www.cplusplus.com/reference/vector/vector/push\_back/} todos los nodos que pueden formar una clique. Finalmente, compara la frontera ($\mathcal{O}(n)$) de todas las posibles soluciones agregando (con $push\_back$) y quitando (con $pop\_back$\footnote{http://www.cplusplus.com/reference/vector/vector/pop\_back/} cuya complejidad es $\mathcal{O}(1)$) los nodos que formaban una clique con la que teníamos anteriormente. El costo de realizar esto es $\mathcal{O}(n^{2})$. \newline
+Como podemos observar en el pseudocódigo Nº 7, lo primero que hace nuestro algoritmo es crear un arreglo de $n$ posiciones ($\mathcal{O}(n)$). Posteriormente, hace $marcarNodos$ el cual para cada nodo de la clique($\mathcal{O}(n)$), se fija cuales son sus vecinos mediante la funcion $vecindad$ ($\mathcal{O}(1)$) de la clase grafo. Luego, para cada uno de estos, ($\mathcal{O}(n)$) le suma uno a la cantidad de nodos adyacentes perteneciente a la clique que poseen. Por lo tanto, la complejidad de $marcarNodos$ es $\mathcal{O}(n^{2})$. \newline
+Una vez que calculamos cuantos nodos de la clique son adyacentes a cada nodo del grafo, hago $dameCandidatosAClique$. Esta funcion toma todos los nodos del grafo y se fija para cada uno de ellos ($\mathcal{O}(n)$) si el valor que calculo $marcarNodos$ es igual al tamaño de la clique, el cual, es calculado mediante la funcion size($\mathcal{O}(1)$). Por lo tanto su complejidad es ($\mathcal{O}(n)$). \newline ME QUEDE ACAAAA!!!!!!!!!!!!!!!!!!!!
+Una vez hecho esto, agrega en un arreglo, mediante la función $push\_back$,\footnote{http://www.cplusplus.com/reference/vector/vector/push\_back/} a cada uno de los nodos que pueden formar una clique. Finalmente, compara la frontera ($\mathcal{O}(n)$) de todas las posibles soluciones agregando (con $push\_back$) y quitando (con $pop\_back$\footnote{http://www.cplusplus.com/reference/vector/vector/pop\_back/} cuya complejidad es $\mathcal{O}(1)$) los nodos que formaban una clique con la que teníamos anteriormente. El costo de realizar esto es $\mathcal{O}(n^{2})$. \newline
 Una vez que tiene la solución, genera un par con esta mediante la función $make\_pair$\footnote{http://www.cplusplus.com/reference/utility/make\_pair/} cuya complejidad es $\mathcal{O}(1)$.
 \newline
 Como se puede observar, la complejidad final de $agregarNodo$ es $\mathcal{O}(n^{2})$
