@@ -179,9 +179,47 @@ Como se puede observar, la complejidad final de $busquedaLocal$ es $\mathcal{O}(
 \subsection{Instancias problemáticas}
 Si observamos nuestro algoritmo, podemos notar que este siempre arranca por el nodo de mayor grado. Posteriormente, se va moviendo, en cada iteracion, a una clique la cual dista a lo sumo en una unidad con la clique actual. Teniendo en cuenta esto, nuestro algoritmo va a encontrar la solucion exacta siempre y cuando haya cliques, las cuales generen fronteras cada vez mas grande, entre el nodo de mayor grado y la clique de frontera maxima.
 \newline
-Veamos que sucede en el caso en el que la solucion no es la optima. Como ya dijimos antes, partimos del nodo de grado maximo, por lo tanto d($S_{0}$) \leq frontera($S$). Por otro lado, se que los grados de los nodos que conforman $S$ no pueden ser mayores a d($S_{0}$). Esto se debe a que si lo fueran, estos serian el $S_{0}$ de nuestro algoritmo. Como queiero ver que tan mala es la solucion que obtuve, voy a buscar la clique que me maximize su frontera. Para esto, calculemos cuanto vale frontera de una clique gererica. \newline
-En primer lugar, notemos que para maximizar la frontera, debemos tener todos los nodos de la clique con la mayor cantidad de aristas posibles. Como vimos anteriormente, el grado de los nodos no puede superar a d($S_{0}$). Luego, sabemos que si la clique tiene $c$ elementos, es por eso que tenemos $d*c$ aristas (en donde d representa al valor de la frontera del $S_{0}$). Por ultimo, debemos quitar las $c-1$ aristas que se repiten en cada uno de los $c$ nodos.
-\newline Juntando esto, obtenemos que la frontera de cualquier clique es como maximo $d*c - c * (c-1)$. Si ahora distribuyo, obtengo que la funcion que tengo que maximizar es $(d-1)*(c-1)$ . Como d es un valor fijo, devo maximizar $c-1$  MEJORAR TODO ESTO QUE ESTA MAL
+Veamos que sucede en el caso en el que la solucion no es la optima. Como ya dijimos antes, partimos del nodo de grado maximo, por lo tanto d($S_{0}$) $\leq$ frontera($S$). Por otro lado, se que los grados de los nodos que conforman $S$ no pueden ser mayores a d($S_{0}$). Esto se debe a que si lo fueran, estos serian el $S_{0}$ de nuestro algoritmo. Como queiero ver que tan mala es la solucion que obtuve, voy a buscar la solucion con maxima frontera. Para esto, calculemos cuanto vale la frontera de una clique generica. \newline
+En primer lugar, notemos que para maximizar la frontera, debemos tener todos los nodos de la clique con la mayor cantidad de aristas posibles. Como vimos anteriormente, el grado de los nodos no puede superar a d($S_{0}$). Luego, para una clique de $c$ nodos de grado d($S_{0}$), obtenemos que su frontera es:
+\begin{equation}
+  frontera(S) = d(S_{0}) * c - (c - 1) * c
+\end{equation} 
+Esta es la frontera mas grande que se puede encontrar para cada valor de $c$.
+\newline 
+Ahora, veamos cuanto es el maximo error que se puede cometer al no encontrar la solucion optima. Para esto, debemos restarle a la formula anterior d($S_{0}$). Esto se debe a que es la menor frontera que encuentra nuestro algoritmo.
+\begin{equation}
+  maximo\ error = d(S_{0}) * c - (c - 1) * c - d(S_{0}) 
+\end{equation} 
+Saco factor comun d($S_{0}$)
+\begin{equation}
+  maximo\ error = d(S_{0}) * (c - 1) - (c - 1) * c 
+\end{equation} 
+Saco factor comun (c - 1)
+\begin{equation}
+  maximo\ error = (c - 1) * (d(S_{0}) - c) 
+\end{equation} 
+Calculemos cual es el valor de c que maximiza esta funcion. Derivemos con respecto a $c$
+\begin{equation}
+  maximo\ error' = (d(S_{0}) - c) - (c - 1)
+\end{equation} 
+igualemos a 0 y despejemos
+\begin{equation}
+  c = \frac{1 + d(S_{0})}{2}
+\end{equation} 
+Si derivo una vez mas y evaluo en c = $\frac{1 + d(S_{0})}{2}$, obtengo que:
+\begin{equation}
+  maximo\ error'' = -2 < 0
+\end{equation}
+Por lo tanto es maximo.\newline \newline
+Veamos cual es el maximo error que se puede obtner.
+
+\begin{equation}
+  maximo\ error = d(S_{0}) * \frac{1 + d(S_{0})}{2} - (\frac{1 + d(S_{0})}{2} - 1) * \frac{1 + d(S_{0})}{2} - d(S_{0}) 
+\end{equation} 
+\begin{equation}
+  maximo\ error = \frac{1 - 2 * d(S_{0}) + d(S_{0})^{2}}{4} 
+\end{equation}
+
 veamos 2 casos en donde nuestro algoritmo no encuentra la solucion optima:
 \begin {itemize}
 \item
@@ -189,21 +227,67 @@ veamos 2 casos en donde nuestro algoritmo no encuentra la solucion optima:
 
 $$14\ \  14$$
 $$1\ \  2$$
-$$2\ \  3$$
-$$3\ \  1$$
+$$1\ \  3$$
 $$1\ \  4$$
 $$1\ \  5$$
-$$2\ \  6$$
-$$2\ \  7$$
-$$3\ \  8$$
-$$3\ \  9$$
-$$9\ \  14$$
-$$10\ \  14$$
-$$11\ \  14$$
-$$12\ \  14$$
-$$13\ \  14$$
+$$1\ \  6$$
+$$6\ \  7$$
+$$7 \ \ 8$$
+$$8\ \  9$$
+$$9\ \  7$$
+$$8\ \  10$$
+$$8\ \  11$$
+$$9\ \  12$$
+$$9\ \  13$$
+$$7\ \  14$$
+
 
 \textbf{Formato de salida:}
-$$5\ \   1\ \   14$$
+$$5\ \   1\ \   1$$
+Notemos que la frontera maxima segun nuestro algoritmo es 5 cuando la exacta es en realidad 6 y esta conformada por los nodos 7 8 9. esto se debe a que el nodo de mayor grado es el 1 y dista en un nodo de la clique maxima. 
+\newline
+comprovemos que esto satisface nuestra cota:
+\begin{equation}
+  maximo\ error = \frac{1 - 2 * 5) + 5^{2}}{4} = 4
+\end{equation}
+\begin{equation}
+  algoritmo\ exacto - heuristica = 6 - 5 = 1
+\end{equation}
+
+\item
+\textbf{Formato de entrada:}
+
+$$17\ \  17$$
+$$1\ \  2$$
+$$1\ \  3$$
+$$1\ \  4$$
+$$1\ \  5$$
+$$1\ \  6$$
+$$6\ \  7$$
+$$7 \ \ 8$$
+$$8\ \  9$$
+$$9\ \  7$$
+$$8\ \  10$$
+$$8\ \  11$$
+$$9\ \  12$$
+$$9\ \  13$$
+$$7\ \  14$$
+$$7\ \  15$$
+$$8\ \  16$$
+$$9\ \  17$$
+
+\textbf{Formato de salida:}
+$$5\ \   1\ \   1$$
+Notemos que la frontera maxima segun nuestro algoritmo es 5 cuando la exacta es en realidad 9 y esta conformada por los nodos 7 8 9. esto se debe a que el nodo de mayor grado es el 1 y dista en un nodo de la clique maxima. 
+\newline
+comprovemos que esto satisface nuestra cota:
+\begin{equation}
+  maximo\ error = \frac{1 - 2 * 5 + 5^{2}}{4} = 4
+\end{equation}
+\begin{equation}
+  algoritmo\ exacto - heuristica = 9 - 5 = 4
+\end{equation}
+\end{itemize}
+
 \subsection{Experimentación}
 
