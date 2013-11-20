@@ -177,8 +177,11 @@ Como se observa en el pseudocódigo Nº 9, nuestro algoritmo coloca en $res$ el 
 Como se puede observar, la complejidad final de $busquedaLocal$ es $\mathcal{O}(n^{4})$
 
 \subsection{Instancias problemáticas}
-Si observamos nuestro algoritmo, podemos notar que este siempre arranca por el nodo de mayor grado. Posteriormente, se va moviendo, en cada iteracion, a una clique la cual dista a lo sumo en una unidad con la clique actual. Teniendo en cuenta esto, nuestro algoritmo va a encontrar la solucion exacta siempre y cuando haya cliques, con fronteras cada vez mas grande, entre el nodo de mayor grado y la clique de frontera maxima.
+Si observamos nuestro algoritmo, podemos notar que este siempre arranca por el nodo de mayor grado. Posteriormente, se va moviendo, en cada iteracion, a una clique la cual dista a lo sumo en una unidad con la clique actual. Teniendo en cuenta esto, nuestro algoritmo va a encontrar la solucion exacta siempre y cuando haya cliques, las cuales generen fronteras cada vez mas grande, entre el nodo de mayor grado y la clique de frontera maxima.
 \newline
+Veamos que sucede en el caso en el que la solucion no es la optima. Como ya dijimos antes, partimos del nodo de grado maximo, por lo tanto d($S_{0}$) \leq frontera($S$). Por otro lado, se que los grados de los nodos que conforman $S$ no pueden ser mayores a d($S_{0}$). Esto se debe a que si lo fueran, estos serian el $S_{0}$ de nuestro algoritmo. Como queiero ver que tan mala es la solucion que obtuve, voy a buscar la clique que me maximize su frontera. Para esto, calculemos cuanto vale frontera de una clique gererica. \newline
+En primer lugar, notemos que para maximizar la frontera, debemos tener todos los nodos de la clique con la mayor cantidad de aristas posibles. Como vimos anteriormente, el grado de los nodos no puede superar a d($S_{0}$). Luego, sabemos que si la clique tiene $c$ elementos, es por eso que tenemos $d*c$ aristas (en donde d representa al valor de la frontera del $S_{0}$). Por ultimo, debemos quitar las $c-1$ aristas que se repiten en cada uno de los $c$ nodos.
+\newline Juntando esto, obtenemos que la frontera de cualquier clique es como maximo $d*c - c * (c-1)$. Si ahora distribuyo, obtengo que la funcion que tengo que maximizar es $(d-1)*(c-1)$ . Como d es un valor fijo, devo maximizar $c-1$  MEJORAR TODO ESTO QUE ESTA MAL
 veamos 2 casos en donde nuestro algoritmo no encuentra la solucion optima:
 \begin {itemize}
 \item
