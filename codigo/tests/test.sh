@@ -2,11 +2,13 @@ make
 
 #!/bin/bash
 
+# TIPOS_DE_GRAFOS="2 3 4 9 14 15 17"
+# GRAFOS_POR_DENSIDAD="6 12"
 TIPOS_DE_GRAFOS="2 3 4 9 14 15 17"
-GRAFOS_POR_DENSIDAD="8 12"
-CANT_NODOS_FIJA_PARA_DENSIDAD=1000
-CANT_NODOS_MIN=10
-CANT_NODOS_MAX=500000
+GRAFOS_POR_DENSIDAD="12"
+CANT_NODOS_FIJA_PARA_DENSIDAD=100
+CANT_NODOS_MIN=15
+CANT_NODOS_MAX=100
 INPUT_FILE_GEN="/tmp/data.in"
 QUANT_PER_SIZE=1
 INCREMENT=10
@@ -34,41 +36,79 @@ function exacto {
 	../ej2/ej2.sh
 }
 function goloso {
+	echo "Corriendo test goloso..."
 	rm ../ej3/heuristicaGolosa
 	g++ -std=c++0x ../ej3/heuristicaGolosa.cpp -o $GOLOSO
 	for i in $TIPOS_DE_GRAFOS; do
+		echo "Creando grafos de tipo $i..."
 		rm $INPUT_FILE_GEN
 		./graph_generator $i $CANT_NODOS_MIN $CANT_NODOS_MAX $INPUT_FILE_GEN $QUANT_PER_SIZE $INCREMENT $DENSITY
+		echo "Corriendo heuristica..."
 		cat $INPUT_FILE_GEN | $GOLOSO 1>> goloso_$i.out 2>> goloso_$i.dat
+		echo "Listo!.."
 	done
-	for i in $GRAFOS_POR_DENSIDAD do
-		for (( i = 0; i < 99; i=i+5 )); do	
+	for g in $GRAFOS_POR_DENSIDAD; do
+		echo "Tipo de grafo $g..."
+		for (( i = 10; i < 100; i=i+5 )); do	
 			rm $INPUT_FILE_GEN
-			./graph_generator $i $CANT_NODOS_FIJA_PARA_DENSIDAD $CANT_NODOS_FIJA_PARA_DENSIDAD $INPUT_FILE_GEN $QUANT_PER_SIZE 1 $(0.$i)
+			echo "Creando grafos de tipo $g..."
+			./graph_generator $g $CANT_NODOS_FIJA_PARA_DENSIDAD $CANT_NODOS_FIJA_PARA_DENSIDAD $INPUT_FILE_GEN $QUANT_PER_SIZE 1 0.4
+			echo "Corriendo heuristica..."
+			cat $INPUT_FILE_GEN | $GOLOSO 1>> goloso_$g.out 2>> goloso_$g.dat
+			echo "Listo!.."
 		done
-
 	done
 }
 function local {
+	echo "Corriendo test local..."
 	rm ../ej3/heuristicaBusquedaLocal
 	g++ -std=c++0x ../ej3/heuristicaBusquedaLocal.cpp -o $LOCAL
 	for i in $TIPOS_DE_GRAFOS; do
 		rm $INPUT_FILE_GEN
+		echo "Creando grafos de tipo $i..."
 		./graph_generator $i $CANT_NODOS_MIN $CANT_NODOS_MAX $INPUT_FILE_GEN $QUANT_PER_SIZE $INCREMENT $DENSITY
+		echo "Corriendo heuristica..."
 		cat $INPUT_FILE_GEN | $LOCAL 1>> local_$i.out 2>> local_$i.dat
+		echo "Listo!.."
+	done
+	for g in $GRAFOS_POR_DENSIDAD; do
+		echo "Tipo de grafo $g..."
+		for (( i = 10; i < 100; i=i+5 )); do	
+			rm $INPUT_FILE_GEN
+			echo "Creando grafos de tipo $g..."
+			./graph_generator $g $CANT_NODOS_FIJA_PARA_DENSIDAD $CANT_NODOS_FIJA_PARA_DENSIDAD $INPUT_FILE_GEN $QUANT_PER_SIZE 1 "0.$i"
+			echo "Corriendo heuristica..."
+			cat $INPUT_FILE_GEN | $LOCAL 1>> local_$g.out 2>> local_$g.dat
+			echo "Listo!.."
+		done
 	done
 }
 function tabu {
+	echo "Corriendo test tabu..."
 	rm ../ej3/busquedaTabu
 	g++ -std=c++0x ../ej3/busquedaTabu.cpp -o $TABU
 	for i in $TIPOS_DE_GRAFOS; do
 		rm $INPUT_FILE_GEN
+		echo "Creando grafos de tipo $i..."
 		./graph_generator $i $CANT_NODOS_MIN $CANT_NODOS_MAX $INPUT_FILE_GEN $QUANT_PER_SIZE $INCREMENT $DENSITY
+		echo "Corriendo heuristica..."
 		cat $INPUT_FILE_GEN | $TABU 1>> tabu_$i.out 2>> tabu_$i.dat
+		echo "Listo!.."
+	done
+	for g in $GRAFOS_POR_DENSIDAD; do
+		for (( i = 10; i < 100; i=i+5 )); do	
+			rm $INPUT_FILE_GEN
+			echo "Creando grafos de tipo $g..."
+			./graph_generator $g $CANT_NODOS_FIJA_PARA_DENSIDAD $CANT_NODOS_FIJA_PARA_DENSIDAD $INPUT_FILE_GEN $QUANT_PER_SIZE 1 "0.$i"
+			echo "Corriendo metaheuristica..."
+			cat $INPUT_FILE_GEN | $TABU 1>> tabu_$g.out 2>> tabu_$g.dat
+			echo "Listo!.."
+		done
 	done
 }
 function todo {
-	echo Tabu search
+	echo "Corriendo todos los test..."
+	echo "Compilando..."
 	rm ../ej2/ej2
 	g++ -std=c++0x ../ej2/ej2.cpp -o ../ej2/ej2
 	rm ../ej3/heuristicaGolosa
@@ -79,10 +119,29 @@ function todo {
 	g++ -std=c++0x ../ej3/busquedaTabu.cpp -o ../ej3/busquedaTabu
 	for i in $TIPOS_DE_GRAFOS; do
 		rm $INPUT_FILE_GEN
+		echo "Creando grafos de tipo $i..."
 		./graph_generator $i $CANT_NODOS_MIN $CANT_NODOS_MAX $INPUT_FILE_GEN $QUANT_PER_SIZE $INCREMENT $DENSITY
+		echo "Corriendo goloso.."
 		cat $INPUT_FILE_GEN | $GOLOSO 1>> goloso_$i.out 2>> goloso_$i.dat
+		echo "Corriendo local.."
 		cat $INPUT_FILE_GEN | $LOCAL 1>> local_$i.out 2>> local_$i.dat
+		echo "Corriendo tabu.."
 		cat $INPUT_FILE_GEN | $TABU 1>> tabu_$i.out 2>> tabu_$i.dat
+		echo "Listo!"
+	done
+	for g in $GRAFOS_POR_DENSIDAD; do
+		for (( i = 10; i < 100; i=i+5 )); do	
+			rm $INPUT_FILE_GEN
+			echo "Creando grafos de tipo $g..."
+			./graph_generator $g $CANT_NODOS_FIJA_PARA_DENSIDAD $CANT_NODOS_FIJA_PARA_DENSIDAD $INPUT_FILE_GEN $QUANT_PER_SIZE 1 "0.$i"
+			echo "Corriendo goloso.."
+			cat $INPUT_FILE_GEN | $GOLOSO 1>> goloso_$g.out 2>> goloso_$g.dat
+			echo "Corriendo local.."
+			cat $INPUT_FILE_GEN | $LOCAL 1>> local_$g.out 2>> local_$g.dat
+			echo "Corriendo tabu.."
+			cat $INPUT_FILE_GEN | $TABU 1>> tabu_$g.out 2>> tabu_$g.dat
+			echo "Listo!"
+		done
 	done
 }
 
