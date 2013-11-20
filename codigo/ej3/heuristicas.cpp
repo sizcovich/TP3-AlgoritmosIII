@@ -71,7 +71,7 @@ int main()
 	cout<<"Busqueda TABU:"<<endl;
 	t1 = chrono::high_resolution_clock::now();
 
-	vector<uint> solinicial = solucion_inicial; //busquedaLocal(grafo,solucion_inicial,m);
+	vector<uint> solinicial = busquedaLocal(grafo,solucion_inicial,m);
 	clique = tabusearch(solinicial, grafo,desviacion_permitida);
 
 	t2 = chrono::high_resolution_clock::now();
