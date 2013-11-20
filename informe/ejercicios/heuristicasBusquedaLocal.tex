@@ -177,50 +177,50 @@ Como se observa en el pseudocódigo Nº 9, nuestro algoritmo coloca en $res$ el 
 Como se puede observar, la complejidad final de $busquedaLocal$ es $\mathcal{O}(n^{4})$
 
 \subsection{Instancias problemáticas}
-Si observamos nuestro algoritmo, podemos notar que este siempre arranca por el nodo de mayor grado. Posteriormente, se va moviendo, en cada iteracion, a una clique la cual dista a lo sumo en una unidad con la clique actual. Teniendo en cuenta esto, nuestro algoritmo va a encontrar la solucion exacta siempre y cuando haya cliques, las cuales generen fronteras cada vez mas grande, entre el nodo de mayor grado y la clique de frontera maxima.
+Si observamos nuestro algoritmo, podemos notar que este siempre arranca por el nodo de mayor grado. Posteriormente, se va moviendo, en cada iteración, a una clique la cual dista a lo sumo en una unidad con la clique actual. Teniendo en cuenta esto, nuestro algoritmo va a encontrar la solución exacta siempre y cuando haya cliques, las cuales generen fronteras cada vez mas grande, entre el nodo de mayor grado y la clique de frontera máxima.
 \newline
-Veamos que sucede en el caso en el que la solucion no es la optima. Como ya dijimos antes, partimos del nodo de grado maximo, por lo tanto d($S_{0}$) $\leq$ frontera($S$). Por otro lado, se que los grados de los nodos que conforman $S$ no pueden ser mayores a d($S_{0}$). Esto se debe a que si lo fueran, estos serian el $S_{0}$ de nuestro algoritmo. Como queiero ver que tan mala es la solucion que obtuve, voy a buscar la solucion con maxima frontera. Para esto, calculemos cuanto vale la frontera de una clique generica. \newline
+Veamos que sucede en el caso en el que la solución no es la óptima. Como ya dijimos antes, partimos del nodo de grado máximo, por lo tanto d($S_{0}$) $\leq$ frontera($S$). Por otro lado, se que los grados de los nodos que conforman $S$ no pueden ser mayores a d($S_{0}$). Esto se debe a que si lo fueran, estos serian el $S_{0}$ de nuestro algoritmo. Como quiero ver que tan mala es la solución que obtuve, voy a buscar la solución con máxima frontera. Para esto, calculemos cuanto vale la frontera de una clique genérica. \newline
 En primer lugar, notemos que para maximizar la frontera, debemos tener todos los nodos de la clique con la mayor cantidad de aristas posibles. Como vimos anteriormente, el grado de los nodos no puede superar a d($S_{0}$). Luego, para una clique de $c$ nodos de grado d($S_{0}$), obtenemos que su frontera es:
 \begin{equation}
   frontera(S) = d(S_{0}) * c - (c - 1) * c
 \end{equation} 
 Esta es la frontera mas grande que se puede encontrar para cada valor de $c$.
 \newline 
-Ahora, veamos cuanto es el maximo error que se puede cometer al no encontrar la solucion optima. Para esto, debemos restarle a la formula anterior d($S_{0}$). Esto se debe a que es la menor frontera que encuentra nuestro algoritmo.
+Ahora, veamos cuanto es el máximo error que se puede cometer al no encontrar la solución óptima. Para esto, debemos restarle a la formula anterior d($S_{0}$). Esto se debe a que es la menor frontera que encuentra nuestro algoritmo.
 \begin{equation}
-  maximo\ error = d(S_{0}) * c - (c - 1) * c - d(S_{0}) 
+  máximo\ error = d(S_{0}) * c - (c - 1) * c - d(S_{0}) 
 \end{equation} 
-Saco factor comun d($S_{0}$)
+Saco factor común d($S_{0}$)
 \begin{equation}
-  maximo\ error = d(S_{0}) * (c - 1) - (c - 1) * c 
+  máximo\ error = d(S_{0}) * (c - 1) - (c - 1) * c 
 \end{equation} 
-Saco factor comun (c - 1)
+Saco factor común (c - 1)
 \begin{equation}
-  maximo\ error = (c - 1) * (d(S_{0}) - c) 
+  máximo\ error = (c - 1) * (d(S_{0}) - c) 
 \end{equation} 
-Calculemos cual es el valor de c que maximiza esta funcion. Derivemos con respecto a $c$
+Calculemos cual es el valor de c que maximiza esta función. Derivemos con respecto a $c$
 \begin{equation}
-  maximo\ error' = (d(S_{0}) - c) - (c - 1)
+  máximo\ error' = (d(S_{0}) - c) - (c - 1)
 \end{equation} 
 igualemos a 0 y despejemos
 \begin{equation}
   c = \frac{1 + d(S_{0})}{2}
 \end{equation} 
-Si derivo una vez mas y evaluo en c = $\frac{1 + d(S_{0})}{2}$, obtengo que:
+Si derivo una vez mas y evalúo en c = $\frac{1 + d(S_{0})}{2}$, obtengo que:
 \begin{equation}
-  maximo\ error'' = -2 < 0
+  máximo\ error'' = -2 < 0
 \end{equation}
-Por lo tanto es maximo.\newline \newline
-Veamos cual es el maximo error que se puede obtner.
+Por lo tanto es máximo.\newline \newline
+Veamos cual es el máximo error que se puede obtener.
 
 \begin{equation}
-  maximo\ error = d(S_{0}) * \frac{1 + d(S_{0})}{2} - (\frac{1 + d(S_{0})}{2} - 1) * \frac{1 + d(S_{0})}{2} - d(S_{0}) 
+  máximo\ error = d(S_{0}) * \frac{1 + d(S_{0})}{2} - (\frac{1 + d(S_{0})}{2} - 1) * \frac{1 + d(S_{0})}{2} - d(S_{0}) 
 \end{equation} 
 \begin{equation}
-  maximo\ error = \frac{1 - 2 * d(S_{0}) + d(S_{0})^{2}}{4} 
+  máximo\ error = \frac{1 - 2 * d(S_{0}) + d(S_{0})^{2}}{4} 
 \end{equation}
 
-veamos 2 casos en donde nuestro algoritmo no encuentra la solucion optima:
+veamos 2 casos en donde nuestro algoritmo no encuentra la solución óptima:
 \begin {itemize}
 \item
 \textbf{Formato de entrada:}
@@ -244,14 +244,14 @@ $$7\ \  14$$
 
 \textbf{Formato de salida:}
 $$5\ \   1\ \   1$$
-Notemos que la frontera maxima segun nuestro algoritmo es 5 cuando la exacta es en realidad 6 y esta conformada por los nodos 7 8 9. esto se debe a que el nodo de mayor grado es el 1 y dista en un nodo de la clique maxima. 
+Notemos que la frontera máxima según nuestro algoritmo es 5 cuando la exacta es en realidad 6 y esta conformada por los nodos 7 8 9. esto se debe a que el nodo de mayor grado es el 1 y dista en un nodo de la clique máxima. 
 \newline
-comprovemos que esto satisface nuestra cota:
+comprobemos que esto satisface nuestra cota:
 \begin{equation}
-  maximo\ error = \frac{1 - 2 * 5) + 5^{2}}{4} = 4
+  máximo\ error = \frac{1 - 2 * 5) + 5^{2}}{4} = 4
 \end{equation}
 \begin{equation}
-  algoritmo\ exacto - heuristica = 6 - 5 = 1
+  algoritmo\ exacto - heurística = 6 - 5 = 1
 \end{equation}
 
 \item
@@ -278,14 +278,14 @@ $$9\ \  17$$
 
 \textbf{Formato de salida:}
 $$5\ \   1\ \   1$$
-Notemos que la frontera maxima segun nuestro algoritmo es 5 cuando la exacta es en realidad 9 y esta conformada por los nodos 7 8 9. esto se debe a que el nodo de mayor grado es el 1 y dista en un nodo de la clique maxima. 
+Notemos que la frontera máxima según nuestro algoritmo es 5 cuando la exacta es en realidad 9 y esta conformada por los nodos 7 8 9. esto se debe a que el nodo de mayor grado es el 1 y dista en un nodo de la clique máxima. 
 \newline
-comprovemos que esto satisface nuestra cota:
+comprobemos que esto satisface nuestra cota:
 \begin{equation}
-  maximo\ error = \frac{1 - 2 * 5 + 5^{2}}{4} = 4
+  máximo\ error = \frac{1 - 2 * 5 + 5^{2}}{4} = 4
 \end{equation}
 \begin{equation}
-  algoritmo\ exacto - heuristica = 9 - 5 = 4
+  algoritmo\ exacto - heurística = 9 - 5 = 4
 \end{equation}
 \end{itemize}
 
