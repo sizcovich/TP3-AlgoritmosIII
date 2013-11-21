@@ -27,18 +27,20 @@
 
 hold off;
 
-goloso=load("goloso_12.dat");
-local=load("local_12.dat");
-tabu=load("tabu_12.dat");
+#goloso=load("tiempos_goloso.dat");
+#local=load("tiempos_local.dat");
+tabu=load("tabu_complejidad_nodos.dat");
 #subplot(1);
 
 #plot(valoresDeQuantum,waitingTime(1,:), '-r', 'LineWidth', 2, valoresDeQuantum,waitingTime(2,:), '-g', 'LineWidth', 2, valoresDeQuantum,waitingTime(3,:), '-b', 'LineWidth', 2, valoresDeQuantum,waitingTime(4,:), '-c', 'LineWidth', 2);
 
-plot(goloso(:,2), goloso(:,3), '-r', 'LineWidth', 2,local(:,2), local(:,3), '-g', 'LineWidth', 2,tabu(:,2), tabu(:,3), '-b', 'LineWidth', 2);
+plot(tabu(:,1), tabu(:,3), '-b', 'LineWidth', 2);
+#plot(goloso(:,1), goloso(:,3), '-r', 'LineWidth', 2,local(:,1), local(:,3), '-g', 'LineWidth', 2,tabu(:,1), tabu(:,3), '-b', 'LineWidth', 2);
 title("Comparacion heuristicas para grafos completos");
 xlabel("Tamaño de la entrada");
 ylabel("Tiempo de ejecución (ns)");
-legend("Goloso","local","tabu");
+legend("Tabu");
+#legend("Goloso","local","tabu");
 #set(h,'Location','NorthEastOutside');
 grid;
 #%axis([0 600 0 1]);
@@ -48,6 +50,5 @@ grid;
 
 
 set(gcf,'PaperUnits','inches','PaperPosition',[0 0 8.5 5])
-
 
 print("prueba.jpg");

@@ -161,7 +161,7 @@ int main(int argc,char* argv[]){
     inc = atoi(argv[6]);
     if (argc == 8) {
         density = atof(argv[7]);
-        cout << density << endl;
+        // cout << density << endl;
     }
     if (argc == 9) {
         density_upper = atof(argv[8]);
