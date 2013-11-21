@@ -19,7 +19,7 @@ using namespace std;
 MODULO DE TESTS
 
 -------------------------------------------------*/
-
+/*
 bool testSolucionTabu(vector<uint>& solIni,Grafo& g)
 {
 	bool val = true;
@@ -60,7 +60,7 @@ void testFunctions(vector<uint>& solIni, Grafo& g, uint desviacion_permitida) //
 	cout<< boolalpha <<calculoDeSoluciones(g)<<endl;
 
 }
-
+*/
 
 /*-----------------------------------
 

@@ -239,7 +239,7 @@ vector<uint> tabusearch(vector<uint>& solIni, Grafo& g, uint desviacion_permitid
 	listabu.clear();
 	INF = g.nodos() + 1;
 	maxValorTabu = 0;
-	int cant_max_iter = g.nodos();
+	int cant_max_iter = g.nodos()*g.nodos();
 
 	for(int i=0;i<g.nodos();++i)
 		listabu.push_back(0);
@@ -250,31 +250,38 @@ vector<uint> tabusearch(vector<uint>& solIni, Grafo& g, uint desviacion_permitid
 	bool mejora_frontera = true;
 	uint cero = 0;
 	int iter=0;
-	while((mejora_frontera || 0 < desviacion_permitida) && iter<cant_max_iter) //paro cuando no mejora la solucion o no puedo descender mas
+	if ( g.nodos() != gt_actual.candidato.size() + gt_actual.adentro.size() )//no es completo
 	{
-		nodo_0 = mejorSolucionAgregando(gt_0,gt_actual,g); //modifica solo el primer parametro
-		nodo_1 = mejorSolucionQuitando(gt_1,gt_actual,g); //modifica solo el primer parametro
-		if ((cantFrontera(gt_0) < cantFrontera(gt_1) && nodo_0 != INF) || (nodo_0 == INF))
+		while((mejora_frontera || 0 < desviacion_permitida) && iter<cant_max_iter) //paro cuando no mejora la solucion o no puedo descender mas
 		{
-			gt_0 = gt_1;
-			nodo_0 = nodo_1;
+			nodo_0 = mejorSolucionAgregando(gt_0,gt_actual,g); //modifica solo el primer parametro
+			nodo_1 = mejorSolucionQuitando(gt_1,gt_actual,g); //modifica solo el primer parametro
+			if ((cantFrontera(gt_0) < cantFrontera(gt_1) && nodo_0 != INF) || (nodo_0 == INF))
+			{
+				gt_0 = gt_1;
+				nodo_0 = nodo_1;
+			}
+			if (cantFrontera(gt_actual) < cantFrontera(gt_0)){
+				mejora_frontera = true;
+			}else{
+				mejora_frontera = false;
+				desviacion_permitida--;
+				//los pongo en la lista tabu
+				maxValorTabu++;
+				listabu[nodo_0] = maxValorTabu;
+			}
+			gt_actual = gt_0;
+			if (cantFrontera(gt_mejor) < cantFrontera(gt_actual)){
+				gt_mejor = gt_actual;
+			}
+			++iter;
 		}
-		if (cantFrontera(gt_actual) < cantFrontera(gt_0)){
-			mejora_frontera = true;
-		}else{
-			mejora_frontera = false;
-			desviacion_permitida--;
-			//los pongo en la lista tabu
-			maxValorTabu++;
-			listabu[nodo_0] = maxValorTabu;
-		}
-		gt_actual = gt_0;
-		if (cantFrontera(gt_mejor) < cantFrontera(gt_actual)){
-			gt_mejor = gt_actual;
-		}
-		++iter;
+	}else{
+		vector<uint> salida;
+		for (int e=0;e<ceil(g.nodos()/2);++e)
+			salida.push_back(e);
+		gt_mejor = solucionTabu gt(g,solIni);
 	}
-
 	return ( gt_mejor.toVec() );
 
 }
