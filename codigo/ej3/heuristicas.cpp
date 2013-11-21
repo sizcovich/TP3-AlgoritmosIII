@@ -70,8 +70,8 @@ int main()
 	t1 = chrono::high_resolution_clock::now();
 
 	vector<uint> solucion_inicial2(1,0);
-	vector<uint> solinicial = solucion_inicial2 ;//busquedaLocal(grafo,solucion_inicial2,m);
-	uint desviacion_permitida = 300 ;	// cantidad de iteraciones maximas en las que va a disminuir
+	vector<uint> solinicial = busquedaLocal(grafo,solucion_inicial2,m);
+	uint desviacion_permitida = 100 ;	// cantidad de iteraciones maximas en las que va a disminuir
 	clique = tabusearch(solinicial, grafo,desviacion_permitida);
 
 	t2 = chrono::high_resolution_clock::now();
