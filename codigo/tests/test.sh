@@ -4,16 +4,16 @@ make
 
 # TIPOS_DE_GRAFOS="2 3 4 9 14 15 17"
 # GRAFOS_POR_DENSIDAD="6 12"
-TIPOS_DE_GRAFOS="2 3 4 9 14 15 17"
-GRAFOS_POR_DENSIDAD="12"
-CANT_NODOS_FIJA_PARA_DENSIDAD=100
-CANT_NODOS_MIN=15
-CANT_NODOS_MAX=100
-INPUT_FILE_GEN="/tmp/data.in"
-QUANT_PER_SIZE=1
-INCREMENT=10
-DENSITY="0.5"
-DENSITY_UP="1"
+TIPOS_DE_GRAFOS="2 3 4 9 14 15 17" # Identificadores de tipos de grafos que se van a hacer
+GRAFOS_POR_DENSIDAD="12" # Identificados de tipos de grafos para variar la cantidad de aristas
+CANT_NODOS_FIJA_PARA_DENSIDAD=1000 # Cantidad de nodos que van a tener los grafos donde variamos la cantidad de aristas
+CANT_NODOS_MIN=15 # CAntidad minima de nodos por cada grafo
+CANT_NODOS_MAX=100 # Cantidad maxima de nodos por cada grafo
+INPUT_FILE_GEN="/tmp/data.in" # Donde se guarda el .in (de donde se leen los datos para correr los programas)
+QUANT_PER_SIZE=1 # Por cada numero de nodos que cantidad de instancias se hacen
+INCREMENT=10 # De a cuanto se incrementa
+# DENSITY="0.5"
+# DENSITY_UP="1" 
 EXACTO="../ej2/ej2"
 GOLOSO="../ej3/heuristicaGolosa"
 LOCAL="../ej3/heuristicaBusquedaLocal"
@@ -45,6 +45,7 @@ function goloso {
 		./graph_generator $i $CANT_NODOS_MIN $CANT_NODOS_MAX $INPUT_FILE_GEN $QUANT_PER_SIZE $INCREMENT $DENSITY
 		echo "Corriendo heuristica..."
 		cat $INPUT_FILE_GEN | $GOLOSO 1>> goloso_$i.out 2>> goloso_$i.dat
+		 
 		echo "Listo!.."
 	done
 	for g in $GRAFOS_POR_DENSIDAD; do
