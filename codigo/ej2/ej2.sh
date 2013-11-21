@@ -1,5 +1,6 @@
-g++ -std=c++0x ./ej2.cpp -o ./ej2
 rm ./tiempos.dat
+
+echo "haciendo tests de la catedra..."
 
 for (( i = 4; i <= 20; i++ )); do
 	#statements
