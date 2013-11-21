@@ -47,7 +47,7 @@ Donde $frontera$ calcula la frontera del subgrafo pasado por parámetro, $agrega
 
 
 \item \textbf{Tiene todos los nodos de $S_{0}$ más uno que no pertenecía a el:} \newline
-Para poder obtener la clique de frontera máxima de este subconjunto, buscamos todos los nodos del grafo que pueden formar una clique con $S_{0}$. Para esto, contamos cuantos nodos de la clique se conectan a cada nodo del grafo. Si un nodo es alcanzado por todos los que pertenecen a $S_{0}$, entonces al agregarlo, $S_{0}$ seguiria formando una clique. Una vez que tenemos a todos los posibles candidatos, calculamos la frontera de cada uno y nos quedamos con la mayor. \newline
+Para poder obtener la clique de frontera máxima de este subconjunto, buscamos todos los nodos del grafo que pueden formar una clique con $S_{0}$. Para esto, contamos cuantos nodos de la clique se conectan a cada nodo del grafo. Si un nodo es alcanzado por todos los que pertenecen a $S_{0}$, entonces al agregarlo, $S_{0}$ seguiría formando una clique. Una vez que tenemos a todos los posibles candidatos, calculamos la frontera de cada uno y nos quedamos con la mayor. \newline
 
 \begin{algorithm}[H]
     \SetAlgoLined
@@ -86,7 +86,7 @@ Donde $marcarNodos$ calcula para cada nodo, cuantos nodos de la clique son adyac
 \item \textbf{Tiene todos los nodos de $S_{0}$ salvo 1 que se lo reemplaza por otro que no estaba en el:} \newline
 En este subconjunto lo primero que hicimos fue quitar un nodo de $S_{0}$ y posteriormente, con la clique que nos quedo, agregarle otro. Para esto, utilizamos la función que quitaba un nodo a la clique y luego, utilizamos la función que nos calculaba el subconjunto anterior para agregar el nuevo nodo. Al hacer esto, logramos que nuestra clique no quede centrada en el nodo de mayor grado ya que este eventualmente podría dejar de formar parte de la solución.
 En el caso de que la clique tenga un solo elemento, decidimos que este sea reemplazado por el nodo adyacente a el de mayor grado.  \newline
-Como quitarNodo y agregarNono son dos funciones distintas, es posible que al aplicar ambas obtengamos el mismo $S_{0}$. En el caso de que esto suceda, no habria problema ya que significaria que de todas las cliques de este subconjunto, ninguna tiene mayor frontera que $S_{0}$.
+Como quitarNodo y agregarNono son dos funciones distintas, es posible que al aplicar ambas obtengamos el mismo $S_{0}$. En el caso de que esto suceda, no habría problema ya que significaría que de todas las cliques de este subconjunto, ninguna tiene mayor frontera que $S_{0}$.
 \begin{algorithm}[H]
     \SetAlgoLined
     \caption{permutarNodo}
@@ -115,7 +115,7 @@ Para analizar la complejidad de nuestro algoritmo, vamos a separarlo en 5 funcio
 Para poder obtener la mayoría de las operaciones que utilizan nuestras funciones en $\mathcal{O}(1)$, generamos el grafo con los parámetros de entrada, utilizando lista y matriz de adyacencia. De esta forma, evitamos aumentar la complejidad de nuestro algoritmo. Por consiguiente, la complejidad es $\mathcal{O}(n^{2})$ ya que este es el costo de crear la matriz de adyacencia.
 
 \item \textbf{quitarNodo:} \newline
-Como podemos observar en el pseudocódigo Nº 6, lo primero que hace nuestro algoritmo es calcular mediante la funcion $vecindad$ ($\mathcal{O}(1)$) de la clase grafo, el tamaño de la vecindad del nodo 0. Posteriormente, hay un ciclo el cual consiste en recorrer todos los nodos de la clique($\mathcal{O}(n)$) y almacenar el de menor grado en cada paso ($\mathcal{O}(1)$).
+Como podemos observar en el pseudocódigo Nº 6, lo primero que hace nuestro algoritmo es calcular mediante la función $vecindad$ ($\mathcal{O}(1)$) de la clase grafo, el tamaño de la vecindad del nodo 0. Posteriormente, hay un ciclo el cual consiste en recorrer todos los nodos de la clique($\mathcal{O}(n)$) y almacenar el de menor grado en cada paso ($\mathcal{O}(1)$).
 \newline
 Luego, hay un ciclo el cual nuevamente recorre todos los nodos de la clique ($\mathcal{O}(n)$) y en cada paso utiliza la función $agregar$ la cual fue implementada con $push\_back$\footnote{http://www.cplusplus.com/reference/vector/vector/push\_back/} con una complejidad de $\mathcal{O}(1)$.
 \newline
@@ -124,9 +124,9 @@ Por ultimo, se calcula el valor de la frontera mediante la función $frontera$ d
 Como se puede observar, la complejidad final de $quitarNodo$ es $\mathcal{O}(n)$
 
 \item \textbf{agregarNodo:} \newline 
-Como podemos observar en el pseudocódigo Nº 7, lo primero que hace nuestro algoritmo es crear un arreglo de $n$ posiciones ($\mathcal{O}(n)$). Posteriormente, hace $marcarNodos$ el cual para cada nodo de la clique($\mathcal{O}(n)$), se fija cuales son sus vecinos mediante la funcion $vecindad$ ($\mathcal{O}(1)$) de la clase grafo. Luego, para cada uno de estos, ($\mathcal{O}(n)$) le suma uno a la cantidad de nodos adyacentes perteneciente a la clique que poseen. Por lo tanto, la complejidad de $marcarNodos$ es $\mathcal{O}(n^{2})$. \newline
-Una vez que calcula cuantos nodos de la clique son adyacentes a cada nodo del grafo, hace $dameCandidatosAClique$. Esta funcion toma todos los nodos del grafo y se fija para cada uno de ellos ($\mathcal{O}(n)$) si el valor que calculo $marcarNodos$ es igual al tamaño de la clique, el cual, es calculado mediante la funcion size($\mathcal{O}(1)$). Por lo tanto su complejidad es ($\mathcal{O}(n)$). \newline
-Posteriormente, a cada nodo de $dameCandidatosAClique$ ($\mathcal{O}(n)$), lo agrega a $S_{0}$, mediante la función $push\_back$,\footnote{http://www.cplusplus.com/reference/vector/vector/push\_back/}($\mathcal{O}(1)$). Luego, compara la frontera ($\mathcal{O}(n)$) de esta nueva clique con la frontera mas grande hasta el momento. En caso de que esta sea mayor, almacena que nodo fue el que agrego y cual es el valor de su frontera. Por ultimo, quita este nodo mediante la funcion $pop\_back$\footnote{http://www.cplusplus.com/reference/vector/vector/pop\_back/} cuya complejidad es $\mathcal{O}(1)$). El costo de realizar esto es $\mathcal{O}(n^{2})$. \newline
+Como podemos observar en el pseudocódigo Nº 7, lo primero que hace nuestro algoritmo es crear un arreglo de $n$ posiciones ($\mathcal{O}(n)$). Posteriormente, hace $marcarNodos$ el cual para cada nodo de la clique($\mathcal{O}(n)$), se fija cuales son sus vecinos mediante la función $vecindad$ ($\mathcal{O}(1)$) de la clase grafo. Luego, para cada uno de estos, ($\mathcal{O}(n)$) le suma uno a la cantidad de nodos adyacentes perteneciente a la clique que poseen. Por lo tanto, la complejidad de $marcarNodos$ es $\mathcal{O}(n^{2})$. \newline
+Una vez que calcula cuantos nodos de la clique son adyacentes a cada nodo del grafo, hace $dameCandidatosAClique$. Esta función toma todos los nodos del grafo y se fija para cada uno de ellos ($\mathcal{O}(n)$) si el valor que calculo $marcarNodos$ es igual al tamaño de la clique, el cual, es calculado mediante la función size($\mathcal{O}(1)$). Por lo tanto su complejidad es ($\mathcal{O}(n)$). \newline
+Posteriormente, a cada nodo de $dameCandidatosAClique$ ($\mathcal{O}(n)$), lo agrega a $S_{0}$, mediante la función $push\_back$,\footnote{http://www.cplusplus.com/reference/vector/vector/push\_back/}($\mathcal{O}(1)$). Luego, compara la frontera ($\mathcal{O}(n)$) de esta nueva clique con la frontera mas grande hasta el momento. En caso de que esta sea mayor, almacena que nodo fue el que agrego y cual es el valor de su frontera. Por ultimo, quita este nodo mediante la función $pop\_back$\footnote{http://www.cplusplus.com/reference/vector/vector/pop\_back/} cuya complejidad es $\mathcal{O}(1)$). El costo de realizar esto es $\mathcal{O}(n^{2})$. \newline
 Una vez que tiene la solución, genera un par con esta mediante la función $make\_pair$\footnote{http://www.cplusplus.com/reference/utility/make\_pair/} cuya complejidad es $\mathcal{O}(1)$.
 \newline
 Como se puede observar, la complejidad final de $agregarNodo$ es $\mathcal{O}(n^{2})$
@@ -282,7 +282,7 @@ $$5\ \   1\ \   1$$
 \caption{Ejemplo}
 \end{center}
 \end{figure}
-Como se puede notar en el grafico, la frontera máxima según nuestro algoritmo es 5 (aristas rojas) cuando la exacta es en realidad 9 (aristas verdes) y esta conformada por los nodos 7 8 9 . esto se debe a que el nodo de mayor grado es el 1 y dista en dos nodo de la clique máxima.
+Como se puede notar en el gráfico, la frontera máxima según nuestro algoritmo es 5 (aristas rojas) cuando la exacta es en realidad 9 (aristas verdes) y esta conformada por los nodos 7 8 9 . esto se debe a que el nodo de mayor grado es el 1 y dista en dos nodo de la clique máxima.
 \newline
 comprobemos que esto satisface nuestra cota:
 \begin{equation}
