@@ -87,10 +87,15 @@ int main() {
 		uint desviacion_permitida = grafo.nodos()/2 ;	// cantidad de iteraciones maximas en las que va a disminuir
 		auto t1 = chrono::high_resolution_clock::now();
 		vector<uint> solucion_inicial(1,0);
+		clique = tabusearch(solinicial, grafo,desviacion_permitida);
 		vector <uint> res = tabusearch(solucion_inicial, grafo,desviacion_permitida);
 		auto t2 = chrono::high_resolution_clock::now();
 		auto x = chrono::duration_cast<std::chrono::nanoseconds>(t2-t1).count();
 		cerr << n << " " << m << " " << x << endl;
+		cout << grafo.frontera(clique) << " " << clique.size() << " ";
+		for (int i = 0; i < clique.size(); i++) //O(n)
+			cout << clique[i] + 1<< " ";
+		cout << endl;
 		
 		termino = (cin >> ws).peek();
 	}
