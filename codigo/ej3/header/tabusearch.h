@@ -250,7 +250,7 @@ vector<uint> tabusearch(vector<uint>& solIni, Grafo& g, uint desviacion_permitid
 	bool mejora_frontera = true;
 	uint cero = 0;
 	int iter=0;
-	if ( g.nodos() != gt_actual.candidato.size() + gt_actual.adentro.size() )//no es completo
+	if ( g.nodos() != gt_actual.candidato.size() + gt_actual.adentro.size() -1 )//no es completo
 	{
 		while((mejora_frontera || 0 < desviacion_permitida) && iter<cant_max_iter) //paro cuando no mejora la solucion o no puedo descender mas
 		{
@@ -280,7 +280,8 @@ vector<uint> tabusearch(vector<uint>& solIni, Grafo& g, uint desviacion_permitid
 		vector<uint> salida;
 		for (int e=0;e<ceil(g.nodos()/2);++e)
 			salida.push_back(e);
-		gt_mejor = solucionTabu gt(g,solIni);
+		solucionTabu gt(g,solIni);		
+		gt_mejor = gt;
 	}
 	return ( gt_mejor.toVec() );
 
