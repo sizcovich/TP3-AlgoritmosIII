@@ -11,7 +11,7 @@ CANT_NODOS_MIN=15 # CAntidad minima de nodos por cada grafo (MINIMO 15)
 CANT_NODOS_MAX=1000 # Cantidad maxima de nodos por cada grafo
 INPUT_FILE_GEN="/tmp/data.in" # Donde se guarda el .in (de donde se leen los datos para correr los programas)
 QUANT_PER_SIZE=1 # Por cada numero de nodos que cantidad de instancias se hacen
-INCREMENT=50 # De a cuanto se incrementa
+INCREMENT=10 # De a cuanto se incrementa
 # DENSITY="0.5"
 # DENSITY_UP="1" 
 EXACTO="../ej2/ej2"
@@ -121,7 +121,7 @@ function tabuComplejidad {
 
 	rm $INPUT_FILE_GEN 
 	echo "Creando grafos de tipo random por nodos (densidad 50%)..." 
-	./graph_generator 12 10 2500 $INPUT_FILE_GEN $QUANT_PER_SIZE 30 "0.5" 
+	./graph_generator 12 10 1000 $INPUT_FILE_GEN $QUANT_PER_SIZE $INCREMENT "0.95" 
 	echo "Corriendo heuristica..." 
 	cat $INPUT_FILE_GEN | $TABU 1>> tabu_complejidad_nodos.out 2>> tabu_complejidad_nodos.dat 
 	echo "Listo!.." 
@@ -147,6 +147,7 @@ function todo {
 	g++ -std=c++0x ../ej3/heuristicaBusquedaLocal.cpp -o ../ej3/heuristicaBusquedaLocal
 	rm ../ej3/busquedaTabu
 	g++ -std=c++0x ../ej3/busquedaTabu.cpp -o ../ej3/busquedaTabu
+
 	for i in $TIPOS_DE_GRAFOS; do
 		rm $INPUT_FILE_GEN
 		echo "Creando grafos de tipo $i..."
