@@ -35,25 +35,55 @@ public:
 		{
 			//actualizo estados
 			esta[ *it ] = true; 
-			//guardo grados de nodos
-			cantFrontera += g.vecindad( *it ).size();
-			for (vector<uint>::iterator it2=solInicial.begin(); it2 != solInicial.end(); ++it2)
-			{		
-				if (g.sonVecinos(*it,*it2) && *it != *it2)
-					--cantFrontera;
-			}
 		}
-		for (uint i=0;i<g.nodos();++i)
+		uint nodo = solInicial[0];
+		for (uint i = 0; i < g.vecindad(nodo).size() ; ++i)
 		{
-			bool estaEnClique = true;
-			for (list<uint>::iterator it=adentro.begin(); it != adentro.end()  && estaEnClique; ++it)
-			{
-				estaEnClique &= g.sonVecinos(i,*it); 
-			}
-			if (estaEnClique)
-				candidato.push_back(i);
+			if (!esta[ g.vecindad(nodo)[i] ])
+				candidato.push_back(g.vecindad(nodo)[i]);
 		}
+		calcularCandidatos(g);
+
+		cantFrontera = this->calcularFrontera(g);
 		
+	}
+
+	int calcularFrontera(const Grafo& g)
+	{
+		int res = 0;
+		if (adentro.size()!=0)
+		{
+			for (list<uint>::iterator it=adentro.begin(); it != adentro.end(); ++it)
+			{
+				res = res + g.vecindad(*it).size();
+			}
+			res = res - adentro.size()*(adentro.size()-1);
+		}
+		return res;
+	}
+
+	void calcularCandidatos(const Grafo& g)
+	{
+		candidato.clear();
+		if (adentro.size()!=0)
+		{
+			for (uint i = 0; i < g.nodos() ; ++i)
+			{
+				bool estaEnClique = true;
+				for (list<uint>::const_iterator it=adentro.begin(); it != adentro.end() && estaEnClique; ++it)
+				{
+					if (i!=*it)
+						estaEnClique &= g.sonVecinos(*it,i); 
+				}
+				if (estaEnClique)
+					candidato.push_back(i);
+			}
+		}else{
+			for (uint i=0;i<g.nodos();++i)
+			{ 
+					candidato.push_back(i);
+			}
+		}
 	}
 
 	vector<uint> toVec()
@@ -116,26 +146,8 @@ solucionTabu quitarNodo(uint n, const solucionTabu& solucion,const Grafo& g)
 	solucionTabu salida = solucion;
 	salida.esta[n] = false;
 	salida.adentro.remove(n);
-	//calculo nueva frontera
-	if (salida.adentro.size() == 0) //si los candidatos antes eran todos ahora tengo que quedarme con los corrector (alcanza con hacer esto solo con el primer nodo de la lista)
-	{
-		salida.candidato.clear();
-		for (uint i=0;i<g.nodos();++i)
-		{ 
-				salida.candidato.push_back(i);
-		}
-		salida.cantFrontera = 0;
-	}else{
-		salida.candidato.push_back(n); //despues de sacarlo se convierte en candidato
-		int ady_adentro = 0;
-		for (list<uint>::iterator it=salida.adentro.begin(); it != salida.adentro.end() ; ++it)
-		{
-			if (g.sonVecinos(n,*it))
-				++ady_adentro; 
-		}
-	int ady_afuera = g.vecindad(n).size() - ady_adentro;
-	salida.cantFrontera = salida.cantFrontera - ady_afuera + ady_adentro;
-	}
+	salida.calcularCandidatos(g);
+	salida.cantFrontera = salida.calcularFrontera(g);
 	return salida; 
 }
 
@@ -150,26 +162,8 @@ solucionTabu agregarNodo(uint n, const solucionTabu& solucion,const Grafo& g){
 	solucionTabu salida = solucion;
 	salida.esta[n] = true;
 	salida.adentro.push_back(n);	
-	if (solucion.candidato.size() == g.nodos()) //Es el caso en el que agrego un nodo por primera vez
-	{
-		salida.candidato.clear();
-		for (uint i=0;i<g.vecindad(n).size();++i)
-		{ 
-			salida.candidato.push_back( g.vecindad(n)[i] );
-		}
-		salida.cantFrontera = g.vecindad(n).size();
-	}else{
-	salida.candidato.remove(n);
-	//calculo nueva frontera
-	int adentro = 0;
-	for (list<uint>::iterator it=salida.adentro.begin(); it != salida.adentro.end() ; ++it)
-	{
-		if (g.sonVecinos(n,*it))
-			++adentro; 
-	}
-	int afuera = g.vecindad(n).size() - adentro;
-	salida.cantFrontera = salida.cantFrontera - adentro + afuera;
-	}
+	salida.calcularCandidatos(g);
+	salida.cantFrontera = salida.calcularFrontera(g);
 	return salida;
 }
 
@@ -180,7 +174,7 @@ solucionTabu agregarNodo(uint n, const solucionTabu& solucion,const Grafo& g){
 
 ----------------------------------------------------- */
 
-uint cantFrontera(solucionTabu sol )
+uint cantFrontera(const solucionTabu& sol )
 {
 	return (sol.cantFrontera);
 }
@@ -203,13 +197,14 @@ int mejorSolucionAgregando(solucionTabu& gt_0, const solucionTabu& gt_inicial, c
 		{
 			if (listabu[*it]==0) //no es tabu
 			{		
+					uint val = *it;
 					if (cantFrontera(gt_mejor) < cantFrontera( agregarNodo(*it,gt_inicial,g) ))
 					{
 						gt_mejor = agregarNodo(*it,gt_inicial,g);
 						nodo = *it;
 					}
 			}else{
-				if (listabu[*it]<maxValorTabu/2 && cantFrontera(gt_mejor) <= cantFrontera( agregarNodo(*it,gt_inicial,g) ))
+				if (listabu[*it]<(maxValorTabu/2)-1 && cantFrontera(gt_mejor) < cantFrontera( agregarNodo(*it,gt_inicial,g) ))
 				{
 						gt_mejor = agregarNodo(*it,gt_inicial,g);
 						nodo = *it;
@@ -236,7 +231,7 @@ int mejorSolucionQuitando(solucionTabu& gt_0, const solucionTabu gt_inicial,Graf
 
 		for (list<uint>::const_iterator it=gt_inicial.adentro.begin(); it != gt_inicial.adentro.end(); ++it)
 		{
-			if ( listabu[*it] )
+			if ( listabu[*it]==0 )
 			{
 				if (cantFrontera(gt_mejor) < cantFrontera( quitarNodo(*it,gt_inicial,g)))
 				{
@@ -244,7 +239,7 @@ int mejorSolucionQuitando(solucionTabu& gt_0, const solucionTabu gt_inicial,Graf
 					nodo = *it;
 				}
 			}else{
-				if (listabu[*it]<maxValorTabu/2 && cantFrontera(gt_mejor) <= cantFrontera( agregarNodo(*it,gt_inicial,g) ))
+				if (listabu[*it]<(maxValorTabu/2)-1 && cantFrontera(gt_mejor) < cantFrontera( agregarNodo(*it,gt_inicial,g) ))
 				{
 					gt_mejor = quitarNodo(*it,gt_inicial,g);
 					nodo = *it;
@@ -274,7 +269,8 @@ vector<uint> tabusearch(vector<uint>& solIni, Grafo& g, uint desviacion_permitid
 	solucionTabu gt_0(g),gt_1(g);
 	int nodo_0,nodo_1;
 	bool mejora_frontera = true;
-	while(mejora_frontera || desviacion_permitida>0) //paro cuando no mejora la solucion o no puedo descender mas
+	uint cero = 0;
+	while(mejora_frontera || 0 < desviacion_permitida) //paro cuando no mejora la solucion o no puedo descender mas
 	{
 		nodo_0 = mejorSolucionAgregando(gt_0,gt_actual,g); //modifica solo el primer parametro
 		nodo_1 = mejorSolucionQuitando(gt_1,gt_actual,g); //modifica solo el primer parametro
@@ -282,7 +278,7 @@ vector<uint> tabusearch(vector<uint>& solIni, Grafo& g, uint desviacion_permitid
 		{
 			gt_0 = gt_1;
 			nodo_0 = nodo_1;
-		} 
+		}
 		if (cantFrontera(gt_actual) < cantFrontera(gt_0)){
 			mejora_frontera = true;
 		}else{
