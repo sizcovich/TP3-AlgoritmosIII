@@ -150,15 +150,15 @@ Como se puede observar, la complejidad final de $permutarNodo$ es $\mathcal{O}(n
     agregar($res$, nodoDeMayorGrado($grafo$))\\
     	
     \For{i = 0  \textbf{to} i $<$ m}{
-        \textbf{par(Entero, Conj(Entero))} $aux = $ agregarNodo($grafo, res$)\\
-	\If{primero($aux$)$ < $primero(quitarNodo($grafo$, $res$))}{
-            $aux = $ quitarNodo($grafo$, $res$)\\
+        \textbf{par(Entero, Conj(Entero))} $solucionParcial = $ agregarNodo($grafo, res$)\\
+	\If{primero($solucionParcial$)$ < $primero(quitarNodo($grafo$, $res$))}{
+            $solucionParcial = $ quitarNodo($grafo$, $res$)\\
 	 		}
     	\If{primero($aux$)$ < $primero(permutarNodo($grafo$, $res$))}{
-            $aux = $ permutarNodo($grafo$, $res$)\\
+            $solucionParcial = $ permutarNodo($grafo$, $res$)\\
 	 		}
-	\eIf{primero($aux$)$ > $frontera($res$)}{
-            $res = $ primero($aux$)\\
+	\eIf{primero($solucionParcial$)$ > $frontera($res$)}{
+            $res = $ primero($solucionParcial$)\\
 	 		}{$salir del ciclo$}
 	}
     \textbf{devolver} $res$ \\
