@@ -4,7 +4,7 @@ make
 
 # TIPOS_DE_GRAFOS="2 3 4 9 14 15 17"
 # GRAFOS_POR_DENSIDAD="6 12"
-TIPOS_DE_GRAFOS="4 9 14 15 17" # Identificadores de tipos de grafos que se van a hacer
+TIPOS_DE_GRAFOS="2 3 4 9 14 15 17" # Identificadores de tipos de grafos que se van a hacer
 GRAFOS_POR_DENSIDAD="12" # Identificados de tipos de grafos para variar la cantidad de aristas
 CANT_NODOS_FIJA_PARA_DENSIDAD=1000 # Cantidad de nodos que van a tener los grafos donde variamos la cantidad de aristas
 CANT_NODOS_MIN=15 # CAntidad minima de nodos por cada grafo (MINIMO 15)
@@ -35,19 +35,20 @@ function exacto {
 	g++ -std=c++0x ../ej2/ej2.cpp -o ../ej2/ej2
 	../ej2/ej2.sh
 }
+
 function goloso {
 	echo "Corriendo test goloso..."
 	rm ../ej3/heuristicaGolosa
 	g++ -std=c++0x ../ej3/heuristicaGolosa.cpp -o $GOLOSO
-	# for i in $TIPOS_DE_GRAFOS; do
-	# 	echo "Creando grafos de tipo $i..."
-	# 	rm $INPUT_FILE_GEN
-	# 	./graph_generator $i $CANT_NODOS_MIN $CANT_NODOS_MAX $INPUT_FILE_GEN $QUANT_PER_SIZE $INCREMENT $DENSITY
-	# 	echo "Corriendo heuristica..."
-	# 	cat $INPUT_FILE_GEN | $GOLOSO 1>> goloso_$i.out 2>> goloso_$i.dat
+	for i in $TIPOS_DE_GRAFOS; do
+		echo "Creando grafos de tipo $i..."
+		rm $INPUT_FILE_GEN
+		./graph_generator $i $CANT_NODOS_MIN $CANT_NODOS_MAX $INPUT_FILE_GEN $QUANT_PER_SIZE $INCREMENT $DENSITY
+		echo "Corriendo heuristica..."
+		cat $INPUT_FILE_GEN | $GOLOSO 1>> goloso_$i.out 2>> goloso_$i.dat
 
-	# 	echo "Listo!.."
-	# done
+		echo "Listo!.."
+	done
 	for g in $GRAFOS_POR_DENSIDAD; do
 		echo "Tipo de grafo $g..."
 		for (( i = 10; i < 100; i=i+5 )); do	
@@ -60,6 +61,7 @@ function goloso {
 		done
 	done
 }
+
 function local {
 	echo "Corriendo test local..."
 	rm ../ej3/heuristicaBusquedaLocal
@@ -84,6 +86,7 @@ function local {
 		done
 	done
 }
+
 function tabu {
 	echo "Corriendo test tabu..."
 	rm ../ej3/busquedaTabu
@@ -107,6 +110,29 @@ function tabu {
 		done
 	done
 }
+
+function tabuComplejidad { 
+	echo "Corriendo test de complejidad de tabu..." 
+	rm ../ej3/busquedaTabu 
+	g++ -std=c++0x ../ej3/busquedaTabu.cpp -o $TABU
+
+	rm $INPUT_FILE_GEN 
+	echo "Creando grafos de tipo random por nodos (densidad 50%)..." 
+	./graph_generator 12 10 2500 $INPUT_FILE_GEN $QUANT_PER_SIZE 10 "0.5" 
+	echo "Corriendo heuristica..." 
+	cat $INPUT_FILE_GEN | $TABU 1>> tabu_complejidad_nodos.out 2>> tabu_complejidad_nodos.dat 
+	echo "Listo!.." 
+
+	for (( i = 10; i < 100; i=i+5 )); do 
+		rm $INPUT_FILE_GEN 
+		echo "Creando grafos de tipo $g..." 
+		./graph_generator 12 500 500 $INPUT_FILE_GEN $QUANT_PER_SIZE 1 "0.$i" 
+		echo "Corriendo metaheuristica..." 
+		cat $INPUT_FILE_GEN | $TABU 1>> tabu_complejidad_aristas.out 2>> tabu_complejidad_aristas.dat 
+		echo "Listo!.." 
+	done 
+}
+
 function todo {
 	echo "Corriendo todos los test..."
 	echo "Compilando..."
@@ -118,18 +144,18 @@ function todo {
 	g++ -std=c++0x ../ej3/heuristicaBusquedaLocal.cpp -o ../ej3/heuristicaBusquedaLocal
 	rm ../ej3/busquedaTabu
 	g++ -std=c++0x ../ej3/busquedaTabu.cpp -o ../ej3/busquedaTabu
-	# for i in $TIPOS_DE_GRAFOS; do
-	# 	rm $INPUT_FILE_GEN
-	# 	echo "Creando grafos de tipo $i..."
-	# 	./graph_generator $i $CANT_NODOS_MIN $CANT_NODOS_MAX $INPUT_FILE_GEN $QUANT_PER_SIZE $INCREMENT $DENSITY
-	# 	echo "Corriendo goloso.."
-	# 	cat $INPUT_FILE_GEN | $GOLOSO 1>> goloso_$i.out 2>> goloso_$i.dat
-	# 	echo "Corriendo local.."
-	# 	cat $INPUT_FILE_GEN | $LOCAL 1>> local_$i.out 2>> local_$i.dat
-	# 	echo "Corriendo tabu.."
-	# 	cat $INPUT_FILE_GEN | $TABU 1>> tabu_$i.out 2>> tabu_$i.dat
-	# 	echo "Listo!"
-	# done
+	for i in $TIPOS_DE_GRAFOS; do
+		rm $INPUT_FILE_GEN
+		echo "Creando grafos de tipo $i..."
+		./graph_generator $i $CANT_NODOS_MIN $CANT_NODOS_MAX $INPUT_FILE_GEN $QUANT_PER_SIZE $INCREMENT $DENSITY
+		echo "Corriendo goloso.."
+		cat $INPUT_FILE_GEN | $GOLOSO 1>> goloso_$i.out 2>> goloso_$i.dat
+		echo "Corriendo local.."
+		cat $INPUT_FILE_GEN | $LOCAL 1>> local_$i.out 2>> local_$i.dat
+		echo "Corriendo tabu.."
+		cat $INPUT_FILE_GEN | $TABU 1>> tabu_$i.out 2>> tabu_$i.dat
+		echo "Listo!"
+	done
 	for g in $GRAFOS_POR_DENSIDAD; do
 		for (( i = 10; i < 100; i=i+5 )); do	
 			rm $INPUT_FILE_GEN
@@ -149,7 +175,7 @@ function todo {
 
 clear
 PS3='Que heuristica vas a testear?: '
-OPTIONS="Exacto Goloso Local Tabu Todas"
+OPTIONS="Exacto Goloso Local Tabu Todas Complejidad_tabu"
 select opt in $OPTIONS; do
 	if [ "$opt" = "Exacto" ]; then
 		exacto
@@ -165,6 +191,9 @@ select opt in $OPTIONS; do
 		exit
 	elif [ "$opt" = "Todas" ]; then
 		todo
+		exit
+	elif [ "$opt" = "Complejidad_tabu" ]; then
+		tabuComplejidad
 		exit
 	else
 		clear
