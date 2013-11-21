@@ -4,7 +4,7 @@ make
 
 # TIPOS_DE_GRAFOS="2 3 4 9 14 15 17"
 # GRAFOS_POR_DENSIDAD="6 12"
-TIPOS_DE_GRAFOS="4 9 14 15 17" # Identificadores de tipos de grafos que se van a hacer
+TIPOS_DE_GRAFOS="2 3 4 9 14 15 17" # Identificadores de tipos de grafos que se van a hacer
 GRAFOS_POR_DENSIDAD="12" # Identificados de tipos de grafos para variar la cantidad de aristas
 CANT_NODOS_FIJA_PARA_DENSIDAD=1000 # Cantidad de nodos que van a tener los grafos donde variamos la cantidad de aristas
 CANT_NODOS_MIN=15 # CAntidad minima de nodos por cada grafo (MINIMO 15)
