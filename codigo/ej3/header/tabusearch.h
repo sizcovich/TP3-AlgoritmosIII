@@ -97,7 +97,7 @@ public:
 		return(this->esta == p2.esta && this->adentro==p2.adentro && this->candidato==p2.candidato && this->cantFrontera==p2.cantFrontera);
 	}
 
-	solucionTabu& operator =(const solucionTabu &p2)
+	solucionTabu& operator =(const solucionTabu& p2)
 	{
 		this->esta = p2.esta;
 		this->adentro = p2.adentro;
@@ -109,37 +109,12 @@ public:
 
 };
 
-	ostream& operator << (ostream &o,solucionTabu &p)
-	{
-	    o << "Nodos adentro: ";
-		for (list<uint>::iterator it=p.adentro.begin(); it != p.adentro.end(); ++it)
-			{
-				o<< *it <<" "; 
-			}
-	    o<<endl;
-	    o<<" Nodos que estan: ";
-		for (uint i=0;i<p.esta.size();++i)
-		{	if (p.esta[i])
-				o<< i <<" ";
-		}
-	    o <<endl;
-	    o << "Nodos candidatos: ";
-		for (list<uint>::iterator it=p.candidato.begin(); it != p.candidato.end(); ++it)
-			{
-				o<< *it <<" "; 
-			}	
-		o<<endl;
-		o<<"Cantidad de frontera: "<<p.cantFrontera<<endl;
-
-	    return o;
-	}
-
 
 /* ----------------------------------------------------
 	Quita el nodo "n" de la solucion.
 	Complejidad:
 ------------------------------------------------------- */
-solucionTabu quitarNodo(uint n, const solucionTabu& solucion,const Grafo& g)
+solucionTabu quitarNodo(uint n, const solucionTabu& solucion,const Grafo& g) 
 {
 	if (!solucion.esta[n]) //control
 		return solucion;
@@ -155,7 +130,8 @@ solucionTabu quitarNodo(uint n, const solucionTabu& solucion,const Grafo& g)
 	Agrega el nodo "n" a la solucion.
 	Complejidad:
 ------------------------------------------------------- */
-solucionTabu agregarNodo(uint n, const solucionTabu& solucion,const Grafo& g){
+solucionTabu agregarNodo(uint n, const solucionTabu& solucion,const Grafo& g) 
+{
 	if (solucion.esta[n]) //de control
 		{return solucion;}
 
@@ -195,18 +171,19 @@ int mejorSolucionAgregando(solucionTabu& gt_0, const solucionTabu& gt_inicial, c
 		solucionTabu gt_mejor = agregarNodo(nodo,gt_inicial,g);
 		for (list<uint>::const_iterator it=gt_inicial.candidato.begin(); it != gt_inicial.candidato.end(); ++it)
 		{
+			solucionTabu conNodo = agregarNodo(*it,gt_inicial,g);
 			if (listabu[*it]==0) //no es tabu
 			{		
 					uint val = *it;
-					if (cantFrontera(gt_mejor) < cantFrontera( agregarNodo(*it,gt_inicial,g) ))
+					if (cantFrontera(gt_mejor) < cantFrontera( conNodo ))
 					{
-						gt_mejor = agregarNodo(*it,gt_inicial,g);
+						gt_mejor = conNodo;
 						nodo = *it;
 					}
 			}else{
-				if (listabu[*it]<(maxValorTabu/2)-1 && cantFrontera(gt_mejor) < cantFrontera( agregarNodo(*it,gt_inicial,g) ))
+				if (listabu[*it]<(maxValorTabu/2)-1 && cantFrontera(gt_mejor) < cantFrontera( conNodo ))
 				{
-						gt_mejor = agregarNodo(*it,gt_inicial,g);
+						gt_mejor = conNodo;
 						nodo = *it;
 				}
 			}	
@@ -231,17 +208,18 @@ int mejorSolucionQuitando(solucionTabu& gt_0, const solucionTabu gt_inicial,Graf
 
 		for (list<uint>::const_iterator it=gt_inicial.adentro.begin(); it != gt_inicial.adentro.end(); ++it)
 		{
+			solucionTabu sinNodo = quitarNodo(*it,gt_inicial,g);
 			if ( listabu[*it]==0 )
 			{
-				if (cantFrontera(gt_mejor) < cantFrontera( quitarNodo(*it,gt_inicial,g)))
+				if (cantFrontera(gt_mejor) < cantFrontera( sinNodo ))
 				{
-					gt_mejor = quitarNodo(*it,gt_inicial,g);
+					gt_mejor = sinNodo;
 					nodo = *it;
 				}
 			}else{
-				if (listabu[*it]<(maxValorTabu/2)-1 && cantFrontera(gt_mejor) < cantFrontera( agregarNodo(*it,gt_inicial,g) ))
+				if (listabu[*it]<(maxValorTabu/2)-1 && cantFrontera(gt_mejor) < cantFrontera( sinNodo ))
 				{
-					gt_mejor = quitarNodo(*it,gt_inicial,g);
+					gt_mejor = sinNodo;
 					nodo = *it;
 				}
 			}
@@ -261,8 +239,7 @@ vector<uint> tabusearch(vector<uint>& solIni, Grafo& g, uint desviacion_permitid
 	listabu.clear();
 	INF = g.nodos() + 1;
 	maxValorTabu = 0;
-	int max_iteraciones = 1000;
-	int iter = 0;
+	int cant_max_iter = g.nodos();
 
 	for(int i=0;i<g.nodos();++i)
 		listabu.push_back(0);
@@ -272,7 +249,8 @@ vector<uint> tabusearch(vector<uint>& solIni, Grafo& g, uint desviacion_permitid
 	int nodo_0,nodo_1;
 	bool mejora_frontera = true;
 	uint cero = 0;
-	while((mejora_frontera || 0 < desviacion_permitida) && iter<max_iteraciones) //paro cuando no mejora la solucion o no puedo descender mas
+	int iter=0;
+	while((mejora_frontera || 0 < desviacion_permitida) && iter<cant_max_iter) //paro cuando no mejora la solucion o no puedo descender mas
 	{
 		nodo_0 = mejorSolucionAgregando(gt_0,gt_actual,g); //modifica solo el primer parametro
 		nodo_1 = mejorSolucionQuitando(gt_1,gt_actual,g); //modifica solo el primer parametro
@@ -294,7 +272,7 @@ vector<uint> tabusearch(vector<uint>& solIni, Grafo& g, uint desviacion_permitid
 		if (cantFrontera(gt_mejor) < cantFrontera(gt_actual)){
 			gt_mejor = gt_actual;
 		}
-	++iter;	
+		++iter;
 	}
 
 	return ( gt_mejor.toVec() );
