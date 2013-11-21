@@ -70,8 +70,6 @@ HASTA ACA MODULO TEST
 
 int main() {
 
-	uint desviacion_permitida = 30 ;	// cantidad de iteraciones maximas en las que va a disminuir
-
 	int termino = '1';
 	while (termino != '0') {
 		uint n, m;
@@ -86,6 +84,7 @@ int main() {
 			grafo.agregarArista(i, j);
 		}
 		
+		uint desviacion_permitida = grafo.nodos()/2 ;	// cantidad de iteraciones maximas en las que va a disminuir
 		auto t1 = chrono::high_resolution_clock::now();
 		vector<uint> solucion_inicial(1,0);
 		vector <uint> res = tabusearch(solucion_inicial, grafo,desviacion_permitida);
