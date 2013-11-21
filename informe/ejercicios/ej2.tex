@@ -1,17 +1,16 @@
 \subsection{Algoritmo Implementado}
 
-Para resolver el problema de CMF de forma exacta, generamos un algoritmo encargado de recorrer todas las posibles cliques del grafo de entrada con la estrategia de $Backtracking$. Esto se debe a que no hallamos ninguna caracterización que nos permitiera reducir el espacio de búsqueda de cliques tal que el algoritmo ignorara una cantidad asintótica de ellas. Luego, nuestra implementación genera todas las soluciones posibles siguiendo un orden lexicográfico para evitar repetirlas. Por ejemplo, la clique $k_{2}$ formada por los nodos \{1,2\} es la misma que se forma al elegir los nodos \{2,1\}. Por lo tanto, al representar los nodos como números y formar cliques respetando su orden lexicográfico, nos ahorramos realizar repeticiones como la anterior. 
+Para resolver el problema de CMF de forma exacta, generamos un algoritmo encargado de recorrer todas las posibles cliques del grafo de entrada con la estrategia de $Backtracking$. Esto se debe a que no hallamos ninguna caracterización particular que nos permitiera reducir el espacio de búsqueda de cliques tal que el algoritmo ignorara una cantidad asintótica de ellas. Luego, nuestra implementación genera todas las soluciones posibles siguiendo un orden lexicográfico para evitar repetirlas. Por ejemplo, la clique $k_{2}$ formada por los nodos \{1,2\} es la misma que se forma al elegir los nodos \{2,1\}. Por lo tanto, al representar los nodos como números y formar cliques respetando su orden lexicográfico, nos ahorramos realizar repeticiones como la mencionada. 
 
-De este modo, nuestro algoritmo comienza generando todas las cliques que contienen al nodo de menor valor numérico que no haya sido utilizado y, en cada paso, selecciona una serie de candidatos a extender la clique actual hasta que no quede ninguno. Una vez alcanzada dicha instancia, el algoritmo retrocede quitando el último nodo agregado a la clique e insertando al próximo candidato, si es que éste existe. El orden lexicográfico se respeta al momento de elegir los candidatos ya que sólo pueden ser seleccionados como tales aquellos cuyo valor representativo sea mayor al del último nodo agregado a la clique.
+De este modo, nuestro algoritmo comienza generando todas las cliques que contienen al nodo de menor valor numérico que no haya sido utilizado y, en cada paso, selecciona una serie de candidatos a ser agregados a la clique actual hasta que no quede ninguno. Una vez alcanzada dicha instancia, el algoritmo retrocede quitando el último nodo agregado a la clique e insertando al próximo candidato, si es que existe. El orden lexicográfico se respeta al momento de elegir los candidatos ya que sólo pueden ser seleccionados como tales aquellos cuyo valor representativo sea mayor al del último nodo agregado a la clique.
 
 A continuación, se expone el pseudocódigo del algoritmo mencionado:\\
 
-\textbf{Variables globales:}\\
- \textbf{Conj(nodo)} $cliqueMaxima$, \textbf{Entero} $fronteraMaxima$.\\
+\underline{Variables globales:} \textbf{Conj(nodo)} $cliqueMaxima$, \textbf{Entero} $fronteraMaxima$.\\
 
 \begin{algorithm}[H]
 	\SetAlgoLined
-	\caption{Exacto}
+	\caption{Algoritmo Exacto}
 	\KwIn{\textbf{Grafo} $g$}
 	\KwOut{\textbf{Conj(nodo)} $clique$}
 
@@ -31,7 +30,7 @@ A continuación, se expone el pseudocódigo del algoritmo mencionado:\\
 	\KwOut{\textbf{Conj(nodo)} $clique$}
 
 	\For{$c \in candidatos$}{
-		\If{\textbf{frontera}($ clique \cup \{c\} $) es mayor a $fronteraMaxima$ }{
+		\If{\textbf{frontera}($ clique \cup \{c\} $) $> fronteraMaxima$ }{
 			$cliqueMaxima = clique \cup \{c\} $\\
 			$fronteraMaxima = $frontera($clique \cup \{c\}$)\\
 		}
@@ -62,26 +61,36 @@ A continuación, se expone el pseudocódigo del algoritmo mencionado:\\
 	\KwIn{\textbf{Conj(nodo)} $clique$, \textbf{Grafo} $g$, \textbf{Nodo} $ultimoNodoAgregado$} %esto hay que ponerlo bien
 	\KwOut{\textbf{Conj(nodo)} $candidatos$}
 
-	nodo $w$ = un elemento de $clique$\\
+	nodo $w$ = elemento de la $clique$\\
 
 	$candidatos = adyacentes(w)$\\
-	\For{\textbf{todo nodo} $v \in nodos(g), v \neq w$}{
+	\ForAll{$v \in nodos(g)$ con $v \neq w$}{
 		$candidatos$ = interseccion entre $adyacentes(v)$ y $candidatos$\\
 	}
 
-	quitar de $candidatos$ todos los nodos menores numericamente a $ultimoNodoAgregado$
+	quitar de $candidatos$ todos los nodos de valor menor a $ultimoNodoAgregado$
 
 	\textbf{devuelvo} $candidatos$\\
 
 \end{algorithm}
 
-En este caso el programa comienza con la funcion Exacto, esta es la encargada de crear los valores inciales con los cuales se va a llamara a la funcion backtracking, luego esta hace las llamdas recursivas para ir creando las diferentes cliques y sus candidatos teniendo en cuenta el orden lexicografico y en cada paso chequeando si las cliques que considera son mejores que la mejor encontrada actualmente. \\
-La funcion $calcularCandidatos$ busca aquellos nodos que no son los de la clique actual pero que estan conectados con todos ellos, eso se logra calculando la interseccion entre los nodos adyacentes a los nodos de la clique. \\
-La funcion $frontera$ devuelve el valor numerico de la frontera de una clique, como tenemos por pre-condicion que todo conjunto de nodos que reciba como parametro la funcion es una clique, entonces calcular la frontera se puede hacer restandole a la cantidad de nodos adyacentes de cada nodo la cantidad de nodos de la clique menos 1. 
+Nuestro programa comienza con la función $Algoritmo\ Exacto$ que se encarga de inicializar los valores con los que se llama a $Backtracking$. A su vez, esta última realiza las llamadas recursivas necesarias para ir buscando las diferentes cliques y sus candidatos, teniendo en cuenta el orden lexicográfico mencionado anteriormente. Al realizar dicho procedimiento, el algoritmo verifica, en cada paso, que las cliques que va considerando sean mejores que la mejor encontrada hasta el momento. Si esto no ocurre, quita el nodo en cuestión y deja de explorar cliques conteniéndolo.\\
+\newline
+Luego, la función $calcularCandidatos$ busca aquellos nodos no contenidos en la clique en exploración pero conectados con todos los que se encuentran en ella. Dicho procedimiento se logra encontrando la intersección entre todos los nodos adyacentes a los nodos de la clique mencionada.\\
+\newline
+Por otro lado, la función $frontera$ devuelve la cantidad de aristas de la frontera de una clique. Para efectuar dicho cálculo, se realiza la resta de la cantidad de nodos adyacentes a cada nodo de la clique menos la cantidad de nodos de ésta menos 1, o sea ($\forall v \in clique$) $\#adyacentes(v)-(\#nodos(clique)-1)$. La precondición de $frontera$ consiste en un conjunto de nodos todos adyacentes entre sí. 
 
 \subsection{Análisis de complejidad}
 
-El analisis de complejidad del algoritmo posee una cota superior definida por la funcion recursiva de backtracking, esta funcion se pueden analizar calculando el arbol de soluciones del problema en cuestión. Como buscamos cliques y puede haber cliques de tamaño 1 hasta tamaño $n$ inclusive. Entonces encontrar las cliques de tamaño supongamos $k$ para una cantidad de nodos $n$ tiene un costo de {$n \choose k$} que en términos de complejidad es equivalente a $\frac{n!}{(n-k)!*k!}$, de esta forma podemos definir la complejidad del algoritmo analizando el arbol de decisiones donde cada nivel del arbol representa una cantidad fija de nodos que posee una clique, sienod la raiz el unico caso donde hay 0 nodos, y siendo el primer nivel, la clique que contiene $1$ nodo, para $n$ nodos el segundo nivel tendra $n$ nodos, y asi sucesivamente, con todas las posibles combinaciones. Luego la complejidad se puede definir de la siguiente manera: $\sum{n}{i=1} \{n \choose i\}$	
+La complejidad temporal del algoritmo exacto realizado se encuentra acotada por la complejidad de la función de $Backtracking$. Ésta se puede analizar a partir del árbol de soluciones del problema en cuestión. Donde cada nodo de dicho árbol representa a una clique cuya cantidad de nodos se encuentra determinada por el nivel en el que éste se ubica. Luego, la raíz es el único caso posible de 0 nodos. El primer nivel presenta todas las posibles cliques conteniendo un único nodo y así sucesivamente con todas las posibles combinaciones. Dado que buscamos cliques compuestas por 1 a $n$ nodos, encontrar las de tamaño $k$, con $k\leq n$, tiene un costo de $\mathcal{O}({n \choose k})$ = $\mathcal{O}(\frac{n!}{(n-k)!*k!})$, siendo $\frac{n!}{(n-k)!*k!} \leq n^k$. Luego, la cantidad de pasos de dicho procedimiento resulta $\sum\limits_{i=1}^n {n \choose i} = 2^n - 1$. 
+
+Es entonces que podemos determinar que la complejidad de nuestro algoritmo exacto resulta $\mathcal{O}(2^n - 1) +\ costo\ de\ realizar\ cada\ paso$.
+
+Veamos cuál es el costo de realizar cada paso:
+\begin{itemize}
+\item La función $frontera$ realiza un ciclo con la cantidad de nodos, $\mathcal{O}(n)$, que es calculada con $size()(\mathcal{O}(1))$\footnote{http://www.cplusplus.com/reference/vector/vector/size/}. En dicho ciclo, se le suma a un entero ($res$) el valor de un vector ($g$) al que se accede para, luego, acceder a otro ($nodos$) y se le resta 1 a este último. Esto se realiza en $\mathcal{O}(1)*\mathcal{O}(1)$\footnote{http://www.cplusplus.com/reference/vector/vector/operator[]/} = $\mathcal{O}(1)$. Luego, la complejidad de dicha función resulta $\mathcal{O}(n)*\mathcal{O}(1)$ = $\mathcal{O}(n)$.
+\item Por otro lado, la función $interseccionNAdyacentes$ 
+\end{itemize}
 
 
 
