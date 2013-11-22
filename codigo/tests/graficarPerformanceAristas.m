@@ -17,15 +17,16 @@ hold off;
 
 goloso_dat=load("goloso_12.dat");
 local_dat=load("local_12.dat");
-tabu_dat=load("tabu_12.dat");
+#tabu_dat=load("tabu_12.dat");
 
-plot(goloso_dat(:,2), goloso_dat(:,3), '-r', 'LineWidth', 2,local_dat(:,2), local_dat(:,3), '-g', 'LineWidth', 2,tabu_dat(:,2), tabu_dat(:,3), '-b', 'LineWidth', 2);
-title("Comparación de calidad de soluciones para grafos tipo Rueda");
-xlabel("Cantidad de nodos");
-ylabel("Calidad de la solución");
-legend("Heuristica Golosa", "Heuristica Local", "Metaheuristica Tabu");
+plot(goloso_dat(:,2), goloso_dat(:,4), '-r', 'LineWidth', 2,local_dat(:,2), local_dat(:,4), '-g', 'LineWidth', 2);
+#plot(goloso_dat(:,2), goloso_dat(:,3), '-r', 'LineWidth', 2,local_dat(:,2), local_dat(:,3), '-g', 'LineWidth', 2,tabu_dat(:,2), tabu_dat(:,3), '-b', 'LineWidth', 2);
+title("Comparación de performance para grafos conexos por densidad");
+xlabel("Porcentaje de nodos");
+ylabel("Tiempo de ejecución (ns)");
+legend("Heuristica Golosa", "Heuristica Local");
 grid;
 
 set(gcf,'PaperUnits','inches','PaperPosition',[0 0 8.5 5])
 
-print("versus_rueda_performance_nodos_aristas.jpg");
+print("versus_performance_aristas.jpg");
