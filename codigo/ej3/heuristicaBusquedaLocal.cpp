@@ -186,12 +186,14 @@ int main() {
 		}
 		
 		auto t1 = chrono::high_resolution_clock::now();
-		
-		vector <uint> res = busquedaLocal(grafo, m);
+		for (int i = 0; i < 10; ++i)
+		{
+			vector <uint> res = busquedaLocal(grafo, m);
+		}
 		
 		auto t2 = chrono::high_resolution_clock::now();
 		auto x = chrono::duration_cast<std::chrono::nanoseconds>(t2-t1).count();
-		cerr << n << " " << m << " " << x << endl;
+		cerr << n << " " << m << " " << (x/10) << endl;
 		
 		termino = (cin >> ws).peek();
 	}
