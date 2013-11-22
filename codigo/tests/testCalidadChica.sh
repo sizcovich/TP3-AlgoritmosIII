@@ -20,7 +20,7 @@ TABU="../ej3/busquedaTabu"
 # 17  	STAR_BRIDGE_DOUBLE_STAR			Estrella+Puente+Doble Estrella
 
 
-echo "Corriendo test de calidad de la solucion para algoritmos grades: "
+echo "Corriendo test de calidad de la solucion para algoritmos chicos: "
 echo "Compilando..."
 rm ../ej2/ej2
 g++ -std=c++0x ../ej2/ej2.cpp -o ../ej2/ej2
@@ -28,8 +28,8 @@ rm ../ej3/heuristicaGolosa
 g++ -std=c++0x ../ej3/heuristicaGolosa.cpp -o ../ej3/heuristicaGolosa
 rm ../ej3/heuristicaBusquedaLocal
 g++ -std=c++0x ../ej3/heuristicaBusquedaLocal.cpp -o ../ej3/heuristicaBusquedaLocal
-rm ../ej3/busquedaTabu
-g++ -std=c++0x ../ej3/busquedaTabu.cpp -o ../ej3/busquedaTabu
+# rm ../ej3/busquedaTabu
+# g++ -std=c++0x ../ej3/busquedaTabu.cpp -o ../ej3/busquedaTabu
 
 for i in $TIPOS_DE_GRAFOS; do
 	echo "Creando grafos de tipo $i..."
@@ -41,9 +41,9 @@ for i in $TIPOS_DE_GRAFOS; do
 	cat $INPUT_FILE_GEN | $GOLOSO 1>> goloso_$g.out 2>> goloso_$g.dat
 	echo "Corriendo local.."
 	cat $INPUT_FILE_GEN | $LOCAL 1>> local_$g.out 2>> local_$g.dat
-	echo "Corriendo tabu.."
-	cat $INPUT_FILE_GEN | $TABU 1>> tabu_$g.out 2>> tabu_$g.dat
+	# echo "Corriendo tabu.."
+	# cat $INPUT_FILE_GEN | $TABU 1>> tabu_$g.out 2>> tabu_$g.dat
 	echo "Listo!"
 done
 
-octave graficarCalidadChica.m
+# octave graficarCalidadChica.m
