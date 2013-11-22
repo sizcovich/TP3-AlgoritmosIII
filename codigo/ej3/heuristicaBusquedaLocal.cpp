@@ -11,6 +11,8 @@
 
 using namespace std; 
 
+int frontera=0;
+
 /*uint nodoDeMayorGrado(Grafo grafo){ //O(n)
 	uint mayorNodo = 1;
 	for(uint i = 1; i<grafo.nodos(); ++i){
@@ -162,7 +164,7 @@ vector<uint> busquedaLocal(Grafo grafo, uint m) {
 		}	
 		
 		cout << tamFrontera << " " << clique.size() << " ";
-		cerr << tamFrontera << " ";
+		frontera = tamFrontera;
 		for (int i = 0; i < clique.size(); i++) //O(n)
 			cout << clique[i] + 1<< " ";
 			
@@ -193,7 +195,7 @@ int main() {
 		
 		auto t2 = chrono::high_resolution_clock::now();
 		auto x = chrono::duration_cast<std::chrono::nanoseconds>(t2-t1).count();
-		cerr << n << " " << m << " " << (x/10) << endl;
+		cerr << frontera << " " << n << " " << m << " " << (x/10) << endl;
 		
 		termino = (cin >> ws).peek();
 	}

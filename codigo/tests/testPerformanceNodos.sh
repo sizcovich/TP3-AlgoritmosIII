@@ -8,7 +8,7 @@ TIPOS_DE_GRAFOS="4" # Identificadores de tipos de grafos que se van a hacer
 GRAFOS_POR_DENSIDAD="12" # Identificados de tipos de grafos para variar la cantidad de aristas
 CANT_NODOS_FIJA_PARA_DENSIDAD=1000 # Cantidad de nodos que van a tener los grafos donde variamos la cantidad de aristas
 CANT_NODOS_MIN=100 # CAntidad minima de nodos por cada grafo (MINIMO 15)
-CANT_NODOS_MAX=1000 # Cantidad maxima de nodos por cada grafo
+CANT_NODOS_MAX=700 # Cantidad maxima de nodos por cada grafo
 INPUT_FILE_GEN="/tmp/data.in" # Donde se guarda el .in (de donde se leen los datos para correr los programas)
 QUANT_PER_SIZE=1 # Por cada numero de nodos que cantidad de instancias se hacen
 INCREMENT=10 # De a cuanto se incrementa
@@ -40,12 +40,12 @@ g++ -std=c++0x ../ej3/busquedaTabu.cpp -o ../ej3/busquedaTabu
 rm $INPUT_FILE_GEN
 echo "Creando grafos de tipo completo..."
 ./graph_generator 4 $CANT_NODOS_MIN $CANT_NODOS_MAX $INPUT_FILE_GEN $QUANT_PER_SIZE $INCREMENT $DENSITY
-echo "Corriendo goloso.."
-cat $INPUT_FILE_GEN | $GOLOSO 1>> /dev/null 2>> goloso_4_prueba.dat
+# echo "Corriendo goloso.."
+# cat $INPUT_FILE_GEN | $GOLOSO 1>> /dev/null 2>> performance/goloso_4.dat
 echo "Corriendo local.."
-cat $INPUT_FILE_GEN | $LOCAL 1>> /dev/null 2>> local_4.dat
+cat $INPUT_FILE_GEN | $LOCAL 1>> /dev/null 2>> performance/local_4.dat
 echo "Corriendo tabu.."
-cat $INPUT_FILE_GEN | $TABU 1>> /dev/null 2>> tabu_4.dat
+cat $INPUT_FILE_GEN | $TABU 1>> /dev/null 2>> performance/tabu_4.dat
 echo "Listo!"
 
 # rm $INPUT_FILE_GEN
