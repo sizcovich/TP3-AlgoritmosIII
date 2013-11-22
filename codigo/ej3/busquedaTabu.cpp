@@ -24,13 +24,12 @@ unsigned int INF;
 pair<conjNodo,uint> eliminarNodo(Grafo grafo, vector<uint> clique) { //quito el de menor grado 
 	uint fronteraClique = grafo.frontera(clique);//O(n)
 	
-	if (clique.size()!=0){
+	if (clique.size()==0){
+		return (make_pair(clique,INF));
+	}
 	uint minimo = grafo.vecindad(clique[0]).size(); //seteo un grado
 	uint minimoNodo = 0;
 	uint aux;
-	}else{
-		return (make_pair(clique,INF));
-	}
 
 	for (uint i = 1; i < clique.size(); i++){ // calculo cual es el nodo de clique de menor grado //O(n)
 		aux = grafo.vecindad(clique[i]).size();
