@@ -1,5 +1,3 @@
-\subsection{Heurística de Búsqueda Tabú}
-
 En este sector, se busca resolver el problema de CMF a partir de una Heurística de Búsqueda Tabú (Tabu search\footnote{Glover, F. "Tabu Search — Part I", ORSA Journal on Computing 1989}). Dicha heurística consiste en una estrategia para resolver problemas combinatorios, aplicable tanto en grafos como en otras estructuras utilizadas para resolver problemas de lógica. Este método utiliza el mismo procedimiento que Búsqueda Local\footnote{Ver sección anterior.} para acercarse progresivamente a una mejor solución dentro de un entorno. Dado que en ciertos casos la solución no puede ser mejorada, la técnica de Búsqueda Tabú permite empeorarla parcialmente para proseguir la búsqueda de una mejor. A su vez, esta heurística concede una estructura llamada $lista\ tabu$ con distintas utilidades. Principalmente, sirve para guardar movimientos de modo a no repetirlos y/o guardar características o soluciones, entre otras. A continuación, se encuentra explicitado el pseudocódigo\footnote{http://www.dc.uba.ar/materias/aed3/2013/2c/laboratorio/heuristicas.pdf} de la heurística de Búsqueda Tabú:
 
 \begin{algorithm}[H]
@@ -15,7 +13,7 @@ s $\leftarrow$ mejor solucion en N. \\
 Actualizar la lista tabu T }
 \end{algorithm}
 
-\subsubsection{Explicación del algoritmo realizado}
+\subsection{Explicación del algoritmo realizado}
 
  El algoritmo realizado parte de un valor entero positivo ingresado como parámetro, $desviacion\_permitida$, y de una solución provista por la Heurística de Búsqueda Local. A partir de esta última, el algoritmo busca, paulatinamente, una mejor solución siguiendo las siguientes opciones:
 \begin{itemize}
@@ -130,7 +128,7 @@ Donde:
  \item Es Tabu aceptable : Un nodo perteneciente a la lista tabu es aceptable si su prioridad es menor a la mitad de la prioridad maxima.
 \end{itemize}
 
-\subsubsection{Complejidad Temporal}
+\subsection{Complejidad Temporal}
 
  Para desarrollar la complejidad de este algoritmo comencemos estudiando las estructuras y las formas en las que guardamos los datos. \newline
 
@@ -161,7 +159,7 @@ Donde:
  De esta manera la complejidad final del algoritmo es O($cant.nodos$$^{4}$) + O($cant.nodos$$^{2}$) + O($cant.nodos$) * O($cant.nodos$$^{2}$) = O($cant.nodos$$^{4}$) , notando que $subida$ es a lo sumo $cant.nodos$ ya que en el peor caso puede ir de 0 a $cant.nodos$ (por eso la complejidad de ese ciclo queda lineal). 
 
 
-\subsubsection{Instancias problemáticas}
+\subsection{Instancias problemáticas}
 
  Aquí detallaremos instancias donde nuestra heuristica no encuentra soluciones cercanas a las optimas, o aun peor, se puede empeorar la solución cuanto uno quiera.
 
@@ -175,6 +173,6 @@ Donde:
 
 Se puede observar como la mayoría de problemas encontrados se deben al proceso de intensificación, aunque en muchos casos puede ser muy favorable, en otros seria mejor aplicar técnicas de diversificación, como por ejemplo, variar la entrada por nodos de diferentes cliques máximas, colaborando mucho en la búsqueda de soluciones mas diversas.
 
-\subsubsection{Experimentación}
+\subsection{Experimentación}
 
  En esta sección buscamos encontrar un numero correcto para asignarle $desviacion_permitida$ de tal forma de amortiguar lo mas posible tiempo con resultados y por otro lado, probamos el algoritmo con diferentes instancias y así ver cuanto tardan .
