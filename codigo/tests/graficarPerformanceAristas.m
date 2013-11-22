@@ -27,7 +27,6 @@ ylabel("Tiempo de ejecución (ns)");
 legend("Heuristica Golosa", "Heuristica Local");
 grid;
 
-set(gca,'XTick',0:10:100);
 set(gcf,'PaperUnits','inches','PaperPosition',[0 0 8.5 5])
 
 print("versus_performance_aristas.jpg");
