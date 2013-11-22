@@ -22,7 +22,7 @@ local_dat=load("local_12.dat");
 plot(goloso_dat(:,3), goloso_dat(:,4), '-r', 'LineWidth', 2,local_dat(:,3), local_dat(:,4), '-g', 'LineWidth', 2);
 #plot(goloso_dat(:,2), goloso_dat(:,3), '-r', 'LineWidth', 2,local_dat(:,2), local_dat(:,3), '-g', 'LineWidth', 2,tabu_dat(:,2), tabu_dat(:,3), '-b', 'LineWidth', 2);
 title("Comparación de performance para grafos conexos por densidad");
-xlabel("Porcentaje de aristas");
+xlabel("Cantidad de aristas");
 ylabel("Tiempo de ejecución (ns)");
 legend("Heuristica Golosa", "Heuristica Local");
 grid;
