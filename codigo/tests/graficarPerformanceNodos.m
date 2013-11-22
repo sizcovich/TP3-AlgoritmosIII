@@ -17,30 +17,32 @@ hold off;
 
 goloso_dat=load("goloso_4.dat");
 local_dat=load("local_4.dat");
-tabu_dat=load("tabu_4.dat");
+#tabu_dat=load("tabu_4.dat");
 
-plot(goloso_dat(:,1), goloso_dat(:,3), '-r', 'LineWidth', 2,local_dat(:,1), local_dat(:,3), '-g', 'LineWidth', 2,tabu_dat(:,1), tabu_dat(:,3), '-b', 'LineWidth', 2);
-title("Comparación de calidad de soluciones para grafos tipo Rueda");
+plot(goloso_dat(:,2), goloso_dat(:,4), '-r', 'LineWidth', 2,local_dat(:,2), local_dat(:,4), '-g', 'LineWidth', 2);
+#plot(goloso_dat(:,1), goloso_dat(:,3), '-r', 'LineWidth', 2,local_dat(:,1), local_dat(:,3), '-g', 'LineWidth', 2,tabu_dat(:,1), tabu_dat(:,3), '-b', 'LineWidth', 2);
+title("Comparación de performance para grafos tipo completos");
 xlabel("Cantidad de nodos");
-ylabel("Calidad de la solución");
-legend("Heuristica Golosa", "Heuristica Local", "Metaheuristica Tabu");
+ylabel("Tiempo de ejecución (ns)");
+legend("Heuristica Golosa", "Heuristica Local";
 grid;
 
 set(gcf,'PaperUnits','inches','PaperPosition',[0 0 8.5 5])
 
-print("versus_rueda_performance_nodos_completo.jpg");
+print("versus_performance_nodos_completo.jpg");
 
 goloso_dat=load("goloso_12.dat");
 local_dat=load("local_12.dat");
 tabu_dat=load("tabu_12.dat");
 
-plot(goloso_dat(:,1), goloso_dat(:,3), '-r', 'LineWidth', 2,local_dat(:,1), local_dat(:,3), '-g', 'LineWidth', 2,tabu_dat(:,1), tabu_dat(:,3), '-b', 'LineWidth', 2);
-title("Comparación de calidad de soluciones para grafos tipo Rueda");
+plot(goloso_dat(:,2), goloso_dat(:,4), '-r', 'LineWidth', 2,local_dat(:,2), local_dat(:,4), '-g', 'LineWidth', 2);
+#plot(goloso_dat(:,1), goloso_dat(:,3), '-r', 'LineWidth', 2,local_dat(:,1), local_dat(:,3), '-g', 'LineWidth', 2,tabu_dat(:,1), tabu_dat(:,3), '-b', 'LineWidth', 2);
+title("Comparación de performance de soluciones para grafos conexos");
 xlabel("Cantidad de nodos");
-ylabel("Calidad de la solución");
-legend("Heuristica Golosa", "Heuristica Local", "Metaheuristica Tabu");
+ylabel("Tiempo de ejecución (ns)");
+legend("Heuristica Golosa", "Heuristica Local");
 grid;
 
 set(gcf,'PaperUnits','inches','PaperPosition',[0 0 8.5 5])
 
-print("versus_rueda_performance_nodos_conexo.jpg");
+print("versus_performance_nodos_conexo.jpg");
