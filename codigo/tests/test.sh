@@ -119,6 +119,7 @@ function tabuComplejidad {
 	rm tabu_complejidad_nodos.dat
 	rm tabu_complejidad_aristas.dat
 
+	
 	rm $INPUT_FILE_GEN 
 	echo "Creando grafos de tipo random por nodos (densidad 50%)..." 
 	./graph_generator 12 10 1000 $INPUT_FILE_GEN $QUANT_PER_SIZE $INCREMENT "0.95" 
@@ -126,14 +127,14 @@ function tabuComplejidad {
 	cat $INPUT_FILE_GEN | $TABU 1>> tabu_complejidad_nodos.out 2>> tabu_complejidad_nodos.dat 
 	echo "Listo!.." 
 
-	for (( i = 10; i < 100; i=i+5 )); do 
-		rm $INPUT_FILE_GEN 
-		echo "Creando grafos de tipo $g..." 
-		./graph_generator 12 2000 2000 $INPUT_FILE_GEN $QUANT_PER_SIZE 1 "0.$i" 
-		echo "Corriendo metaheuristica..." 
-		cat $INPUT_FILE_GEN | $TABU 1>> tabu_complejidad_aristas.out 2>> tabu_complejidad_aristas.dat 
-		echo "Listo!.." 
-	done 
+	#for (( i = 10; i < 100; i=i+5 )); do 
+	#	rm $INPUT_FILE_GEN 
+	#	echo "Creando grafos de tipo $g..." 
+	#	./graph_generator 12 2000 2000 $INPUT_FILE_GEN $QUANT_PER_SIZE 1 "0.$i" 
+	#	echo "Corriendo metaheuristica..." 
+	#	cat $INPUT_FILE_GEN | $TABU 1>> tabu_complejidad_aristas.out 2>> tabu_complejidad_aristas.dat 
+	#	echo "Listo!.." 
+	#done 
 }
 
 function todo {

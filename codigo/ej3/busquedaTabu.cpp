@@ -9,7 +9,10 @@
 #include <iterator>
 #include "grafo.h"
 
+
 using namespace std; 
+
+#include "header/localsearch.h"
 
 typedef vector<uint> conjNodo;
 
@@ -184,11 +187,13 @@ int main() {
 		}
 		
 		auto t1 = chrono::high_resolution_clock::now();
+		vector <uint> res;
 		for (int i = 0; i < 10; ++i)
 		{
-			vector <uint> res;
+			res.clear();
 			res.push_back(0);
 			int desviacion_permitida = grafo.nodos()/2;
+			res = busquedaLocal(grafo, res, m);
 			res = tabusearch(res,grafo,desviacion_permitida);
 		}
 		auto t2 = chrono::high_resolution_clock::now();
