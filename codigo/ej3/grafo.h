@@ -10,6 +10,8 @@ class Grafo {
 				vecinos(nodos, vuint()), //O(n)
 				adyacencia(nodos, std::vector<bool>(nodos, false)), //O(n²)
 				cnodos(nodos) { //O(1)
+					for (int i = 0; i < nodos; ++i)
+						vecinos[i].reserve(nodos);
 				}
 			
 			//Cantidad de nodos
