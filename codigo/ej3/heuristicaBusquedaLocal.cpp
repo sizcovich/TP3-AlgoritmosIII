@@ -162,6 +162,7 @@ vector<uint> busquedaLocal(Grafo grafo, uint m) {
 		}	
 		
 		cout << tamFrontera << " " << clique.size() << " ";
+		cerr << tamFrontera << " ";
 		for (int i = 0; i < clique.size(); i++) //O(n)
 			cout << clique[i] + 1<< " ";
 			

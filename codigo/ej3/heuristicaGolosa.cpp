@@ -42,7 +42,7 @@ int main() {
 		
 		auto t2 = chrono::high_resolution_clock::now();
 		auto x = chrono::duration_cast<std::chrono::nanoseconds>(t2-t1).count();
-		cerr << n << " " << m << " " << x << endl;
+		cerr << grafo.frontera(clique) << " " << n << " " << m << " " << x << endl;
 		
 		termino = (cin >> ws).peek();
 	}
