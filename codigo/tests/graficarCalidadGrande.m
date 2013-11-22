@@ -43,7 +43,7 @@ local=load("calidadGrande/local_3.dat");
 
 
 plot(goloso(:,2), goloso(:,1), '-r', 'LineWidth', 2,local(:,2), local(:,1), '-g', 'LineWidth', 2);
-plot(goloso(:,1), goloso(:,1), '-r', 'LineWidth', 2,local(:,1), local_dat(:,1), '-g', 'LineWidth', 2,tabu(:,1), tabu_dat(:,1), '-b', 'LineWidth', 2);
+#plot(goloso(:,1), goloso(:,1), '-r', 'LineWidth', 2,local(:,1), local_dat(:,1), '-g', 'LineWidth', 2,tabu(:,1), tabu_dat(:,1), '-b', 'LineWidth', 2);
 title("Comparación de calidad de soluciones para grafos tipo Banana");
 xlabel("Cantidad de nodos");
 ylabel("Calidad de la solución");
