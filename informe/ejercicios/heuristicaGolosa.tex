@@ -22,7 +22,12 @@ donde $nodoDeMasGrado$ consiste en una función que toma el nodo del grafo cuyo 
 \subsection{Complejidad Temporal}
 Veamos cuál es la complejidad temporal del algoritmo realizado:
 \begin{itemize}
-\item En primer lugar, para hallar el $nodoDeMayorGrado$, el único procedimiento a realizar consiste en recorrer todos los nodos ($\mathcal{O}(n)$) y almacenar el de mayor grado en cada paso ($\mathcal{O}(1)$).
+\item En primer lugar, el algoritmo utiliza la función $esClique$ para verificar si un conjunto de nodos de un grafo forman una clique. Dicha función consiste en dos ciclos, uno dentro de otro, que iteran cantidad de la clique veces, lo que resulta $\mathcal{O}(n^2)$ como peor caso. Dentro de los ciclos mencionados, se realizan dos comparaciones, donde una de ellas utiliza la función $sonVecinos$ ($\mathcal{O}(1)$). Luego, la complejidad temporal de la función $esClique$ resulta $\mathcal{O}(n^2)*\mathcal{O}(1)$ = $\mathcal{O}(n^2)$.
+
+\item Por otro lado, la función $greedySearch$ crea un vector inicializado en 1 de tamaño $nodoDeMayorGrado$ ($\mathcal{O}(n)$) y un entero al que se le asigna el valor de la frontera de $cliqueHastaAhora$. Dicho valor se calcula con $frontera$ en $\mathcal{O}(n)$. Luego, se ejecuta un ciclo con la cantidad de nodos ($\mathcal{O}(n)$) en el que se realiza un $push\_back$ ($\mathcal{O}(1)$ amortizado\footnote{http://www.cplusplus.com/reference/vector/vector/push\_back/}) y se verifica que el vector $cliqueHastaAhora$ sea una clique con la función $esClique$ ($\mathcal{O}(n^2)$). Si dicha verificación resulta afirmativa, se compara la frontera de $cliqueHastaAhora$ con un entero ($\mathcal{O}(n)$) y luego se le asigna la nueva frontera a $fronteraHastaAhora$ (con la función $frontera$ en $\mathcal{O}(n)$). Caso contrario, se retira el último elemento agregado a la clique con $pop\_back()$ ($\mathcal{O}(1)$\footnote{http://www.cplusplus.com/reference/vector/vector/pop\_back/}).\newline
+\newline
+Luego, la complejidad temporal de la función $greedySearch$ resulta $2^*\mathcal{O}(n)+\mathcal{O}(n)^*\mathcal{O}(n)^*\mathcal{O}(n^2)$ = $\mathcal{O}(n^4)$.
+
 \end{itemize}
 \subsection{Instancias problemáticas}
 Hay que decir que es asíntico, que se rompe muy fácil, como por ejemplo cuando la clique de maxima frontera no contiene al nodo de mayor grado.

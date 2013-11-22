@@ -89,7 +89,7 @@ Luego, podemos determinar que la complejidad de nuestro algoritmo exacto resulta
 Veamos cuál es el costo de realizar cada paso:
 \begin{itemize}
 \item La función $calcularFrontera$ realiza un ciclo con la cantidad de nodos, en $\mathcal{O}(n)$, que es calculada con $size() (\mathcal{O}(1))$. En dicho ciclo, se le suma a un entero ($res$) el valor de un vector ($g$) al que se accede para, luego, acceder a otro ($nodos$) y se le resta 1 a este último. Esto se realiza en $\mathcal{O}(1)*\mathcal{O}(1)$ = $\mathcal{O}(1)$. Luego, la complejidad de dicha función resulta $\mathcal{O}(n)*\mathcal{O}(1)$ = $\mathcal{O}(n)$.
-\item Por otro lado, la función $interseccionNAdyacentes$ comienza creando un vector ($v\_interseccion$), cuya complejidad temporal es $\mathcal{O}(n)$\footnote{http://www.cplusplus.com/reference/vector/vector/vector/} pues consiste en un constructor por copia, y un vector $v\_tmp$ por default en $\mathcal{O}(1)$. Luego, realiza un ciclo iterando la cantidad de nodos ($indices$) recibidos por parámetro, siendo $\#indices \leq n$. En dicho ciclo, ejecuta la función $set\_intersection$ ($\mathcal{O}(2*(n+n)-1)$\footnote{http://www.cplusplus.com/reference/algorithm/set_intersection/?kw=set\_intersection}). Para dicha ejecución, toma el primer y último elemento de $v\_intersection$ con $begin()$ ($\mathcal{O}(1)$\footnote{http://www.cplusplus.com/reference/vector/vector/begin/}) y $end()$ ($\mathcal{O}(1)$\footnote{http://www.cplusplus.com/reference/vector/vector/end/}), como también el $back\_inserter$ de $v\_temp$ ($\mathcal{O}(n)$) y el primer y último elemento del arreglo $g$ en la posicion $indices(i)$. Dado que éstos últimos son accesos a arreglos, se realizan en $\mathcal{O}(1)$. Luego, la complejidad temporal de dicho ciclo resulta $\mathcal{O}(n)*5\mathcal{O}(1)*\mathcal{O}(n)$ = $\mathcal{O}(n^2)$.\newline
+\item Por otro lado, la función $interseccionNAdyacentes$ comienza creando un vector ($v\_interseccion$), cuya complejidad temporal es $\mathcal{O}(n)$\footnote{http://www.cplusplus.com/reference/vector/vector/vector/} pues consiste en un constructor por copia, y un vector $v\_tmp$ por default en $\mathcal{O}(1)$. Luego, realiza un ciclo iterando la cantidad de nodos ($indices$) recibidos por parámetro, siendo $\#indices \leq n$. En dicho ciclo, ejecuta la función $set\_intersection$ ($\mathcal{O}(2*(n+n)-1)$\footnote{http://www.cplusplus.com/reference/algorithm/set\_intersection/?kw=set\_intersection}). Para dicha ejecución, toma el primer y último elemento de $v\_intersection$ con $begin()$ ($\mathcal{O}(1)$\footnote{http://www.cplusplus.com/reference/vector/vector/begin/}) y $end()$ ($\mathcal{O}(1)$\footnote{http://www.cplusplus.com/reference/vector/vector/end/}), como también el $back\_inserter$ de $v\_temp$ ($\mathcal{O}(n)$) y el primer y último elemento del arreglo $g$ en la posicion $indices(i)$. Dado que éstos últimos son accesos a arreglos, se realizan en $\mathcal{O}(1)$. Luego, la complejidad temporal de dicho ciclo resulta $\mathcal{O}(n)*5\mathcal{O}(1)*\mathcal{O}(n)$ = $\mathcal{O}(n^2)$.\newline
 \newline
 Por otro lado, se crea una cola por default en $\mathcal{O}(1)$\footnote{//www.cplusplus.com/reference/queue/queue/queue/} y, luego, se llama a un nuevo ciclo que recorre el vector $v\_intersection$ (cuyo peor caso es $\mathcal{O}(n)$). Dentro de dicho ciclo, se realiza una comparación entre un elemento de $indices$ y uno de $v\_interseccion$ ($\mathcal{O}(1)$ pues los accesos son $\mathcal{O}(1)$ cada uno y la comparación es $\mathcal{O}(1)$). Por otro lado, se realiza también un $push()$ ($\mathcal{O}(n)$\footnote{//www.cplusplus.com/reference/queue/queue/push/}). Luego, la complejidad temporal de dicho ciclo resulta $\mathcal{O}(n)*\mathcal{O}(1)*\mathcal{O}(1)$ = $\mathcal{O}(n)$.\newline
 \newline
@@ -109,9 +109,17 @@ Finalmente, podemos afirmar que la complejidad temporal de nuestro algoritmo exa
 
 \subsection{Experimentación}
 
+Para las pruebas de complejidad empírica, utilizamos los tests aleatorios proporcionados por la cátedra. Las mediciones de tiempo en nanosegundos se realizaron con la función $high\ resolution\ clock$\footnote{http://en.cppreference.com/w/cpp/chrono/high\_resolution\_clock} de la librería $Chrono$ de $C++$. 
 
+Las funciones de complejidad con las que se compararon nuestros gráficos de tiempo fueron ajustadas por algoritmos matemáticos (proporcionados por \textbf{sci davis}). Dichos algoritmos se encargaron de multiplicarle y sumarle constantes a las funciones con el fin de que éstas se ajustaran a nuestros resultados sin modificar el comportamiento de las funciones utilizadas para comparar.
+	
+\begin{figure}[H] %[h] Aqui [b] para button [t] para top
+\begin{center}
+\includegraphics[width=350pt]{../imgs/exactoComplejidad.jpg}
+\end{center}
+\end{figure}
 
-
+Como puede observarse en el gráfico anterior, la complejidad de nuestro algoritmo exacto se encuentra acotada por una función exponencial.
 
 
 

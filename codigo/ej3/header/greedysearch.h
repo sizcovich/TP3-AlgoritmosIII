@@ -10,7 +10,7 @@ bool esClique(Grafo grafo, vector<uint> clique){ //O(n²)
 }
 
 vector<uint> greedysearch(Grafo grafo){ //O(n⁴)
-    vector<uint> cliqueHastaAhora(1,grafo.nodoDeMayorGrado()); //O(1)
+    vector<uint> cliqueHastaAhora(1,grafo.nodoDeMayorGrado()); //O(n)
     uint fronteraHastaAhora = grafo.frontera(cliqueHastaAhora); //pongo el grado del nodo de mayor grado - O(n)
 	for(uint i = 0; i<grafo.nodos();++i){ //O(n)
         cliqueHastaAhora.push_back(i); //inserto el nodo i - O(1)
