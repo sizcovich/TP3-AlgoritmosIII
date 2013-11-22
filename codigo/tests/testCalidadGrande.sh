@@ -19,26 +19,25 @@ TABU="../ej3/busquedaTabu"
 # 15  	GREEDY_IN_CMF					Estrella+CMF
 # 17  	STAR_BRIDGE_DOUBLE_STAR			Estrella+Puente+Doble Estrella
 
-
 echo "Corriendo test de calidad de la solucion para algoritmos grades: "
 echo "Compilando..."
 rm ../ej3/heuristicaGolosa
 g++ -std=c++0x ../ej3/heuristicaGolosa.cpp -o ../ej3/heuristicaGolosa
 rm ../ej3/heuristicaBusquedaLocal
 g++ -std=c++0x ../ej3/heuristicaBusquedaLocal.cpp -o ../ej3/heuristicaBusquedaLocal
-rm ../ej3/busquedaTabu
-g++ -std=c++0x ../ej3/busquedaTabu.cpp -o ../ej3/busquedaTabu
+# rm ../ej3/busquedaTabu
+# g++ -std=c++0x ../ej3/busquedaTabu.cpp -o ../ej3/busquedaTabu
 
 for i in $TIPOS_DE_GRAFOS; do
 	echo "Creando grafos de tipo $i..."
 	rm $INPUT_FILE_GEN
 	./graph_generator $i $CANT_NODOS_MIN $CANT_NODOS_MAX $INPUT_FILE_GEN $QUANT_PER_SIZE $INCREMENT
 	echo "Corriendo goloso.."
-	cat $INPUT_FILE_GEN | $GOLOSO 1>> goloso_$i.out 2>> goloso_$i.dat
+	cat $INPUT_FILE_GEN | $GOLOSO 1> /dev/null 2>> calidadGrande/goloso_$i.dat
 	echo "Corriendo local.."
-	cat $INPUT_FILE_GEN | $LOCAL 1>> local_$i.out 2>> local_$i.dat
-	echo "Corriendo tabu.."
-	cat $INPUT_FILE_GEN | $TABU 1>> tabu_$i.out 2>> tabu_$i.dat
+	cat $INPUT_FILE_GEN | $LOCAL 1> /dev/null 2>> calidadGrande/local_$i.dat
+	# echo "Corriendo tabu.."
+	# cat $INPUT_FILE_GEN | $TABU 1>> tabu_$i.out 2>> tabu_$i.dat
 	echo "Listo!"
 done
 
