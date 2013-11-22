@@ -141,6 +141,8 @@ int main() {
 	int termino = '1';
 	while (termino != '0') {
 		g.clear();
+		maxCmf=-1;
+		cmf.clear();
 		cin >> n;
 		cin >> m;
 		int v1, v2;
