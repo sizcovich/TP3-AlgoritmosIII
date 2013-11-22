@@ -32,7 +32,12 @@ int main() {
 		
 		auto t1 = chrono::high_resolution_clock::now();
 
-		clique = greedysearch(grafo);
+		for (int i = 0; i < 10; ++i)
+		{
+			clique = greedysearch(grafo);
+			/* code */
+		}
+
 		
 		cout << grafo.frontera(clique) << " " << clique.size() << " ";
 		for (uint i = 0; i < clique.size(); i++) //O(n)
@@ -42,7 +47,7 @@ int main() {
 		
 		auto t2 = chrono::high_resolution_clock::now();
 		auto x = chrono::duration_cast<std::chrono::nanoseconds>(t2-t1).count();
-		cerr << grafo.frontera(clique) << " " << n << " " << m << " " << x << endl;
+		cerr << grafo.frontera(clique) << " " << n << " " << m << " " << (x/10) << endl;
 		
 		termino = (cin >> ws).peek();
 	}
