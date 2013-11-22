@@ -37,26 +37,28 @@ g++ -std=c++0x ../ej3/heuristicaBusquedaLocal.cpp -o ../ej3/heuristicaBusquedaLo
 rm ../ej3/busquedaTabu
 g++ -std=c++0x ../ej3/busquedaTabu.cpp -o ../ej3/busquedaTabu
 
-rm $INPUT_FILE_GEN
-echo "Creando grafos de tipo completo..."
-./graph_generator 4 $CANT_NODOS_MIN $CANT_NODOS_MAX $INPUT_FILE_GEN $QUANT_PER_SIZE $INCREMENT $DENSITY
+# rm $INPUT_FILE_GEN
+# echo "Creando grafos de tipo completo..."
+# ./graph_generator 4 $CANT_NODOS_MIN $CANT_NODOS_MAX $INPUT_FILE_GEN $QUANT_PER_SIZE $INCREMENT $DENSITY
 # echo "Corriendo goloso.."
 # cat $INPUT_FILE_GEN | $GOLOSO 1>> /dev/null 2>> performance/goloso_4.dat
-echo "Corriendo local.."
-cat $INPUT_FILE_GEN | $LOCAL 1>> /dev/null 2>> performance/local_4.dat
-echo "Corriendo tabu.."
-cat $INPUT_FILE_GEN | $TABU 1>> /dev/null 2>> performance/tabu_4.dat
-echo "Listo!"
-
-# rm $INPUT_FILE_GEN
-# echo "Creando grafos de tipo conexo..."
-# ./graph_generator 12 $CANT_NODOS_MIN $CANT_NODOS_MAX $INPUT_FILE_GEN $QUANT_PER_SIZE 1 "0.5"
-# echo "Corriendo goloso.."
-# cat $INPUT_FILE_GEN | $GOLOSO 1>> /dev/null 2>> goloso_12.dat
 # echo "Corriendo local.."
-# cat $INPUT_FILE_GEN | $LOCAL 1>> /dev/null 2>> local_12.dat
-# # echo "Corriendo tabu.."
-# # cat $INPUT_FILE_GEN | $TABU 1>> /dev/null 2>> tabu_12.dat
+# cat $INPUT_FILE_GEN | $LOCAL 1>> /dev/null 2>> performance/local_4.dat
+
+# echo "Corriendo tabu.."
+# rm performance/tabu_4.dat
+# cat $INPUT_FILE_GEN | $TABU 1>> /dev/null 2>> performance/tabu_4.dat
 # echo "Listo!"
+
+rm $INPUT_FILE_GEN
+echo "Creando grafos de tipo conexo..."
+./graph_generator 12 $CANT_NODOS_MIN $CANT_NODOS_MAX $INPUT_FILE_GEN $QUANT_PER_SIZE $INCREMENT "0.5"
+echo "Corriendo goloso.."
+cat $INPUT_FILE_GEN | $GOLOSO 1>> /dev/null 2>> performance/goloso_12.dat
+echo "Corriendo local.."
+cat $INPUT_FILE_GEN | $LOCAL 1>> /dev/null 2>> performance/local_12.dat
+echo "Corriendo tabu.."
+cat $INPUT_FILE_GEN | $TABU 1>> /dev/null 2>> performance/tabu_12.dat
+echo "Listo!"
 
 # octave graficarPerformanceNodos.m
