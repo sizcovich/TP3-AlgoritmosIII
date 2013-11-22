@@ -195,7 +195,7 @@ int main() {
 		{
 			res.clear();
 			res.push_back(0);
-			int desviacion_permitida = grafo.nodos()/2;
+			int desviacion_permitida = log(grafo.nodos());
 			res = busquedaLocal(grafo, res, m);
 			res = tabusearch(res,grafo,desviacion_permitida);
 		}
