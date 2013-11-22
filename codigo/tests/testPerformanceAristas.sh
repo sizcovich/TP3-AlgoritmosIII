@@ -26,24 +26,24 @@ TABU="../ej3/busquedaTabu"
 
 echo "Corriendo todos los test..."
 echo "Compilando..."
-rm ../ej3/heuristicaGolosa
-g++ -std=c++0x ../ej3/heuristicaGolosa.cpp -o ../ej3/heuristicaGolosa
-rm ../ej3/heuristicaBusquedaLocal
-g++ -std=c++0x ../ej3/heuristicaBusquedaLocal.cpp -o ../ej3/heuristicaBusquedaLocal
-# rm ../ej3/busquedaTabu
-# g++ -std=c++0x ../ej3/busquedaTabu.cpp -o ../ej3/busquedaTabu
+# rm ../ej3/heuristicaGolosa
+# g++ -std=c++0x ../ej3/heuristicaGolosa.cpp -o ../ej3/heuristicaGolosa
+# rm ../ej3/heuristicaBusquedaLocal
+# g++ -std=c++0x ../ej3/heuristicaBusquedaLocal.cpp -o ../ej3/heuristicaBusquedaLocal
+rm ../ej3/busquedaTabu
+g++ -std=c++0x ../ej3/busquedaTabu.cpp -o ../ej3/busquedaTabu
 
 for (( i = 10; i < 100; i=i+5 )); do	
 	rm $INPUT_FILE_GEN
 	echo "Creando grafos de tipo 12..."
 	./graph_generator 12 $CANT_NODOS_FIJA_PARA_DENSIDAD $CANT_NODOS_FIJA_PARA_DENSIDAD $INPUT_FILE_GEN $QUANT_PER_SIZE 1 "0.$i"
-	echo "Corriendo goloso.."
-	cat $INPUT_FILE_GEN | $GOLOSO 1>> goloso_12.out 2>> goloso_12.dat
-	echo "Corriendo local.."
-	cat $INPUT_FILE_GEN | $LOCAL 1>> local_12.out 2>> local_12.dat
-	# echo "Corriendo tabu.."
-	# cat $INPUT_FILE_GEN | $TABU 1>> tabu_12.out 2>> tabu_12.dat
+	# echo "Corriendo goloso.."
+	# cat $INPUT_FILE_GEN | $GOLOSO 1>> goloso_12.out 2>> goloso_12.dat
+	# echo "Corriendo local.."
+	# cat $INPUT_FILE_GEN | $LOCAL 1>> local_12.out 2>> local_12.dat
+	echo "Corriendo tabu.."
+	cat $INPUT_FILE_GEN | $TABU 1>> /dev/null 2>> performanceAristas/tabu_12_aristas.dat
 	echo "Listo!"
 done
 
-octave graficarPerformanceAristas.m
+# octave graficarPerformanceAristas.m
