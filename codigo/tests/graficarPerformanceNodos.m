@@ -24,7 +24,7 @@ plot(goloso_dat(:,2), goloso_dat(:,4), '-r', 'LineWidth', 2,local_dat(:,2), loca
 title("Comparación de performance para grafos tipo completos");
 xlabel("Cantidad de nodos");
 ylabel("Tiempo de ejecución (ns)");
-legend("Heuristica Golosa", "Heuristica Local";
+legend("Heuristica Golosa", "Heuristica Local");
 grid;
 
 set(gcf,'PaperUnits','inches','PaperPosition',[0 0 8.5 5])
