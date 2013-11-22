@@ -158,7 +158,7 @@ int main() {
 		exacto();
 		auto t2 = chrono::high_resolution_clock::now();
 		auto x = chrono::duration_cast<std::chrono::nanoseconds>(t2-t1).count();
-		cerr << n << " " << x << endl;
+		cerr << maxCmf << " " << n << " " << x << endl;
 		termino = (cin >> ws).peek();
 	}
 
