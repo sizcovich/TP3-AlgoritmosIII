@@ -29,7 +29,7 @@ echo "Compilando..."
 # rm ../ej3/heuristicaBusquedaLocal
 # g++ -std=c++0x ../ej3/heuristicaBusquedaLocal.cpp -o $LOCAL
 rm ../ej3/busquedaTabu
-g++ -std=c++0x ../ej3/busquedaTabu.cpp -o $TABU
+g++ -std=c++0x -O2 ../ej3/busquedaTabu.cpp -o $TABU
 
 rm calidadChica/tabu_*.dat
 
