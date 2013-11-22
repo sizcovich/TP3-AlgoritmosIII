@@ -8,7 +8,7 @@ TIPOS_DE_GRAFOS="4" # Identificadores de tipos de grafos que se van a hacer
 GRAFOS_POR_DENSIDAD="12" # Identificados de tipos de grafos para variar la cantidad de aristas
 CANT_NODOS_FIJA_PARA_DENSIDAD=1000 # Cantidad de nodos que van a tener los grafos donde variamos la cantidad de aristas
 CANT_NODOS_MIN=100 # CAntidad minima de nodos por cada grafo (MINIMO 15)
-CANT_NODOS_MAX=3000 # Cantidad maxima de nodos por cada grafo
+CANT_NODOS_MAX=1000 # Cantidad maxima de nodos por cada grafo
 INPUT_FILE_GEN="/tmp/data.in" # Donde se guarda el .in (de donde se leen los datos para correr los programas)
 QUANT_PER_SIZE=1 # Por cada numero de nodos que cantidad de instancias se hacen
 INCREMENT=10 # De a cuanto se incrementa
@@ -34,29 +34,29 @@ rm ../ej3/heuristicaGolosa
 g++ -std=c++0x ../ej3/heuristicaGolosa.cpp -o ../ej3/heuristicaGolosa
 rm ../ej3/heuristicaBusquedaLocal
 g++ -std=c++0x ../ej3/heuristicaBusquedaLocal.cpp -o ../ej3/heuristicaBusquedaLocal
-rm ../ej3/busquedaTabu
-g++ -std=c++0x ../ej3/busquedaTabu.cpp -o ../ej3/busquedaTabu
+# rm ../ej3/busquedaTabu
+# g++ -std=c++0x ../ej3/busquedaTabu.cpp -o ../ej3/busquedaTabu
 
 rm $INPUT_FILE_GEN
-echo "Creando grafos de tipo $i..."
+echo "Creando grafos de tipo completo..."
 ./graph_generator 4 $CANT_NODOS_MIN $CANT_NODOS_MAX $INPUT_FILE_GEN $QUANT_PER_SIZE $INCREMENT $DENSITY
 echo "Corriendo goloso.."
-cat $INPUT_FILE_GEN | $GOLOSO 1>> goloso_4.out 2>> goloso_4.dat
+cat $INPUT_FILE_GEN | $GOLOSO 1>> /dev/null 2>> goloso_4.dat
 echo "Corriendo local.."
-cat $INPUT_FILE_GEN | $LOCAL 1>> local_4.out 2>> local_4.dat
-echo "Corriendo tabu.."
-cat $INPUT_FILE_GEN | $TABU 1>> tabu_4.out 2>> tabu_4.dat
+cat $INPUT_FILE_GEN | $LOCAL 1>> /dev/null 2>> local_4.dat
+# echo "Corriendo tabu.."
+# cat $INPUT_FILE_GEN | $TABU 1>> /dev/null 2>> tabu_4.dat
 echo "Listo!"
 
 rm $INPUT_FILE_GEN
-echo "Creando grafos de tipo $g..."
+echo "Creando grafos de tipo conexo..."
 ./graph_generator 12 $CANT_NODOS_MIN $CANT_NODOS_MAX $INPUT_FILE_GEN $QUANT_PER_SIZE 1 "0.5"
 echo "Corriendo goloso.."
-cat $INPUT_FILE_GEN | $GOLOSO 1>> goloso_12.out 2>> goloso_12.dat
+cat $INPUT_FILE_GEN | $GOLOSO 1>> /dev/null 2>> goloso_12.dat
 echo "Corriendo local.."
-cat $INPUT_FILE_GEN | $LOCAL 1>> local_12.out 2>> local_12.dat
-echo "Corriendo tabu.."
-cat $INPUT_FILE_GEN | $TABU 1>> tabu_12.out 2>> tabu_12.dat
+cat $INPUT_FILE_GEN | $LOCAL 1>> /dev/null 2>> local_12.dat
+# echo "Corriendo tabu.."
+# cat $INPUT_FILE_GEN | $TABU 1>> /dev/null 2>> tabu_12.dat
 echo "Listo!"
 
 octave graficarPerformanceNodos.m
