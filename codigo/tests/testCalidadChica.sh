@@ -1,6 +1,6 @@
 TIPOS_DE_GRAFOS="2 3 14 15 17" # Identificadores de tipos de grafos que se van a hacer
 CANT_NODOS_MIN=15 # CAntidad minima de nodos por cada grafo (MINIMO 15)
-CANT_NODOS_MAX=150 # Cantidad maxima de nodos por cada grafo
+CANT_NODOS_MAX=120 # Cantidad maxima de nodos por cada grafo
 INPUT_FILE_GEN="/tmp/data.in" # Donde se guarda el .in (de donde se leen los datos para correr los programas)
 QUANT_PER_SIZE=1 # Por cada numero de nodos que cantidad de instancias se hacen
 INCREMENT=10 # De a cuanto se incrementa
@@ -20,7 +20,7 @@ TABU="../ej3/busquedaTabu"
 # 17  	STAR_BRIDGE_DOUBLE_STAR			Estrella+Puente+Doble Estrella
 
 
-echo "Corriendo test de calidad de la solucion para algoritmos chicos: "
+echo "Corriendo test de calidad de la solucion para grafos chicos: "
 echo "Compilando..."
 rm ../ej2/ej2
 g++ -std=c++0x ../ej2/ej2.cpp -o ../ej2/ej2
@@ -36,11 +36,11 @@ for i in $TIPOS_DE_GRAFOS; do
 	rm $INPUT_FILE_GEN
 	./graph_generator $i $CANT_NODOS_MIN $CANT_NODOS_MAX $INPUT_FILE_GEN $QUANT_PER_SIZE $INCREMENT
 	echo "Corriendo exacto.."
-	cat $INPUT_FILE_GEN | $EXACTO 1>> exacto_$g.out 2>> exacto_$g.dat
+	cat $INPUT_FILE_GEN | $EXACTO 1>> /dev/null 2>> calidadChica/exacto_$g.dat
 	echo "Corriendo goloso.."
-	cat $INPUT_FILE_GEN | $GOLOSO 1>> goloso_$g.out 2>> goloso_$g.dat
+	cat $INPUT_FILE_GEN | $GOLOSO 1>> /dev/null 2>> calidadChica/goloso_$g.dat
 	echo "Corriendo local.."
-	cat $INPUT_FILE_GEN | $LOCAL 1>> local_$g.out 2>> local_$g.dat
+	cat $INPUT_FILE_GEN | $LOCAL 1>> /dev/null 2>> calidadChica/local_$g.dat
 	# echo "Corriendo tabu.."
 	# cat $INPUT_FILE_GEN | $TABU 1>> tabu_$g.out 2>> tabu_$g.dat
 	echo "Listo!"
