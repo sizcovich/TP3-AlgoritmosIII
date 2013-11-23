@@ -167,13 +167,14 @@ Donde:
   \item $La$ $solución$ $inicial$ $va$ $a$ $condicionar$ $la$ $final$. Como la solución inicial se encuentra en un máximo local solo le queda a la búsqueda "descender" en busca de un "nuevo ascenso" (Con ascender o descender nos referimos a mejorar o empeorar la solución actual respectivamente).
 
 
-  \item $El$ $conjunto$ $de$ $cliques$ $sepadaras$ $afectan$ $la$ $solución$. Cuando tenemos varias cliques máximas separadas, nosotros empezamos a explorar en una (que es donde la búsqueda local termino), si la solución optima se encuentra en otra clique a la que nuestra solución inicial no incide, el algoritmo difícilmente la halle. 
+  \item $El$ $conjunto$ $de$ $cliques$ $sepadaras$ $por$ $n/2+1$ $afectan$ $la$ $solución$. Cuando tenemos varias cliques máximas separadas por dicha cantidad de aristas puente, nosotros empezamos a explorar en una (que es donde la búsqueda local termino), si la solución optima se encuentra en otra clique a la que los separa dicha cantidad de aristas, el algoritmo no va a poder llegar a encontrar dicha solucion. 
 
 \end{itemize}
 
 A continuacion mostraremos un ejemplo en el que se dan ambos cosos y uno puede hacer tan mala como quiera la solucion.
 
-
+ Al partir de un nodo con mayor grado, si la clique que tiene mayor frontera no posee a dicho nodo, hay muchas menos chances que el algoritmo encuentre la solucion. De esta manera podemos definir la clase:
+ $Grafo$ $con$ $una$ $estrella$ $y$ $una$ $clique$ $de$ $nodos$ $con$ $grado$ $menor$ $al$ $grado$ $central$ $de$ $la$ $estrella.$ 
 
 Se puede observar como la mayoría de problemas encontrados se deben al proceso de intensificación, aunque en muchos casos puede ser muy favorable, en otros seria mejor aplicar técnicas de diversificación, como por ejemplo, variar la entrada por nodos de diferentes cliques máximas, colaborando mucho en la búsqueda de soluciones mas diversas.
 
@@ -206,5 +207,5 @@ El siguiente grafico muestra un promedio entre el tiempo que tarda y el resultad
 \end{center}
 \end{figure}
 
-De esta manera podemos observar que para una densidad de 50$%$ de aristas un valor promedio optimo es $n/2$ con $n$ = $cantidad\ de\ nodos$. Es por esta razon que en los items anteriores usamos este valor. Elegimos este valor, aunque tambien pudimos haber elegido $n/4$, pero cuanto mas chico, en grafos con pocas aristas va a contemplar muchos menos casos.
+De esta manera podemos observar que para una densidad de 50$\%$ de aristas un valor promedio optimo es $n/2$ con $n$ = $cantidad\ de\ nodos$. Es por esta razon que en los items anteriores usamos este valor. Elegimos este valor, aunque tambien pudimos haber elegido $n/4$, pero cuanto mas chico, en grafos con pocas aristas va a contemplar muchos menos casos.
 
