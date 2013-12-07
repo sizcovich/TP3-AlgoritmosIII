@@ -21,7 +21,7 @@ int maxValorTabu;
 unsigned int INF;
 
 
-pair<conjNodo,uint> eliminarNodo(Grafo grafo, vector<uint> clique) { //quito el de menor grado 
+pair<conjNodo,uint> eliminarNodo(const Grafo& grafo, vector<uint> clique) { //quito el de menor grado 
 	uint fronteraClique = grafo.frontera(clique);//O(n)
 	
 	if (clique.size()==0){
@@ -54,7 +54,7 @@ pair<conjNodo,uint> eliminarNodo(Grafo grafo, vector<uint> clique) { //quito el 
 	return res;	
 }
 
-pair<conjNodo,uint> insertarNodo(Grafo grafo, vector<uint> clique) { 
+pair<conjNodo,uint> insertarNodo(const Grafo& grafo,vector<uint> clique) { 
 	vector<uint> bucket (grafo.nodos(),0); //inicializo un arreglo de n posiciones en 0
 	
 	for (uint i = 0; i < clique.size(); i++) { //marco cuantos nodos de la clique llegan a cada nodo del grafo //O(n²)
@@ -112,7 +112,7 @@ pair<conjNodo,uint> insertarNodo(Grafo grafo, vector<uint> clique) {
 }
 
 
-pair<conjNodo,uint> mejorOperacion(Grafo g,conjNodo sol) //retorna la mejor solucion entre agregar,quitar o permutar un nodo, junto con el nodo con el cual realizo la misma
+pair<conjNodo,uint> mejorOperacion(const Grafo& g,const conjNodo& sol) //retorna la mejor solucion entre agregar,quitar o permutar un nodo, junto con el nodo con el cual realizo la misma
 {
 	uint nodo = 0;
 	uint nodo_aux = 0;
@@ -127,15 +127,15 @@ pair<conjNodo,uint> mejorOperacion(Grafo g,conjNodo sol) //retorna la mejor solu
 }
 
 
-vector<uint> tabusearch(vector<uint>& solIni, Grafo& g, uint desviacion_permitida)
+vector<uint> tabusearch(const vector<uint>& solIni,const Grafo& g,uint desviacion_permitida)
 {
 	listabu.clear();
+	uint desviacion_p = desviacion_permitida;
 	maxValorTabu = 0;
 	int INF = g.nodos()+1;
 	int cant_max_iter = g.nodos()*g.nodos();
 	for(int i=0;i<g.nodos();++i)
 		listabu.push_back(0);
-
 	pair<conjNodo,uint> actual;
 	actual.first = solIni;
 	pair<conjNodo,uint> mejor;
@@ -145,16 +145,14 @@ vector<uint> tabusearch(vector<uint>& solIni, Grafo& g, uint desviacion_permitid
 	uint tamFrontera = g.frontera(solIni);
 	bool mejora_frontera = true;
 	int iter=0;
-	while((mejora_frontera || 0 < desviacion_permitida) && iter<cant_max_iter) //paro cuando no mejora la solucion o no puedo descender mas
+	while((mejora_frontera || 0 < desviacion_p) && iter<cant_max_iter) //paro cuando no mejora la solucion o no puedo descender mas
 	{
-
 		mejor = mejorOperacion(g,actual.first);
-
 		if ( tamFrontera < g.frontera(mejor.first) ){
 			mejora_frontera = true;
 		}else{
 			mejora_frontera = false;
-			desviacion_permitida--;
+			desviacion_p--;
 			//los pongo en la lista tabu
 			maxValorTabu++;
 			listabu[mejor.second] = maxValorTabu;
@@ -167,7 +165,6 @@ vector<uint> tabusearch(vector<uint>& solIni, Grafo& g, uint desviacion_permitid
 		++iter;
 	}
 	return ( maxima.first );
-
 }
 
 
@@ -191,12 +188,12 @@ int main() {
 		
 		auto t1 = chrono::high_resolution_clock::now();
 		vector <uint> res;
+		res.clear();
+		res.push_back(0);
+		int desviacion_permitida = log(grafo.nodos()/2);
+		res = busquedaLocal(grafo, res, m);
 		for (int i = 0; i < 10; ++i)
 		{
-			res.clear();
-			res.push_back(0);
-			int desviacion_permitida = log(grafo.nodos());
-			res = busquedaLocal(grafo, res, m);
 			res = tabusearch(res,grafo,desviacion_permitida);
 		}
 		auto t2 = chrono::high_resolution_clock::now();

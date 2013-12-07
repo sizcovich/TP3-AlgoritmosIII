@@ -37,7 +37,7 @@ class Grafo {
 			}				
 			
 			//Devuelve el nodo de mayor grado o 0 si el grafo es vacio
-			uint nodoDeMayorGrado(){ //O(n)
+			uint nodoDeMayorGrado() const{ //O(n)
 				if (vecinos.empty())
 					return 0;
 					
@@ -49,7 +49,7 @@ class Grafo {
 			}	
 			
 			//Devuelve el valor de la frontera de la clique pasada por parametro
-			uint frontera(vuint clique){ //O(n)
+			uint frontera(const vuint& clique) const{ //O(n)
 				uint res = 0;
 				for(uint i = 0; i<clique.size(); i++){ //O(n)
 					res = res + vecinos[clique[i]].size(); //O(1) porque usa vector

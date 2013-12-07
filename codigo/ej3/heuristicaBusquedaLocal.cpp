@@ -132,7 +132,7 @@ pair<uint,vector<uint> > permutarNodo(Grafo grafo, vector<uint> clique) {
 	return agregarNodo(grafo, cliqueResultante); //O(n²)
 }
 
-vector<uint> busquedaLocal(Grafo grafo, uint m) { 
+vector<uint> busquedaLocal(const Grafo& grafo, uint m) { 
 		//represento a la clique como un vector de nodos que perteneces a la clique
 		vector<uint> clique(1,grafo.nodoDeMayorGrado()); //creo la clique con un solo nodo (el de mayor grado); todo grafo no vacio tiene por lo menos un nodo
 	
