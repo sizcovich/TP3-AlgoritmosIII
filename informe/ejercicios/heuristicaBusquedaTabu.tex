@@ -208,26 +208,29 @@ $$7\ \  14$$
 \textbf{Formato de salida:}
 $$5\ \   1\ \   1$$
 
-Mientras que la solucion optima tiene frontera: \newline
+\textbf{solucion optima:}
+ $$6\ \   3\ \   7\ \   8\ \   9$$\newline
 
-Se puede observar como la mayoría de problemas encontrados se deben al proceso de intensificación, aunque en muchos casos puede ser muy favorable, en otros seria mejor aplicar técnicas de diversificación, como por ejemplo, variar la entrada por nodos de diferentes cliques máximas, colaborando mucho en la búsqueda de soluciones mas diversas.
+Se puede observar como a medida que uno agrega adyacentes a los nodos $7$, $8$ o $9$ tal que el nodo de mayor grado sea el $1$ la solucion va a ser tan mala como uno quiera, por ejemplo, agregandole mas adyacentes a $1$, para asi poder aumentar la cantidad de nodos de la frontera de la clique optima. \newline
+
+Notar que la mayoría de problemas encontrados se deben al proceso de intensificación, aunque en muchos casos puede ser muy favorable, en otros seria mejor aplicar técnicas de diversificación, como por ejemplo, variar la entrada por nodos de diferentes cliques máximas, colaborando mucho en la búsqueda de soluciones mas diversas.
 
 \subsection{Experimentación}
 
  En esta sección buscamos encontrar un numero correcto para asignarle $desviacion\_permitida$ de tal forma de amortiguar lo mas posible tiempo con resultados. \newline
- El siguiente gráfico muestra, para diferentes $desviacion\_permitida$ y una densidad de aristas igual al 50$\%$ respecto a los nodos, el resultado temporal, y luego de calidad. Los grafos son aleatorios, este tipo de grafos son explicitados mas adelante en la sección $experimentacion$.
+ El siguiente gráfico muestra, para diferentes $desviacion\_permitida$ y una densidad de aristas igual al 50$\%$ respecto a los nodos, el resultado temporal, y luego de calidad. Los grafos son aleatorios, este tipo de grafos son explicitados mas adelante en la sección $Experimentacion\ General$.
 
 
 \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
-\includegraphics[width=350pt]{../imgs/variaciontemporal_tabu.jpg}
+\includegraphics[width=400pt]{../imgs/variaciontemporal_tabu.jpg}
 \caption{Variacion de $desviacion\_permitida$ - Grafico Temporal}
 \end{center}
 \end{figure}
 
 \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
-\includegraphics[width=350pt]{../imgs/variacioncalidad_tabu.jpg}
+\includegraphics[width=400pt]{../imgs/variacioncalidad_tabu.jpg}
 \caption{Variacion de $desviacion\_permitida$ - Grafico de Calidad}
 \end{center}
 \end{figure}
@@ -236,7 +239,7 @@ El siguiente gráfico muestra un promedio entre el tiempo que tarda y el resulta
 
 \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
-\includegraphics[width=350pt]{../imgs/variacionpromedio_tabu.jpg}
+\includegraphics[width=400pt]{../imgs/variacionpromedio_tabu.jpg}
 \caption{Variacion de $desviacion\_permitida$ - Grafico Promedio entre calidad y tiempo}
 \end{center}
 \end{figure}
