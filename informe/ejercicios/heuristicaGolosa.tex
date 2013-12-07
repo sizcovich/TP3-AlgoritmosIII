@@ -22,9 +22,6 @@ Para resolver el algoritmo presentado anteriormente con una técnica golosa, dec
 
 donde $nodoDeMasGrado$ consiste en una función que toma el nodo del grafo cuyo grado es el mayor, $frontera$ es una función que calcula la frontera de un conjunto de nodos dentro de un grafo y $adyacentes$ consiste en una lista de nodos adyacentes a un determinado nodo.\newline
 
-\subsection{Ejemplo}
-
-
 \subsection{Complejidad Temporal}
 Veamos cuál es la complejidad temporal del algoritmo realizado:
 \begin{itemize}
@@ -36,8 +33,14 @@ Luego, la complejidad temporal de la función $greedySearch$ resulta $2^*\mathca
 
 \end{itemize}
 \subsection{Instancias problemáticas}
-Este algoritmo siempre parte del nodo de mayor grado y siempre agrega nodos, es decir, nunca quita, por lo que si la solucion optima no contiene dicho nodo entonces nunca se va a encontrar el mejor caso. \newline
- Esto genera que uno pueda crear un caso tan malo como quiera, solo se necesita poner un nodo con grado $d$ y otras cliques que posean grado $d-1$ de forma tal que la frontera de dichas cliques sea mayor a $d$.
+Este algoritmo siempre parte del nodo de mayor grado y va agregando nodos siempre que cumplan con ciertas características. Dado que éste nunca quita nodos de la solución alcanzada hasta ese momento, si la solución óptima no contiene dicho al nodo de mayor grado entonces nunca se va a encontrar el mejor caso. Esto genera que uno pueda crear un caso tan malo como quiera, poniendo al nodo con grado $d$ y otras cliques que posean grado $d-1$ de forma tal que la frontera de dichas cliques sea mayor a $d$. Veamos un ejemplo en el que sucede lo mencionado anteriormente:
+\begin{figure}[H] %[h] Aqui [b] para button [t] para top
+\begin{center}
+\includegraphics[width=220pt]{../imgs/ejemploGoloso.jpg}
+\caption{Ejemplo.}
+\end{center}
+\end{figure}
+En el ejemplo anterior, el nodo de mayor grado corresponde al \textbf{3}, pero la clique de frontera máxima se forma por los nodos \textbf{2}, \textbf{4} y \textbf{5}, con lo cual nuestro algoritmo falla para este caso.
  
 \subsection{Experimentación}
 Para la experimentación de la Heurística Golosa, nos limitamos a realizar un gráfico comparativo para grafos aleatorios entre la cantidad de nodos agregados respecto del tiempo de ejecución. Para ello, utilizamos un generador de grafos y aumentamos de forma paulatina la cantidad de nodos, respetando una densidad del 50\% para las aristas.\newline
