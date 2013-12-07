@@ -1,15 +1,13 @@
-bool esClique(Grafo grafo, vector<uint> clique){ //O(n²)
+bool esClique(const Grafo& grafo, const vector<uint>& clique){ //O(n²)
     for (uint i=0; i<clique.size(); ++i) { //O(n)
-        for (uint j=0; j<clique.size(); ++j) { //O(n)
-            if(i != j){
+        for (uint j=0; j<i; ++j) { //O(n)
             	if(!grafo.sonVecinos(clique[i],clique[j])) return false; //O(1)
-            }
     	}
     }
     return true;
 }
 
-vector<uint> greedysearch(Grafo grafo){ //O(n⁴)
+vector<uint> greedysearch(const Grafo& grafo){ //O(n⁴)
     vector<uint> cliqueHastaAhora(1,grafo.nodoDeMayorGrado()); //O(n)
     uint fronteraHastaAhora = grafo.frontera(cliqueHastaAhora); //pongo el grado del nodo de mayor grado - O(n)
 	for(uint i = 0; i<grafo.nodos();++i){ //O(n)
