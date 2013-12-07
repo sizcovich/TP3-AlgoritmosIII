@@ -14,6 +14,9 @@ A continuación, se expone el pseudocódigo del algoritmo mencionado:\\
 	\KwIn{\textbf{Grafo} $g$}
 	\KwOut{\textbf{Conj(nodo)} $clique$}
 
+	\For{nodo $v$ en $g$}{
+		\textbf{Sort}(adyacentes($v$))
+	}
 	\textbf{Conj(nodo)} $clique = \emptyset$\\
 	\textbf{Conj(nodo)} $candidatos = $ nodos($g$)\\
 
@@ -73,6 +76,8 @@ A continuación, se expone el pseudocódigo del algoritmo mencionado:\\
 	\textbf{devuelvo} $candidatos$\\
 
 \end{algorithm}
+
+Como operaciones preeliminares, el algoritmo ordena las aristas en su representacion interna del grafo. Esto permite hacer que ciertas operaciones tengan un costo temporal menor. Mas especificamente, hacer la interseccion entre los nodos adyacentes a dos nodos tiene un costo lineal siempre y cuadno los conjuntos esten ordenados.
 
 Nuestro programa comienza con la función $Algoritmo\ Exacto$ que se encarga de inicializar los valores con los que se llama a $Backtracking$. A su vez, esta última realiza las llamadas recursivas necesarias para ir buscando las diferentes cliques y sus candidatos, teniendo en cuenta el orden lexicográfico mencionado anteriormente. Al realizar dicho procedimiento, el algoritmo verifica en cada paso que las cliques que va considerando sean mejores que la mejor encontrada hasta el momento. Si esto no ocurre, quita el nodo en cuestión y deja de explorar cliques conteniéndolo.\\
 \newline
