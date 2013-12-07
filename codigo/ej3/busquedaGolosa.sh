@@ -1,4 +1,4 @@
-g++ -std=c++0x heuristicaGolosa.cpp -o heuristicaGolosa
+g++ -o2 -std=c++0x heuristicaGolosa.cpp -o heuristicaGolosa
 
 rm ./tiemposGoloso.dat
 cd ..
