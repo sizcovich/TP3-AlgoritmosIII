@@ -77,7 +77,7 @@ A continuación, se expone el pseudocódigo del algoritmo mencionado:\\
 
 \end{algorithm}
 
-Como operaciones preeliminares, el algoritmo ordena las aristas en su representacion interna del grafo. Esto permite hacer que ciertas operaciones tengan un costo temporal menor. Mas especificamente, hacer la interseccion entre los nodos adyacentes a dos nodos tiene un costo lineal siempre y cuadno los conjuntos esten ordenados.
+Incialmente, el algoritmo ordena las aristas en su representación interna del grafo. Esto permite hacer que ciertas operaciones tengan un costo temporal menor. Más específicamente, realizar la intersección entre los nodos adyacentes a dos nodos particulares tiene un costo lineal siempre y cuando los conjuntos se encuentren ordenados.
 
 Nuestro programa comienza con la función $Algoritmo\ Exacto$ que se encarga de inicializar los valores con los que se llama a $Backtracking$. A su vez, esta última realiza las llamadas recursivas necesarias para ir buscando las diferentes cliques y sus candidatos, teniendo en cuenta el orden lexicográfico mencionado anteriormente. Al realizar dicho procedimiento, el algoritmo verifica en cada paso que las cliques que va considerando sean mejores que la mejor encontrada hasta el momento. Si esto no ocurre, quita el nodo en cuestión y deja de explorar cliques conteniéndolo.\\
 \newline
@@ -110,11 +110,11 @@ el primer y último elemento del $i$-ésimo elemento de $g$. Luego, realiza un $
 Por otra parte, llama a la función $backtracking$ ($\mathcal{O}(2^n - 1)$) y, finalmente, recorre la solución obtenida para devolverla.
 \end{itemize}
 
-Finalmente, podemos afirmar que la complejidad temporal de nuestro algoritmo exacto resulta $\mathcal{O}(2^n - 1) * (\mathcal{O}(n) + \mathcal{O}(n^2))$ = $\mathcal{O}((2^n - 1) * n^{2})$ = $\mathcal{O}(n^{2} 2^n)$.
+Finalmente, podemos afirmar que la complejidad temporal de nuestro algoritmo exacto resulta $\mathcal{O}(2^n - 1) * (\mathcal{O}(n) + \mathcal{O}(n^2))$ = $\mathcal{O}((2^n - 1) * n^{2})$ = $\mathcal{O}(n^{2}^*2^n)$.
 
 \subsection{Experimentación}
 
-Para las pruebas de complejidad empírica, utilizamos los tests aleatorios proporcionados por la cátedra. Las mediciones de tiempo en nanosegundos se realizaron con la función $high\ resolution\ clock$\footnote{http://en.cppreference.com/w/cpp/chrono/high\_resolution\_clock} de la librería $Chrono$ de $C++$. 
+Para las pruebas de complejidad empírica, utilizamos los tests aleatorios proporcionados por la cátedradado que los casos del mismo son variados y no se focaliza en grafos particulares. Las mediciones de tiempo en nanosegundos se realizaron con la función $high\ resolution\ clock$\footnote{http://en.cppreference.com/w/cpp/chrono/high\_resolution\_clock} de la librería $Chrono$ de $C++$. 
 
 Las funciones de complejidad con las que se compararon nuestros gráficos de tiempo fueron ajustadas por algoritmos matemáticos (proporcionados por \textbf{sci davis}). Dichos algoritmos se encargaron de multiplicarle y sumarle constantes a las funciones con el fin de que éstas se ajustaran a nuestros resultados sin modificar el comportamiento de las funciones utilizadas para comparar.
 	
@@ -125,30 +125,3 @@ Las funciones de complejidad con las que se compararon nuestros gráficos de tie
 \end{figure}
 
 Como puede observarse en el gráfico anterior, la complejidad de nuestro algoritmo exacto se encuentra acotada por una función exponencial.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

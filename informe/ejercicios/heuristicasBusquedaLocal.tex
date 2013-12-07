@@ -1,8 +1,9 @@
 \subsection{Explicación del algoritmo realizado}
-Los algoritmos de búsqueda local parten de una solución inicial $S_{0}$ y en cada paso intentan mejorarla. Para esto, se calculan todas las posibles variaciones de $S_{0}$ que forman una solución al problema. Al conjunto de todas estas se lo llama vecindad. 
-Estos algoritmos se ejecutan siempre y cuando exista una solución, perteneciente a la vecindad, que sea mejor a la que ya teníamos. \newline \newline
-Para nuestro ejercicio, utilizamos como $S_{0}$ al nodo de mayor frontera. Dicha elección se debió a que un nodo forma una clique, con lo cual es una posible solución a nuestro problema. Además, sabemos que este existe para cualquier grafo ya que la menor cantidad de nodos que se pueden ingresar en nuestro programa es uno. 
-\newline Por otro lado, decidimos definir como vecindad a todas las posibles cliques que difieran en a lo sumo un nodo con nuestro $S_{0}$. Esta decisión la tomamos para que nuestra clique no quede fija alrededor del nodo inicial. Para evitarnos tener que almacenar todas las posibles cliques para posteriormente elegir la mejor, decidimos separar la vecindad en tres subconjuntos. Estos se formaron con las cliques que cumplen lo siguiente:
+Los algoritmos de búsqueda local parten de una solución inicial $S_{0}$ y en cada paso intentan mejorarla. Para esto, una opción consiste en calcular todas las posibles variaciones de $S_{0}$ que forman una solución al problema. Al conjunto de todas estas se lo llama vecindad. 
+Estos algoritmos se ejecutan siempre y cuando exista una solución, perteneciente a la vecindad, que sea mejor a la ya obtenida.\newline
+\newline
+Para nuestro ejercicio, utilizamos como $S_{0}$ al nodo de mayor grado. Dicha elección se debió a que un nodo forma una clique, con lo cual es una posible solución a nuestro problema. Además, sabemos que éste existe para cualquier grafo ya que la menor cantidad de nodos que se puede ingresar en nuestro programa es uno. 
+\newline Por otro lado, decidimos definir como vecindad a todas las posibles cliques que difirieran en a lo sumo un nodo con nuestro $S_{0}$. Esta decisión la tomamos para que nuestra clique no quedara fija alrededor del nodo inicial. Para evitar tener que almacenar todas las posibles cliques para, posteriormente, elegir la mejor, decidimos separar la vecindad en tres subconjuntos. Estos se formaron con las cliques que cumplen lo siguiente:
 \begin{itemize}
 \item \textbf{Tiene todos los nodos de $S_{0}$ salvo 1:} \newline En lugar de calcular todas las posibles cliques de este subconjunto, decidimos quedarnos únicamente con la clique que se obtiene de quitarle el nodo de menor grado a $S_{0}$. Esto se debe a que la frontera de una clique se puede calcular con la siguiente formula:\newline
 Sea $S_{0}$ = ($V$,$E$) y n = $|$$V$$|$
@@ -13,7 +14,7 @@ Ahora, si quitamos un nodo $v'$ de $S_{0}$, obtenemos lo siguiente:
 \begin{equation}
   \delta(S'_{0}) = \sum_{v \in V/v'}^{} d(v) - (n-1)*(n-2)
 \end{equation}
-Como nosotros queremos encontrar el mayor \delta$(S'_{0})$, debemos quedarnos con el que tiene la sumatoria de mayor valor ya que (n-1)*(n-2) es igual para todas las cliques. Con lo cual, el nodo que debemos eliminar para poder maximizar la sumatoria, es el de menor grado.
+Dado que se desea encontrar el mayor \delta$(S'_{0})$, se debe guardar el que tiene la sumatoria de mayor valor ya que (n-1)*(n-2) es igual para todas las cliques. Con lo cual, el nodo que debemos eliminar para poder maximizar la sumatoria, es el de menor grado.
 
 El pseudo código de este subconjunto de la vecindad es:\newline
 \begin{algorithm}[H]
@@ -115,7 +116,7 @@ Para analizar la complejidad de nuestro algoritmo, vamos a separarlo en 5 funcio
 Para poder obtener la mayoría de las operaciones que utilizan nuestras funciones en $\mathcal{O}(1)$, generamos el grafo con los parámetros de entrada, utilizando lista y matriz de adyacencia. De esta forma, evitamos aumentar la complejidad de nuestro algoritmo. Por consiguiente, la complejidad es $\mathcal{O}(n^{2})$ ya que este es el costo de crear la matriz de adyacencia.
 
 \item \textbf{quitarNodo:} \newline
-Como podemos observar en el pseudocódigo Nº 6, lo primero que hace nuestro algoritmo es calcular mediante la función $vecindad$ ($\mathcal{O}(1)$) de la clase grafo, el tamaño de la vecindad del nodo 0. Posteriormente, hay un ciclo el cual consiste en recorrer todos los nodos de la clique($\mathcal{O}(n)$) y almacenar el de menor grado en cada paso ($\mathcal{O}(1)$).
+Como podemos observar en el pseudocódigo de la función $quitarNodo$, lo primero que hace nuestro algoritmo es calcular mediante la función $vecindad$ ($\mathcal{O}(1)$) de la clase grafo, el tamaño de la vecindad del nodo 0. Posteriormente, hay un ciclo el cual consiste en recorrer todos los nodos de la clique($\mathcal{O}(n)$) y almacenar el de menor grado en cada paso ($\mathcal{O}(1)$).
 \newline
 Luego, hay un ciclo el cual nuevamente recorre todos los nodos de la clique ($\mathcal{O}(n)$) y en cada paso utiliza la función $agregar$ la cual fue implementada con $push\_back$\footnote{http://www.cplusplus.com/reference/vector/vector/push\_back/} con una complejidad de $\mathcal{O}(1)$.
 \newline
@@ -124,7 +125,7 @@ Por ultimo, se calcula el valor de la frontera mediante la función $frontera$ d
 Como se puede observar, la complejidad final de $quitarNodo$ es $\mathcal{O}(n)$
 
 \item \textbf{agregarNodo:} \newline 
-Como podemos observar en el pseudocódigo Nº 7, lo primero que hace nuestro algoritmo es crear un arreglo de $n$ posiciones ($\mathcal{O}(n)$). Posteriormente, hace $marcarNodos$ el cual para cada nodo de la clique($\mathcal{O}(n)$), se fija cuales son sus vecinos mediante la función $vecindad$ ($\mathcal{O}(1)$) de la clase grafo. Luego, para cada uno de estos, ($\mathcal{O}(n)$) le suma uno a la cantidad de nodos adyacentes perteneciente a la clique que poseen. Por lo tanto, la complejidad de $marcarNodos$ es $\mathcal{O}(n^{2})$. \newline
+Como podemos observar en el pseudocódigo de la función $agregarNodo$, lo primero que hace nuestro algoritmo es crear un arreglo de $n$ posiciones ($\mathcal{O}(n)$). Posteriormente, hace $marcarNodos$ el cual para cada nodo de la clique($\mathcal{O}(n)$), se fija cuales son sus vecinos mediante la función $vecindad$ ($\mathcal{O}(1)$) de la clase grafo. Luego, para cada uno de estos, ($\mathcal{O}(n)$) le suma uno a la cantidad de nodos adyacentes perteneciente a la clique que poseen. Por lo tanto, la complejidad de $marcarNodos$ es $\mathcal{O}(n^{2})$. \newline
 Una vez que calcula cuantos nodos de la clique son adyacentes a cada nodo del grafo, hace $dameCandidatosAClique$. Esta función toma todos los nodos del grafo y se fija para cada uno de ellos ($\mathcal{O}(n)$) si el valor que calculo $marcarNodos$ es igual al tamaño de la clique, el cual, es calculado mediante la función size($\mathcal{O}(1)$). Por lo tanto su complejidad es ($\mathcal{O}(n)$). \newline
 Posteriormente, a cada nodo de $dameCandidatosAClique$ ($\mathcal{O}(n)$), lo agrega a $S_{0}$, mediante la función $push\_back$,\footnote{http://www.cplusplus.com/reference/vector/vector/push\_back/}($\mathcal{O}(1)$). Luego, compara la frontera ($\mathcal{O}(n)$) de esta nueva clique con la frontera mas grande hasta el momento. En caso de que esta sea mayor, almacena que nodo fue el que agrego y cual es el valor de su frontera. Por ultimo, quita este nodo mediante la función $pop\_back$\footnote{http://www.cplusplus.com/reference/vector/vector/pop\_back/} cuya complejidad es $\mathcal{O}(1)$). El costo de realizar esto es $\mathcal{O}(n^{2})$. \newline
 Una vez que tiene la solución, genera un par con esta mediante la función $make\_pair$\footnote{http://www.cplusplus.com/reference/utility/make\_pair/} cuya complejidad es $\mathcal{O}(1)$.
@@ -166,8 +167,8 @@ Como se puede observar, la complejidad final de $permutarNodo$ es $\mathcal{O}(n
 
 Como se observa en el pseudocódigo Nº 9, nuestro algoritmo coloca en $res$ el nodo de mayor grado del grafo. Esta función tiene complejidad $\mathcal{O}(n)$. Posteriormente, ejecuta agregarNodo ($\mathcal{O}(n^{2})$), quitarNodo ($\mathcal{O}(n)$) y permutarNodo ($\mathcal{O}(n^{2})$). Estas tres funciones se ejecutan como máximo $m$ veces. Esto se debe a que la frontera debe ser siempre creciente en la cantidad de aristas. Por lo tanto, en cada paso a lo sumo puede crecer en una unidad llegando a un máximo de $m$. Con lo cual, la complejidad del ciclo es $\mathcal{O}(n^{2})$ * $\mathcal{O}(n^{2})$
 \newline
-Como se puede observar, la complejidad final de $busquedaLocal$ es $\mathcal{O}(n^{4})$
-
+Como se puede observar, la complejidad final de $busquedaLocal$ es $\mathcal{O}(n^{4})$.
+\end{itemize}
 \subsection{Instancias problemáticas}
 Si observamos nuestro algoritmo, podemos notar que este siempre arranca por el nodo de mayor grado. Posteriormente, se va moviendo, en cada iteración, a una clique la cual dista a lo sumo en una unidad con la clique actual. Teniendo en cuenta esto, nuestro algoritmo va a encontrar la solución exacta siempre y cuando haya cliques, las cuales generen fronteras cada vez mas grande, entre el nodo de mayor grado y la clique de frontera máxima.
 \newline

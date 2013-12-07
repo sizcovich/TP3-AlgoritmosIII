@@ -8,10 +8,15 @@ Para resolver el algoritmo presentado anteriormente con una técnica golosa, dec
     \KwOut{\textbf{Conj(nodos)} $clique$}
 	Entero $nodoDeMayorGrado$ = nodoDeMasGrado($g$)\\
 	Grafo $cliqueHastaAhora$ = $\emptyset$\\
+	Grafo $cliqueAnterior$ = $\emptyset$\\
 	agregar($nodoDeMayorGrado$, $cliqueHastaAhora$)\\
 	\ForAll{$u \in$ adyacentes(nodoDeMayorGrado, nodos($g$))}{
-		\If{forma una clique($g$, agregar($u$, $cliqueHastaAhora$)) $\land$ frontera($g$, agregar($u$, $cliqueHastaAhora$) $>$ frontera($cliqueHastaAhora$)}{
-		agregar($u$, $cliqueHastaAhora$)}}
+		$cliqueAnterior$ = $cliqueHastAhora$\\
+		agregar($u$, $cliqueHastaAhora$)\\
+		\If{$\neg forma una clique(g, cliqueHastaAhora) \lor \neg frontera(g, cliqueHastaAhora) > frontera(cliqueAnterior)$}{
+			sacar($u$, $cliqueHastaAhora$)\\
+		}
+	}
 \textbf{devolver} $cliqueHastaAhora$
 \end{algorithm}
 
