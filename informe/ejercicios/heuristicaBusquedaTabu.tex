@@ -43,7 +43,7 @@ Al finalizar, el algoritmo retorna la mejor solución hallada. \newline
 
 \textbf{Descripción de la lista tabú} \newline
 
- A medida que se van agregando o quitando nodos que no mejoran la solución, se los va marcando como tabú. De esta forma, se le asigna una prioridad a cada uno de ellos que depende del momento en que fue agregado. A su vez, sea cual sea la prioridad del último nodo insertado, éste no puede utilizarse en la iteración siguiente para evitar ciclar soluciones. Para lograr esto, hicimos que en el peor de los casos sólo se puedan usar los nodos tabús que tienen prioridad menor a la mitad de la prioridad máxima.\newline
+ A medida que se van agregando o quitando nodos que no mejoran la solución, se los va marcando como tabú. De esta forma, se le asigna una prioridad a cada uno de ellos que depende del momento en que fue agregado. A su vez, sea cual sea la prioridad del último nodo insertado, éste no puede utilizarse en la iteración siguiente para evitar ciclar soluciones. Para lograr esto, hicimos que en el peor de los casos sólo se puedan usar los nodos tabús que tienen prioridad menor a la mitad de la prioridad máxima. Las ventajas de esto es que evitamos ciclar con los mismos nodos (por ejemplo, agregando y quitando un nodo) y a su vez permite trabajar con nodos de manera mas dispersa y no siempre con los mismos. Las desventajas es que cuando uno realiza una operación $p$ con un nodo $u$, y había otra operación $p'$ que aplicada al nodo $u$ producía menos frontera, se va a elegir realizar la operación $p$, pero por ahí para llegar a la optima había que realizar la operación $p'$ y esto no se va a realizar a corto plazo ya que el nodo es puesto como tabú.\newline
 
 \textbf{Criterio de terminación} \newline
 
@@ -76,7 +76,7 @@ Al finalizar, el algoritmo retorna la mejor solución hallada. \newline
 			}
 			{$Mejore\ la\ frontera$ $\leftarrow$ false \\
 			 Poner Tabu Nodo utilizado en sol$_{0}$ \\
-			 $desviacion\_permitida$ - 1}
+			 $desviacion\_permitida$ = $desviacion\_permitida$ - 1}
 		$solución\_actual$ $\leftarrow$ sol$_{0}$ \\
 		\If{ frontera($solución\_final$) $<$ frontera($solución\_actual$) } 
 		{$solución\_final$ $\leftarrow$ $solución\_actual$}			
@@ -156,7 +156,9 @@ Donde:
  Teniendo en cuenta todo lo anterior, notar que las operaciones $Dame$ $Mejor$ $solución$ $agregando$ $nodo$ $No$ $tabú$ y $Dame$ $Mejor$ $solución$ $agregando$ $nodo$ $No$ $tabú$ hacen referencia a $Agregar\ un\ nodo$ y $Quitar\ un\ nodo$ repectivamente.\newline
 
  Solo queda ver la complejidad de la función principal "TabuSearch". Esta comienza realizando una búsqueda local\footnote{ver sección anterior} (O(n$^{4}$)) la cual es almacenada en una solución (guardar dicha solución cuesta cuadrático en la cantidad de nodos); seguido define la lista tabú en 0 todos los valores (lineal en cantidad de nodos). Continuando empieza un ciclo ($desviacion_permitida$ + $cant.nodos$$^{2}$ en el peor caso) y por cada iteración se ejecuta las funciones $Dame$ $Mejor$ $solución$ $agregando$ $nodo$ $No$ $tabú$ y $Dame$ $Mejor$ $solución$ $agregando$ $nodo$ $No$ $tabú$ (O($cant.nodos$$^{2}$)+O($cant.nodos$)) seguido de comparaciones (lineal) y asignaciones con coste lineal. (Notar que las comparaciones son constantes pero ver la frontera es lineal). \newline
- De esta manera la complejidad final del algoritmo es $\mathcal{O}(n^{4})$ + $\mathcal{O}(n^{2})$ * $\mathcal{O}(n^{2})$ = $\mathcal{O}(n^{4})$.
+ De esta manera la complejidad final del algoritmo es $\mathcal{O}(n^{4})$ + $\mathcal{O}(n^{2})$ * $\mathcal{O}(n^{2})$ = $\mathcal{O}(n^{4})$.  \newline
+
+Notar que la complejidad es similar a la de local porque, por un lado, se empieza realizando una búsqueda local (para tomar la solución inicial) y luego se realizan operaciones similares a las de dicha búsqueda (agregar y quitar nodos) por lo tanto tienen la misma complejidad y la cantidad de veces que se realizan es, al igual que la local,  una cantidad de iteraciones equivalente a los nodos al cuadrado mas una desviacion que es lineal en la cantidad de nodos.
 
 
 \subsection{Instancias problemáticas}
@@ -172,17 +174,48 @@ Donde:
 
 \end{itemize}
 
-A continuacion mostraremos un ejemplo en el que se dan ambos cosos y uno puede hacer tan mala como quiera la solucion.
+A continuación mostraremos un ejemplo en el que se dan ambos cosos y uno puede hacer tan mala como quiera la solucion.
 
- Al partir de un nodo con mayor grado, si la clique que tiene mayor frontera no posee a dicho nodo, hay muchas menos chances que el algoritmo encuentre la solucion. De esta manera podemos definir la clase:
+ Al partir de un nodo con mayor grado, si la clique que tiene mayor frontera no posee a dicho nodo, hay muchas menos chances que el algoritmo encuentre la solución. De esta manera podemos definir la clase:
  $Grafo$ $con$ $una$ $estrella$ $y$ $una$ $clique$ $de$ $nodos$ $con$ $grado$ $menor$ $al$ $grado$ $central$ $de$ $la$ $estrella.$ 
+
+\begin{figure}[H] %[h] Aqui [b] para button [t] para top
+\begin{center}
+\includegraphics[width=250pt]{../imgs/ej1local.jpg}
+\caption{Ejemplo Posible - Usado tambien en Local}
+\end{center}
+\end{figure}
+
+\textbf{Formato de entrada:}
+
+$$14\ \  14$$
+$$1\ \  2$$
+$$1\ \  3$$
+$$1\ \  4$$
+$$1\ \  5$$
+$$1\ \  6$$
+$$6\ \  7$$
+$$7 \ \ 8$$
+$$8\ \  9$$
+$$9\ \  7$$
+$$8\ \  10$$
+$$8\ \  11$$
+$$9\ \  12$$
+$$9\ \  13$$
+$$7\ \  14$$
+
+
+\textbf{Formato de salida:}
+$$5\ \   1\ \   1$$
+
+Mientras que la solucion optima tiene frontera: \newline
 
 Se puede observar como la mayoría de problemas encontrados se deben al proceso de intensificación, aunque en muchos casos puede ser muy favorable, en otros seria mejor aplicar técnicas de diversificación, como por ejemplo, variar la entrada por nodos de diferentes cliques máximas, colaborando mucho en la búsqueda de soluciones mas diversas.
 
 \subsection{Experimentación}
 
  En esta sección buscamos encontrar un numero correcto para asignarle $desviacion\_permitida$ de tal forma de amortiguar lo mas posible tiempo con resultados. \newline
- El siguiente grafico muestra, para diferentes $desviacion\_permitida$ y una densidad de aristas igual al 50$\%$ respecto a los nodos, el resultado temporal, y luego de calidad.
+ El siguiente gráfico muestra, para diferentes $desviacion\_permitida$ y una densidad de aristas igual al 50$\%$ respecto a los nodos, el resultado temporal, y luego de calidad. Los grafos son aleatorios, este tipo de grafos son explicitados mas adelante en la sección $experimentacion$.
 
 
 \begin{figure}[H] %[h] Aqui [b] para button [t] para top
@@ -199,7 +232,7 @@ Se puede observar como la mayoría de problemas encontrados se deben al proceso 
 \end{center}
 \end{figure}
 
-El siguiente grafico muestra un promedio entre el tiempo que tarda y el resultado obtenido.
+El siguiente gráfico muestra un promedio entre el tiempo que tarda y el resultado obtenido.
 
 \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
@@ -208,5 +241,7 @@ El siguiente grafico muestra un promedio entre el tiempo que tarda y el resultad
 \end{center}
 \end{figure}
 
-De esta manera podemos observar que para una densidad de 50$\%$ de aristas un valor promedio optimo es $n/2$ con $n$ = $cantidad\ de\ nodos$. Es por esta razon que en los items anteriores usamos este valor. Elegimos este valor, aunque tambien pudimos haber elegido $n/4$, pero cuanto mas chico, en grafos con pocas aristas va a contemplar muchos menos casos.
+ Cuando hablamos de promedio hacemos referencia a un balance entre tiempo y calidad. Elegimos esto ya que,  para realizar diferentes experimentaciones con los grafos, dado la densidad y la cantidad de pruebas que hacemos no nos es viable que tarde mucho en procesar cada grafo. A su vez, tampoco queremos que las soluciones nunca mejoren a la local, porque no tendría sentido. Es por esta razón que elegimos el promedio.
+
+ De esta manera podemos observar que para una densidad de 50$\%$ de aristas un valor promedio optimo es $n/2$ con $n$ = $cantidad\ de\ nodos$. Es por esta razón que en los items anteriores usamos este valor. Elegimos este valor, aunque también pudimos haber elegido $n/4$, pero cuanto mas chico, en grafos con pocas aristas va a contemplar muchos menos casos.
 
