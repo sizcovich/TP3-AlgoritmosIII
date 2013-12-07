@@ -1,22 +1,6 @@
 
-/*uint nodoDeMayorGrado(Grafo grafo){ //O(n)
-	uint mayorNodo = 1;
-	for(uint i = 1; i<grafo.nodos(); ++i){
-		if(grafo.vecindad(i).size()>grafo.vecindad(mayorNodo).size()) mayorNodo = i;
-	}
-	return mayorNodo;
-}
-*/
-/*
-uint frontera(Grafo grafo, vector<uint> clique){ //O(n)
-	uint res = 0;
-	for(int i = 1; i<clique.size(); ++i){
-		res = res + grafo.vecindad(clique[i]).size();
-	}
-	return res-clique.size()*(clique.size()-1);
-}*/
 
-pair<uint,vector<uint> > quitarNodo(Grafo grafo, vector<uint> clique) { //quito el de menor grado
+pair<uint,vector<uint> > quitarNodo(const Grafo& grafo, vector<uint> clique) { //quito el de menor grado
 	uint fronteraClique = grafo.frontera(clique);//O(n)
 	
 	uint minimo = grafo.vecindad(clique[0]).size(); //seteo un grado
@@ -46,7 +30,7 @@ pair<uint,vector<uint> > quitarNodo(Grafo grafo, vector<uint> clique) { //quito 
 	return res;	
 }
 
-pair <uint,vector<uint> > agregarNodo(Grafo grafo, vector<uint> clique) { 
+pair <uint,vector<uint> > agregarNodo(const Grafo& grafo, vector<uint> clique) { 
 	vector<uint> bucket (grafo.nodos(),0); //inicializo un arreglo de n posiciones en 0
 	
 	for (uint i = 0; i < clique.size(); i++) { //marco cuantos nodos de la clique llegan a cada nodo del grafo //O(n²)
@@ -93,7 +77,7 @@ pair <uint,vector<uint> > agregarNodo(Grafo grafo, vector<uint> clique) {
 	return res;
 }
 
-pair<uint,vector<uint> > permutarNodo(Grafo grafo, vector<uint> clique) { 
+pair<uint,vector<uint> > permutarNodo(const Grafo& grafo, vector<uint> clique) { 
 	pair <uint,vector<uint> > res;
 	
 	if (clique.size() == 0) { //si esta vacio tomo el de mayor grado (no se si esto esta bien) //O(n)
@@ -106,7 +90,7 @@ pair<uint,vector<uint> > permutarNodo(Grafo grafo, vector<uint> clique) {
 	return agregarNodo(grafo, clique); //O(n²)
 }
 
-vector<uint> busquedaLocal(Grafo grafo, vector<uint> solInicial, uint m) { 
+vector<uint> busquedaLocal(const Grafo& grafo, const vector<uint>& solInicial, const uint m) { 
 	                //represento a la clique como un vector de nodos que perteneces a la clique
 	                vector<uint> clique = solInicial;
 	        
