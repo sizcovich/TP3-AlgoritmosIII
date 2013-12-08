@@ -88,7 +88,7 @@ Donde $marcarNodos$ calcula para cada nodo, cuantos nodos de la clique son adyac
 En este subconjunto lo primero que hicimos fue quitar un nodo de $S_{0}$ y posteriormente, con la clique que nos quedo, agregarle otro. Para esto, utilizamos las funciónes quitarNodo y agregarNodo. Al hacer esto, logramos que nuestra clique no quede centrada en el nodo de mayor grado ya que este eventualmente podría dejar de formar parte de la solución y ser permutado por otro.\newline
 En el caso de que $S_{0}$ tenga un solo elemento, al aplicar quitarNodo, la funcion nos devuelve un grafo vacio. Si esto sucede, decidimos agregar el nodo de mayor grado de todos los adyacente al unico que estaba en $S_{0}$. Esto lo hicimos ya que agregarNodo no puede recibir una clique vacia.\newline
 Si por el contrario quitarNodo nos devuelve un grafo, aplicamos la funcion agregarNodo sobre este. \newline
-Como quitarNodo y agregarNodo son dos funciones distintas, es posible que al aplicar ambas obtengamos el mismo $S_{0}$. En el caso de que esto suceda, no habría problema ya que significaría que de todas las cliques de este subconjunto, ninguna tiene mayor frontera que $S_{0}$.
+Como quitarNodo y agregarNodo son dos funciones distintas, es posible que al aplicar ambas obtengamos el mismo $S_{0}$. En el caso de que esto suceda, no habría problema ya que significaría que de todas las cliques de este subconjunto, ninguna tiene mayor frontera que $S_{0}$. Por otro lado, el resultado que obtenemos es una clique ya que quitarNodo devuelve una clique o un conjunto vacio. Si devuelve una clique, usamos agregarNodo que tambien nos devuelve una clique. Caso contrario, generamos una clique con un unico nodo.
 \begin{algorithm}[H]
     \SetAlgoLined
     \caption{permutarNodo}
