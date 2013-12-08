@@ -56,11 +56,11 @@ Para poder obtener la clique de frontera máxima de este subconjunto, buscamos t
     \KwIn{\textbf{Grafo} $grafo$, \textbf{Conj(Entero)} $clique$}
     \KwOut{\textbf{par(Entero,Conj(Entero))} $res$}
 	
-    \textbf{Conj(Entero)} $bucket[$Nodos($grafo$)$]$  \\
+    \textbf{Conj(Entero)} $adyacentesPorCadaNodo[|$Nodos($grafo$)$|]$  \\
 	
-    $bucket$ = marcarNodos
+    $adyacentesPorCadaNodo$ = marcarNodos
 	
-    \textbf{Conj(Entero)} $posibleClique$ = dameCandidatosAClique($bucket$)\\
+    \textbf{Conj(Nodo)} $posibleClique$ = dameCandidatosAClique($adyacentesPorCadaNodo$)\\
    
     \textbf{Entero} $maxFrontera = 0$ \\
     \textbf{Entero} $nodo = 0$ \\
@@ -85,26 +85,29 @@ Para poder obtener la clique de frontera máxima de este subconjunto, buscamos t
 Donde $marcarNodos$ calcula para cada nodo, cuantos nodos de la clique son adyacentes a el, $dameCandidatosAClique$ nos devuelve los nodos de marcarNodos que fueron marcados por todos los nodos de la clique, $frontera$ calcula la frontera del subgrafo pasado por parámetro, $Nodos$ devuelve todos los nodos del subgrafo, $agregar$ inserta un elemento en un arreglo, $quitar$ quita un elemento en un arreglo, $vecindad$ nos devuelve todos los nodos adyacentes al nodo pasado por parámetro y $hacerPar$ genera un par con lo dos elementos pasados por parámetro. \newline
 
 \item \textbf{Tiene todos los nodos de $S_{0}$ salvo 1 que se lo reemplaza por otro que no estaba en el:} \newline
-En este subconjunto lo primero que hicimos fue quitar un nodo de $S_{0}$ y posteriormente, con la clique que nos quedo, agregarle otro. Para esto, utilizamos la función que quitaba un nodo a la clique y luego, utilizamos la función que nos calculaba el subconjunto anterior para agregar el nuevo nodo. Al hacer esto, logramos que nuestra clique no quede centrada en el nodo de mayor grado ya que este eventualmente podría dejar de formar parte de la solución.
-En el caso de que la clique tenga un solo elemento, decidimos que este sea reemplazado por el nodo adyacente a el de mayor grado.  \newline
-Como quitarNodo y agregarNono son dos funciones distintas, es posible que al aplicar ambas obtengamos el mismo $S_{0}$. En el caso de que esto suceda, no habría problema ya que significaría que de todas las cliques de este subconjunto, ninguna tiene mayor frontera que $S_{0}$.
+En este subconjunto lo primero que hicimos fue quitar un nodo de $S_{0}$ y posteriormente, con la clique que nos quedo, agregarle otro. Para esto, utilizamos las funciónes quitarNodo y agregarNodo. Al hacer esto, logramos que nuestra clique no quede centrada en el nodo de mayor grado ya que este eventualmente podría dejar de formar parte de la solución y ser permutado por otro.\newline
+En el caso de que $S_{0}$ tenga un solo elemento, al aplicar quitarNodo, la funcion nos devuelve un grafo vacio. Si esto sucede, decidimos agregar el nodo de mayor grado de todos los adyacente al unico que estaba en $S_{0}$. Esto lo hicimos ya que agregarNodo no puede recibir una clique vacia.\newline
+Si por el contrario quitarNodo nos devuelve un grafo, aplicamos la funcion agregarNodo sobre este. \newline
+Como quitarNodo y agregarNodo son dos funciones distintas, es posible que al aplicar ambas obtengamos el mismo $S_{0}$. En el caso de que esto suceda, no habría problema ya que significaría que de todas las cliques de este subconjunto, ninguna tiene mayor frontera que $S_{0}$.
 \begin{algorithm}[H]
     \SetAlgoLined
     \caption{permutarNodo}
     \KwIn{\textbf{Grafo} $grafo$, \textbf{Conj(Entero)} $clique$}
     \KwOut{\textbf{par(Entero,Conj(Entero))} $res$}
 	
-   \textbf{Conj(Entero)} $cliqueResultante$ = segundo(quitarNodo($grafo$, $clique$)) \\
+   \textbf{Conj(Entero)} $cliqueParcial$ = segundo(quitarNodo($grafo$, $clique$)) \\
 
-    \eIf{$|cliqueResultante| = 0$}{
-	    \textbf{Entero} $nodo$ = vecinoDeMayorGrado($grafo$,$clique[0]$) \\
-            agregar($cliqueRes$, $nodo$)\\
-	    $res$ = hacerPar ($|$vecindad($nodo$)$|$, $cliqueRes$)	
-	 		}{$res$ = agregarNodo($grafo$, $clique$)}
+    \eIf{$cliqueParcial = \emptyset$}{
+	    \textbf{Entero} $nodo$ = vecinoDeMayorGrado($grafo$,$clique$) \\
+            agregar($cliqueParcial$, $nodo$)\\
+	    $res$ = hacerPar (frontera($cliqueParcial$), $cliqueParcial$)	
+	 		}{$cliqueParcial$ = agregarNodo($grafo$, $cliqueParcial$)\\
+	 		 $res$ = hacerPar (frontera($cliqueParcial$), $cliqueParcial$)
+	 		}
 
     \textbf{devolver} $res$ \\
 \end{algorithm}
-Donde $segundo$ nos devuelve el segundo elemento de una tupla,  $agregar$ inserta un elemento en un arreglo, $vecinoDeMayorGrado$ nos da el nodo de mayor grado entre todos los vecinos del vértice pasado por parámetro, $vecindad$ nos devuelve todos los nodos adyacentes al nodo pasado por parámetro y $hacerPar$ genera un par con lo dos elementos pasados por parámetro. \newline
+Donde $segundo$ nos devuelve el segundo elemento de una tupla,  $agregar$ inserta un elemento en un arreglo, $vecinoDeMayorGrado$ nos da el nodo de mayor grado entre todos los vecinos del vértice pasado por parámetro, $frontera$ calcula la frontera del subgrafo pasado por parámetro, $vecindad$ nos devuelve todos los nodos adyacentes al nodo pasado por parámetro y $hacerPar$ genera un par con lo dos elementos pasados por parámetro. \newline
 \end{itemize}
 
 Una vez que generamos a los tres candidatos de la vecindad, tomamos al que tiene mayor frontera y lo comparamos con $S_{0}$. Si la frontera de $S_{0}$ es menor, entonces la clique de frontera máxima de nuestra vecindad es nuestra nueva solución inicial. Caso contrario, el programa finaliza ya que ningún elemento de la vecindad puede mejorarla.
@@ -165,7 +168,10 @@ Como se puede observar, la complejidad final de $permutarNodo$ es $\mathcal{O}(n
     \textbf{devolver} $res$ \\
 \end{algorithm}
 
-Como se observa en el pseudocódigo Nº 9, nuestro algoritmo coloca en $res$ el nodo de mayor grado del grafo. Esta función tiene complejidad $\mathcal{O}(n)$. Posteriormente, ejecuta agregarNodo ($\mathcal{O}(n^{2})$), quitarNodo ($\mathcal{O}(n)$) y permutarNodo ($\mathcal{O}(n^{2})$). Estas tres funciones se ejecutan como máximo $m$ veces. Esto se debe a que la frontera debe ser siempre creciente en la cantidad de aristas. Por lo tanto, en cada paso a lo sumo puede crecer en una unidad llegando a un máximo de $m$. Con lo cual, la complejidad del ciclo es $\mathcal{O}(n^{2})$ * $\mathcal{O}(n^{2})$
+Como se observa en el pseudocódigo Nº 9, nuestro algoritmo coloca en $res$ el nodo de mayor grado del grafo. Esta función tiene complejidad $\mathcal{O}(n)$.
+Posteriormente, utiliza las funciones agregarNodo ($\mathcal{O}(n^{2})$), quitarNodo ($\mathcal{O}(n)$) y permutarNodo ($\mathcal{O}(n^{2})$). Estas tres funciones se encuentran dentro de un ciclo el cual itera como máximo $m$ veces. La razon por la cual la cantidad de iteraciones esta acotada por la cantidad de aristas es la siguiente:\newline
+Como explicamos al comienzo, el algoritmo de busqueda local consiste en partir de una solucion inicial y en cada paso mejorarla. Esto significa que nuestro ciclo deberia iterar hasta encontrar la mejor solucion posible y una vez ayada dejar de ciclar. En nuestro caso, las soluciones parciales son cliques de frontera maxima. Esto quiere decir que en cada paso se intenta mejorar la cantidad de aristas que posee la clique perteneciente a la solucion anterior. Supongamos ahora que la solucion inicial con la cual ingresamos al ciclo posee frontera igual a 1. Por otro lado, supongamos tambien que en cada iteracion del ciclo, se encuentra una solucion que mejora en uno a la que se tenia. Si  esto ocurre, en cada iteracion se iria agregando una arista, con lo cual no seria necesario que nuestro ciclo itere más de $m$ veces, ya que es la cantidad maxima de aristas que puede agregar. Es por esto que nuestro algoritmo encuentra la mejor solucion posible en a lo sumo $m$ pasos. Por ultimo, la complejidad del ciclo es $\mathcal{O}(n^{2})$ * $\mathcal{O}(n^{2})$                                                                        
+                                                                                
 \newline
 Como se puede observar, la complejidad final de $busquedaLocal$ es $\mathcal{O}(n^{4})$.
 \end{itemize}
