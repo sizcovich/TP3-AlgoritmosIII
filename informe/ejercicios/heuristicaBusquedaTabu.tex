@@ -1,4 +1,4 @@
-En esta sección, se busca resolver el problema de CMF a partir de una Heurística de Búsqueda Tabú (Tabu search\footnote{Glover, F. "Tabu Search — Part I", ORSA Journal on Computing 1989}). Dicha heurística consiste en una estrategia para resolver problemas combinatorios, aplicable tanto en grafos como en otras estructuras utilizadas para resolver problemas de lógica. Este método utiliza el mismo procedimiento que Búsqueda Local\footnote{Ver sección anterior.} para acercarse progresivamente a una mejor solución dentro de un entorno. Dado que en ciertos casos la solución no puede ser mejorada, la técnica de Búsqueda Tabú permite empeorarla parcialmente para proseguir la búsqueda de una mejor. A su vez, esta heurística concede una estructura llamada $lista\ tabú$ con distintas utilidades. Principalmente, sirve para guardar movimientos de modo a no repetirlos y/o guardar características o soluciones, entre otras. A continuación, se encuentra explicitado el pseudocódigo\footnote{http://www.dc.uba.ar/materias/aed3/2013/2c/laboratorio/heuristicas.pdf} de la heurística de Búsqueda Tabú:
+En esta sección, se busca resolver el problema de CMF a partir de una Heurística de Búsqueda Tabú (Tabu search\footnote{Glover, F. ``Tabu Search — Part I'', ORSA Journal on Computing 1989}). Dicha heurística consiste en una estrategia para resolver problemas combinatorios, aplicable tanto en grafos como en otras estructuras utilizadas para resolver problemas de lógica. Este método utiliza el mismo procedimiento que Búsqueda Local\footnote{Ver sección anterior.} para acercarse progresivamente a una mejor solución dentro de un entorno. Dado que en ciertos casos la solución no puede ser mejorada, la técnica de Búsqueda Tabú permite empeorarla parcialmente para proseguir la búsqueda de una mejor. A su vez, esta heurística concede una estructura llamada $lista\ tabú$ con distintas utilidades. Principalmente, sirve para guardar movimientos de modo a no repetirlos y/o guardar características o soluciones, entre otras. A continuación, se encuentra explicitado el pseudocódigo\footnote{http://www.dc.uba.ar/materias/aed3/2013/2c/laboratorio/heuristicas.pdf} de la heurística de Búsqueda Tabú:
 
 \begin{algorithm}[H]
 \SetAlgoLined
@@ -25,7 +25,7 @@ A diferencia de la Búsqueda Local, se buscan nuevas soluciones que no necesaria
 \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
 \includegraphics[width=250pt]{../imgs/1_tabu.png}
-\caption{solución con Busqueda Local}
+\caption{solución con Búsqueda Local}
 \subcaption{Aqui se muestra en el dominio la vecindad y en la imagen el valor de la frontera. El rombo rojo representa la solucion de la Busqueda Local.}
 \end{center}
 \end{figure}
@@ -34,8 +34,8 @@ A diferencia de la Búsqueda Local, se buscan nuevas soluciones que no necesaria
 \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
 \includegraphics[width=250pt]{../imgs/2_tabu.png}
-\caption{solución con Busqueda tabú}
-\subcaption{Este es el mismo grafico anterior pero se puede notar como despues de aplicar $desviacion_permitida$ "descensos" la solucion comienza a mejorar hasta para en otro maximo local (mejor que el dado por Busqueda Local).}
+\caption{solución con Búsqueda tabú}
+\subcaption{Este es el mismo grafico anterior pero se puede notar como despues de aplicar $desviacion_permitida$ ``descensos'' la solucion comienza a mejorar hasta para en otro maximo local (mejor que el dado por Busqueda Local).}
 \end{center}
 \end{figure}
 
@@ -146,15 +146,15 @@ Donde:
  Como puede observarse las operaciones como agregar o quitar un nodo consisten en realizar los siguientes pasos: \newline
 \begin{itemize}
  \item $Copiar\ una\ solución$ actual a una nueva esto es lineal en la cantidad de nodos de la solucion.
- \item $Agregar\ un\ nodo$ consiste en calcular los candidatos a agregar en la solucion (tiene un coste de $\mathcal{O}(n)^{2}$ ya que recorre todos los nodos del grafo y por cada iteracion recorre todos los de la clique realizando comparaciones constantes) y una vez obtenido esos se recorren esos candidatos (lineal en cantidad de nodos) y se busca cual mejora la frontera (ver la frontera\footnote{Ver complejidad de estructura $Grafo$} de un nodo es $\mathcal{O}($cant.nodos$)$) de esta majera, encontrar el mejor es $\mathcal{O}($cant.nodos$)^{2}$. Luego, la complejidad final de esta operacion es $\mathcal{O}($cant.nodos$)^{2}$ + $\mathcal{O}($cant.nodos$)^{2}$ = $\mathcal{O}($cant.nodos$)^{2}$.
+ \item $Agregar\ un\ nodo$ consiste en calcular los candidatos a agregar en la solucion (tiene un coste de $\mathcal{O}(n)^{2}$ ya que recorre todos los nodos del grafo y por cada iteracion recorre todos los de la clique realizando comparaciones constantes) y una vez obtenido esos se recorren esos candidatos (lineal en cantidad de nodos) y se busca cual mejora la frontera (ver la frontera\footnote{Ver complejidad de estructura $Grafo$} de un nodo es $\mathcal{O}($cant.nodos$)$) de esta majera, encontrar el mejor es $\mathcal{O}(cant.nodos^{2})$. Luego, la complejidad final de esta operacion es $\mathcal{O}(cant.nodos)^{2}$ + $\mathcal{O}(cant.nodos)^{2}$ = $\mathcal{O}($cant.nodos$)^{2}$.
  \item $Quitar\ un\ nodo$ donde simplemente se busca el nodo con menor grado (esto es lineal en la cantidad de elementos y ver el grado es constante\footnote{Ver complejidad de estructura $Grafo$}), luego se crea una nueva solucion con los nodos anteriores menos el de menor grado (esto es lineal en $cant.nodos$). Luego, la complejidad de esta operacion es $\mathcal{O}($cant.nodos$)$) + $\mathcal{O}($cant.nodos$)$) = $\mathcal{O}($cant.nodos$)$).
 \end{itemize}
 
- Por otro lado, la lista tabú esta representada por un vector de $n$ elementos donde en la i-esima posición esta el "valor tabú" del i-esimo nodo. Por lo tanto, poner como tabú a un nodo o ver su valor es equivalente a acceder\footnote{http://www.cplusplus.com/reference/vector/vector/operator[]/} a un elemento del arreglo que es constante.\newline
+ Por otro lado, la lista tabú esta representada por un vector de $n$ elementos donde en la i-esima posición esta el ``valor tabú'' del i-esimo nodo. Por lo tanto, poner como tabú a un nodo o ver su valor es equivalente a acceder\footnote{http://www.cplusplus.com/reference/vector/vector/operator[]/} a un elemento del arreglo que es constante.\newline
 
- Teniendo en cuenta todo lo anterior, notar que las operaciones $Dame$ $Mejor$ $solución$ $agregando$ $nodo$ $No$ $tabú$ y $Dame$ $Mejor$ $solución$ $agregando$ $nodo$ $No$ $tabú$ hacen referencia a $Agregar\ un\ nodo$ y $Quitar\ un\ nodo$ repectivamente.\newline
+ Teniendo en cuenta todo lo anterior, notar que las operaciones $Dame\ Mejor\ solución\ agregando\ nodo\ No\ tabú$ y $Dame\ Mejor\ solución\ agregando\ nodo\ No\ tabú$ hacen referencia a $Agregar\ un\ nodo$ y $Quitar\ un\ nodo$ repectivamente.\newline
 
- Solo queda ver la complejidad de la función principal "TabuSearch". Esta comienza realizando una búsqueda local\footnote{ver sección anterior} (O(n$^{4}$)) la cual es almacenada en una solución (guardar dicha solución cuesta cuadrático en la cantidad de nodos); seguido define la lista tabú en 0 todos los valores (lineal en cantidad de nodos). Continuando empieza un ciclo ($desviacion_permitida$ + $cant.nodos$$^{2}$ en el peor caso) y por cada iteración se ejecuta las funciones $Dame$ $Mejor$ $solución$ $agregando$ $nodo$ $No$ $tabú$ y $Dame$ $Mejor$ $solución$ $agregando$ $nodo$ $No$ $tabú$ (O($cant.nodos$$^{2}$)+O($cant.nodos$)) seguido de comparaciones (lineal) y asignaciones con coste lineal. (Notar que las comparaciones son constantes pero ver la frontera es lineal). \newline
+ Solo queda ver la complejidad de la función principal ``TabuSearch''. Esta comienza realizando una búsqueda local\footnote{ver sección anterior} (O(n$^{4}$)) la cual es almacenada en una solución (guardar dicha solución cuesta cuadrático en la cantidad de nodos); seguido define la lista tabú en 0 todos los valores (lineal en cantidad de nodos). Continuando empieza un ciclo ($desviacion_permitida$ + $cant.nodos^{2}$ en el peor caso) y por cada iteración se ejecuta las funciones $Dame\ Mejor\ solución\ agregando\ nodo\ No\ tabú$ y $Dame\ Mejor\ solución\ agregando\ nodo\ No\ tabú$ ($\mathcal{O}(cant.nodos^{2}$)+$\mathcal{O}(cant.nodos$)) seguido de comparaciones (lineal) y asignaciones con coste lineal. (Notar que las comparaciones son constantes pero ver la frontera es lineal). \newline
  De esta manera la complejidad final del algoritmo es $\mathcal{O}(n^{4})$ + $\mathcal{O}(n^{2})$ * $\mathcal{O}(n^{2})$ = $\mathcal{O}(n^{4})$.  \newline
 
 Notar que la complejidad es similar a la de local porque, por un lado, se empieza realizando una búsqueda local (para tomar la solución inicial) y luego se realizan operaciones similares a las de dicha búsqueda (agregar y quitar nodos) por lo tanto tienen la misma complejidad y la cantidad de veces que se realizan es, al igual que la local,  una cantidad de iteraciones equivalente a los nodos al cuadrado mas una desviacion que es lineal en la cantidad de nodos.
@@ -166,17 +166,17 @@ Notar que la complejidad es similar a la de local porque, por un lado, se empiez
 
 \begin{itemize}
  
-  \item $La$ $solución$ $inicial$ $va$ $a$ $condicionar$ $la$ $final$. Como la solución inicial se encuentra en un máximo local solo le queda a la búsqueda "descender" en busca de un "nuevo ascenso" (Con ascender o descender nos referimos a mejorar o empeorar la solución actual respectivamente).
+  \item $La\ solución\ inicial\ va\ a\ condicionar\ la\ final$. Como la solución inicial se encuentra en un máximo local solo le queda a la búsqueda ``descender'' en busca de un ``nuevo ascenso'' (Con ascender o descender nos referimos a mejorar o empeorar la solución actual respectivamente).
 
 
-  \item $El$ $conjunto$ $de$ $cliques$ $sepadaras$ $por$ $n/2+1$ $afectan$ $la$ $solución$. Cuando tenemos varias cliques máximas separadas por dicha cantidad de aristas puente, nosotros empezamos a explorar en una (que es donde la búsqueda local termino), si la solución optima se encuentra en otra clique a la que los separa dicha cantidad de aristas, el algoritmo no va a poder llegar a encontrar dicha solucion. 
+  \item $El\ conjunto\ de\ cliques\ sepadaras\ por\ n/2+1\ afectan\ la\ solución$. Cuando tenemos varias cliques máximas separadas por dicha cantidad de aristas puente, nosotros empezamos a explorar en una (que es donde la búsqueda local termino), si la solución optima se encuentra en otra clique a la que los separa dicha cantidad de aristas, el algoritmo no va a poder llegar a encontrar dicha solucion. 
 
 \end{itemize}
 
 A continuación mostraremos un ejemplo en el que se dan ambos cosos y uno puede hacer tan mala como quiera la solucion.
 
  Al partir de un nodo con mayor grado, si la clique que tiene mayor frontera no posee a dicho nodo, hay muchas menos chances que el algoritmo encuentre la solución. De esta manera podemos definir la clase:
- $Grafo$ $con$ $una$ $estrella$ $y$ $una$ $clique$ $de$ $nodos$ $con$ $grado$ $menor$ $al$ $grado$ $central$ $de$ $la$ $estrella.$ 
+ $Grafo\ con\ una\ estrella\ y\ una\ clique\ de\ nodos\ con\ grado\ menor\ al\ grado\ central\ de\ la\ estrella.$ 
 
 \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
@@ -223,14 +223,14 @@ Notar que la mayoría de problemas encontrados se deben al proceso de intensific
 \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
 \includegraphics[width=400pt]{../imgs/variaciontemporal_tabu.jpg}
-\caption{Variacion de $desviacion\_permitida$ - Grafico Temporal}
+\caption{Variación de $desviacion\_permitida$ - Grafico Temporal}
 \end{center}
 \end{figure}
 
 \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
 \includegraphics[width=400pt]{../imgs/variacioncalidad_tabu.jpg}
-\caption{Variacion de $desviacion\_permitida$ - Grafico de Calidad}
+\caption{Variación de $desviacion\_permitida$ - Grafico de Calidad}
 \end{center}
 \end{figure}
 
