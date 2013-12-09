@@ -157,7 +157,7 @@ Donde:
  Solo queda ver la complejidad de la función principal ``TabuSearch''. Esta comienza realizando una búsqueda local\footnote{ver sección anterior} (O(n$^{4}$)) la cual es almacenada en una solución (guardar dicha solución cuesta cuadrático en la cantidad de nodos); seguido define la lista tabú en 0 todos los valores (lineal en cantidad de nodos). Continuando empieza un ciclo ($desviacion_permitida$ + $cant.nodos^{2}$ en el peor caso) y por cada iteración se ejecuta las funciones $Dame\ Mejor\ solución\ agregando\ nodo\ No\ tabú$ y $Dame\ Mejor\ solución\ agregando\ nodo\ No\ tabú$ ($\mathcal{O}(cant.nodos^{2}$)+$\mathcal{O}(cant.nodos$)) seguido de comparaciones (lineal) y asignaciones con coste lineal. (Notar que las comparaciones son constantes pero ver la frontera es lineal). \newline
  De esta manera la complejidad final del algoritmo es $\mathcal{O}(n^{4})$ + $\mathcal{O}(n^{2})$ * $\mathcal{O}(n^{2})$ = $\mathcal{O}(n^{4})$.  \newline
 
-Notar que la complejidad es similar a la de local porque, por un lado, se empieza realizando una búsqueda local (para tomar la solución inicial) y luego se realizan operaciones similares a las de dicha búsqueda (agregar y quitar nodos) por lo tanto tienen la misma complejidad y la cantidad de veces que se realizan es, al igual que la local,  una cantidad de iteraciones equivalente a los nodos al cuadrado mas una desviacion que es lineal en la cantidad de nodos.
+Notar que la complejidad es similar a la de local porque, por un lado, se empieza realizando una búsqueda local (para tomar la solución inicial) y luego se realizan operaciones similares a las de dicha búsqueda (agregar y quitar nodos) por lo tanto tienen la misma complejidad y la cantidad de veces que se realizan es, al igual que la local, una cantidad de iteraciones equivalente a los nodos al cuadrado más una desviación que es lineal en la cantidad de nodos.
 
 
 \subsection{Instancias problemáticas}
@@ -227,6 +227,7 @@ Notar que la mayoría de problemas encontrados se deben al proceso de intensific
 \end{center}
 \end{figure}
 
+En el gráfico que sigue, se compara la calidad de la solución obtenida con dicha heurística.
 \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
 \includegraphics[width=400pt]{../imgs/variacioncalidad_tabu.jpg}
@@ -243,7 +244,7 @@ El siguiente gráfico muestra un promedio entre el tiempo que tarda y el resulta
 \end{center}
 \end{figure}
 
- Cuando hablamos de promedio hacemos referencia a un balance entre tiempo y calidad. Elegimos esto ya que,  para realizar diferentes experimentaciones con los grafos, dado la densidad y la cantidad de pruebas que hacemos no nos es viable que tarde mucho en procesar cada grafo. A su vez, tampoco queremos que las soluciones nunca mejoren a la local, porque no tendría sentido. Es por esta razón que elegimos el promedio.
+ Cuando hablamos de promedio hacemos referencia a un balance entre tiempo y calidad. Elegimos esto ya que, para realizar diferentes experimentaciones con los grafos, dado la densidad y la cantidad de pruebas que hacemos no nos es viable que tarde mucho en procesar cada grafo. A su vez, tampoco queremos que las soluciones nunca mejoren a la local, porque no tendría sentido. Es por esta razón que elegimos el promedio.
 
  De esta manera podemos observar que para una densidad de 50$\%$ de aristas un valor promedio optimo es $n/2$ con $n$ = $cantidad\ de\ nodos$. Es por esta razón que en los items anteriores usamos este valor. Elegimos este valor, aunque también pudimos haber elegido $n/4$, pero cuanto mas chico, en grafos con pocas aristas va a contemplar muchos menos casos.
 
