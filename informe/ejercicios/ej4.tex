@@ -2,6 +2,15 @@
 
 Para realizar la experimentación respecto a la calidad de las heurísticas presentadas, utilizamos un generador de las siguientes familias de grafos:
 \begin{itemize}
+\item Aleatorio
+ \begin{figure}[H] %[h] Aqui [b] para button [t] para top
+\begin{center}
+\includegraphics[width=250pt]{../imgs/aleatorio.png}
+\caption{Grafo de ejemplo de tipo Aleatorio.}
+\end{center}
+\end{figure}
+ Para este tipo de grafos lo que hicimos es, dada una cantidad de nodos y una dencidad (que va de 0 a 1), va agarrando nodos de manera aleatoria y los pone adyacentes; asi hasta completar la cantidad de aristas buscada (esta cantidad de aristas es el cuadrado de los nodos por la densidad).
+
 \item Estrella + CMF
  \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
@@ -38,6 +47,8 @@ Para realizar la experimentación respecto a la calidad de las heurísticas pres
 \caption{Grafo de ejemplo de tipo Estrella con un puente a una estrella doble.}
 \end{center}
 \end{figure}
+
+
 \end{itemize}
 Luego, procedimos aumentando la cantidad de nodos de los grafos, que a su vez aumenta la cantidad de aristas de éstos dado que los grafos en cuestión se caracterizan por un porcentaje determinado de aristas con respecto a sus nodos. De este modo, realizamos pruebas para cada heurística sobre cada familia de grafos.
 
