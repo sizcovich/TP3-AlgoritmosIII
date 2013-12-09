@@ -62,8 +62,6 @@ En este caso, tenemos una estrella cuyo nodo central no forma parte de la clique
 \end{center}
 \end{figure}
 
-
-
 En este caso sucede lo mismo que en el anterior, los algoritmos inician en la estrella ya que ésta tiene mayor grado y provoca que nunca se logren mover hasta las soluciones que se encuentran del otro lado del puente que se forma entre la estrella y la estructura que contiene una clique de frontera máxima del otro lado.
 
  \begin{figure}[H] %[h] Aqui [b] para button [t] para top
@@ -93,6 +91,8 @@ En este caso, tenemos un grafo de tipo banana tree, las heurísticas en la mayor
 \end{center}
 \end{figure}
 
+En este caso, todos los nodos del grafo se conectan con otros 3 salvo uno q se conecta con todos. Como la solucion exacta esta conformada por el nodo central y uno de sus adyacentes, todos los algoritmos llegan a la solucion correcta sin mayor dificultad. Esto se debe a que las 3 heurísticas parten del nodo de mayor grado.
+
  \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
 \includegraphics[width=400pt]{../imgs/calidadSolucionesGrandes15.jpg}
@@ -100,12 +100,15 @@ En este caso, tenemos un grafo de tipo banana tree, las heurísticas en la mayor
 \end{center}
 \end{figure}
 
+En este caso, tenemos una estrella cuyo nodo central se encuentra a una distancia considerable de la clique de frontera máxima. Por lo tanto, la heurística de búsqueda local se ve perjudicada por la caracterización del grafo, esto se debe a que parte del nodo de mayor grado y se mueve por una vecindad pequeña, con lo cual nunca llega a encontrar la CMF. En el caso de la metaheurística Tabú, parte de una solución inicial dada por la búsqueda local, con lo cual tiene un punto de partida poco ventajoso que termina provocando que genere un mal resultado para algunos casos. En el caso de la búsqueda golosa, esta se ve beneficiada ya que si bien empieza con el nodo de mayor grado, eventualmente prueba con otros nodos teniendo así mayor probabilidad de encontrar la clique de frontera máxima. 
+
  \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
 \includegraphics[width=400pt]{../imgs/calidadSolucionesGrandes14.jpg}
 \caption{Comparación realizada con soluciones grandes con un grafo de tipo Estrella+Puente+CMF.}
 \end{center}
 \end{figure}
+
 
  \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
