@@ -99,11 +99,11 @@ Como quitarNodo y agregarNodo son dos funciones distintas, es posible que al apl
 
     \eIf{$cliqueParcial = \emptyset$}{
 	    \textbf{Entero} $nodo$ = vecinoDeMayorGrado($grafo$,$clique$) \\
-            agregar($cliqueParcial$, $nodo$)\\
-	    $res$ = hacerPar (frontera($cliqueParcial$), $cliqueParcial$)	
+            agregar($cliqueParcial$, $nodo$)\\	
 	 		}{$cliqueParcial$ = agregarNodo($grafo$, $cliqueParcial$)\\
-	 		 $res$ = hacerPar (frontera($cliqueParcial$), $cliqueParcial$)
+	 		 
 	 		}
+	 		$res$ = hacerPar(frontera($cliqueParcial$), $cliqueParcial$)
 
     \textbf{devolver} $res$ \\
 \end{algorithm}
@@ -125,7 +125,7 @@ Luego, hay un ciclo el cual nuevamente recorre todos los nodos de la clique ($\m
 \newline
 Por ultimo, se calcula el valor de la frontera mediante la función $frontera$ de la clase grafo, la cual tiene una complejidad de $\mathcal{O}(n)$ y se genera un par con la solución del problema. Este par es generado mediante la función $make\_pair$\footnote{http://www.cplusplus.com/reference/utility/make\_pair/} cuya complejidad es $\mathcal{O}(1)$.
 \newline
-Como se puede observar, la complejidad final de $quitarNodo$ es $\mathcal{O}(n)$
+Como se puede observar, la complejidad final de $quitarNodo$ es $\mathcal{O}(n)$.
 
 \item \textbf{agregarNodo:} \newline 
 Como podemos observar en el pseudocódigo de la función $agregarNodo$, lo primero que hace nuestro algoritmo es crear un arreglo de $n$ posiciones ($\mathcal{O}(n)$). Posteriormente, hace $marcarNodos$ el cual para cada nodo de la clique($\mathcal{O}(n)$), se fija cuales son sus vecinos mediante la función $vecindad$ ($\mathcal{O}(1)$) de la clase grafo. Luego, para cada uno de estos, ($\mathcal{O}(n)$) le suma uno a la cantidad de nodos adyacentes perteneciente a la clique que poseen. Por lo tanto, la complejidad de $marcarNodos$ es $\mathcal{O}(n^{2})$. \newline
@@ -133,15 +133,15 @@ Una vez que calcula cuantos nodos de la clique son adyacentes a cada nodo del gr
 Posteriormente, a cada nodo de $dameCandidatosAClique$ ($\mathcal{O}(n)$), lo agrega a $S_{0}$, mediante la función $push\_back$,\footnote{http://www.cplusplus.com/reference/vector/vector/push\_back/}($\mathcal{O}(1)$). Luego, compara la frontera ($\mathcal{O}(n)$) de esta nueva clique con la frontera mas grande hasta el momento. En caso de que esta sea mayor, almacena que nodo fue el que agrego y cual es el valor de su frontera. Por ultimo, quita este nodo mediante la función $pop\_back$\footnote{http://www.cplusplus.com/reference/vector/vector/pop\_back/} cuya complejidad es $\mathcal{O}(1)$). El costo de realizar esto es $\mathcal{O}(n^{2})$. \newline
 Una vez que tiene la solución, genera un par con esta mediante la función $make\_pair$\footnote{http://www.cplusplus.com/reference/utility/make\_pair/} cuya complejidad es $\mathcal{O}(1)$.
 \newline
-Como se puede observar, la complejidad final de $agregarNodo$ es $\mathcal{O}(n^{2})$
+Como se puede observar, la complejidad final de $agregarNodo$ es $\mathcal{O}(n^{2})$.
 
 \item \textbf{permutarNodo:} \newline 
 Como podemos observar en el pseudocódigo Nº 8, nuestro algoritmo hace dos cosas. Primero le quita un nodo a la clique mediante la función $quitarNodo$ cuya complejidad es $\mathcal{O}(n)$. Posteriormente, se fija si el resultado de $quitarNodo$ es vacío o no. \newline
 En el caso de que sea vacío, calcula mediante $vecinoDeMayorGrado$ cual de todos los nodos adyacentes al pasado por parámetro tiene mayor grado. Para esto, recorre todos los nodos adyacentes y compara en $\mathcal{O}(1)$ sus grados, por lo tanto su complejidad es $\mathcal{O}(n)$. Una vez que tiene la solución, la coloca en un arreglo mediante $push\_back$ y genera un par con esta mediante la función $make\_pair$ cuya complejidad es $\mathcal{O}(1)$.
 \newline
-Si por el contrario, la clique no estaba vacía, obtiene la solución mediante la función $agregarNodo$ cuya complejidad es $\mathcal{O}(n^{2})$
+Si por el contrario, la clique no estaba vacía, obtiene la solución mediante la función $agregarNodo$ cuya complejidad es $\mathcal{O}(n^{2})$.
 \newline
-Como se puede observar, la complejidad final de $permutarNodo$ es $\mathcal{O}(n^{2})$
+Como se puede observar, la complejidad final de $permutarNodo$ es $\mathcal{O}(n^{2})$.
 
 \item \textbf{busquedaLocal:} \newline 
 
@@ -168,12 +168,12 @@ Como se puede observar, la complejidad final de $permutarNodo$ es $\mathcal{O}(n
     \textbf{devolver} $res$ \\
 \end{algorithm}
 
-Como se observa en el pseudocódigo Nº 9, nuestro algoritmo coloca en $res$ el nodo de mayor grado del grafo. Esta función tiene complejidad $\mathcal{O}(n)$.
-Posteriormente, utiliza las funciones agregarNodo ($\mathcal{O}(n^{2})$), quitarNodo ($\mathcal{O}(n)$) y permutarNodo ($\mathcal{O}(n^{2})$). Estas tres funciones se encuentran dentro de un ciclo el cual itera como máximo $m$ veces. La razon por la cual la cantidad de iteraciones esta acotada por la cantidad de aristas es la siguiente:\newline
-Como explicamos al comienzo, el algoritmo de búsqueda local consiste en partir de una solución inicial y en cada paso mejorarla. Esto significa que nuestro ciclo debería iterar hasta encontrar la mejor solución posible y una vez ayuda dejar de ciclar. En nuestro caso, las soluciónes parciales son cliques de frontera máxima. Esto quiere decir que en cada paso se intenta mejorar la cantidad de aristas que posee la clique perteneciente a la solución anterior. Supongamos ahora que la solución inicial con la cual ingresamos al ciclo posee frontera igual a 1. Por otro lado, supongamos tambien que en cada iteracion del ciclo, se encuentra una solución que mejora en uno a la que se tenia. Si  esto ocurre, en cada iteracion se iria agregando una arista, con lo cual no seria necesario que nuestro ciclo itere más de $m$ veces, ya que es la cantidad máxima de aristas que puede agregar. Es por esto que nuestro algoritmo encuentra la mejor solución posible en a lo sumo $m$ pasos. Por ultimo, la complejidad del ciclo es $\mathcal{O}(n^{2})$ * $\mathcal{O}(n^{2})$                                                                        
+Como se observa en el pseudocódigo anterior, nuestro algoritmo coloca en $res$ el nodo de mayor grado del grafo. Esta función tiene complejidad $\mathcal{O}(n)$.
+Posteriormente, utiliza las funciones agregarNodo ($\mathcal{O}(n^{2})$), quitarNodo ($\mathcal{O}(n)$) y permutarNodo ($\mathcal{O}(n^{2})$). Estas tres funciones se encuentran dentro de un ciclo el cual itera como máximo $m$ veces. La razón por la cual la cantidad de iteraciones está acotada por la cantidad de aristas es la siguiente:\newline
+Como explicamos al comienzo, el algoritmo de búsqueda local consiste en partir de una solución inicial y en cada paso mejorarla. Esto significa que nuestro ciclo itera hasta encontrar la mejor solución posible y una vez hallada deja de ciclar. En nuestro caso, las soluciones parciales son cliques de frontera máxima, esto quiere decir que en cada paso se intenta aumentar la cantidad de aristas que posee la frontera perteneciente a la solución anterior. Supongamos ahora que la solución inicial con la cual ingresamos al ciclo posee frontera igual a 1 y que en cada iteración del ciclo, se encuentra una solución que mejora en uno a la obtenida anteriormente. Si esto ocurre, en cada iteracion se iría agregando una arista, con lo cual no sería necesario que nuestro ciclo itere más de $m$ veces ya que es la cantidad máxima de aristas que puede agregar. Es por esto que nuestro algoritmo encuentra la mejor solución posible en a lo sumo $m$ pasos. Por último, la complejidad del ciclo es $\mathcal{O}(n^{2})$ * $\mathcal{O}(n^{2})$          .                                                              
                                                                                 
 \newline
-Como se puede observar, la complejidad final de $busquedaLocal$ es $\mathcal{O}(n^{4})$.
+Luego, podemos concluir que la complejidad final de $busquedaLocal$ es $\mathcal{O}(n^{4})$.
 \end{itemize}
 \subsection{Instancias problemáticas}
 Si observamos nuestro algoritmo, podemos notar que este siempre arranca por el nodo de mayor grado. Posteriormente, se va moviendo, en cada iteración, a una clique la cual dista a lo sumo en una unidad con la clique actual. Teniendo en cuenta esto, nuestro algoritmo va a encontrar la solución exacta siempre y cuando haya cliques, las cuales generen fronteras cada vez mas grande, entre el nodo de mayor grado y la clique de frontera máxima.
@@ -249,7 +249,7 @@ $$5\ \   1\ \   1$$
 \caption{Ejemplo}
 \end{center}
 \end{figure}
-Como se puede notar en el grafico, la frontera máxima según nuestro algoritmo es 5 (aristas rojas) cuando la exacta es en realidad 6 (aristas verdes) y esta conformada por los nodos 7 8 9 . esto se debe a que el nodo de mayor grado es el 1 y dista en dos nodo de la clique máxima. 
+Como se puede notar en el gráfico, la frontera máxima según nuestro algoritmo es 5 (aristas rojas) cuando la exacta es en realidad 6 (aristas verdes) y está conformada por los nodos 7 8 9. Ésto se debe a que el nodo de mayor grado es el 1 y dista en dos nodo de la clique máxima. 
 \newline
 comprobemos que esto satisface nuestra cota:
 \begin{equation}
@@ -289,7 +289,7 @@ $$5\ \   1\ \   1$$
 \caption{Ejemplo}
 \end{center}
 \end{figure}
-Como se puede notar en el gráfico, la frontera máxima según nuestro algoritmo es 5 (aristas rojas) cuando la exacta es en realidad 9 (aristas verdes) y esta conformada por los nodos 7 8 9 . esto se debe a que el nodo de mayor grado es el 1 y dista en dos nodo de la clique máxima.
+Como se puede notar en el gráfico, la frontera máxima según nuestro algoritmo es 5 (aristas rojas) cuando la exacta es en realidad 9 (aristas verdes) y está conformada por los nodos 7 8 9. Ésto se debe a que el nodo de mayor grado es el 1 y dista en dos nodo de la clique máxima.
 \newline
 comprobemos que esto satisface nuestra cota:
 \begin{equation}
