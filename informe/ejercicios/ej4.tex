@@ -131,5 +131,3 @@ En este gráfico, se puede observar que para casos de grafos grandes de tipo Est
 
 En este caso, podemos ver que las tres heurísticas encuentran resultados similares. Esto se debe a que la clique de máxima frontera del grafo de tipo Banana Tree es el nodo que se encuentra entre los dos caminos simples que lo conforman, luego el de mayor grado. Por lo tanto las heurísticas encuentran la solución exacta en la mayoría de los casos.
 
-
-\textbf{Conclusión:} Luego de distintas experimentaciones con grafos de distinto tipo (Estrella+Puente+CMF, Estrella+CMF, Banana Tree, Estrella+Puente+Doble Estrella y Rueda) y tamaño, podemos concluir que las heurísticas suelen devolver resultados aproximados a la solución óptima en la mayoría de los casos. Sin embargo, cuando la clique de máxima frontera no contiene al nodo de mayor grado o éste se encuentra alejado de la misma, las heurísticas Golosa y de Búsqueda Local retornan un resultado alejado de la solución óptima. Contrariamente, Tabú suele mejorar dichos resultados pues parte desde la Heurística de Búsqueda Local y mejora su resultado.
