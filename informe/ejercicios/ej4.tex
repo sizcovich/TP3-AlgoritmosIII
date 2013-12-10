@@ -9,7 +9,7 @@ Para realizar la experimentación respecto a la calidad de las heurísticas pres
 \caption{Grafo de ejemplo de tipo Aleatorio.}
 \end{center}
 \end{figure}
- Para este tipo de grafos lo que hicimos es, dada una cantidad de nodos y una dencidad (que va de 0 a 1), va agarrando nodos de manera aleatoria y los pone adyacentes; asi hasta completar la cantidad de aristas buscada (esta cantidad de aristas es el cuadrado de los nodos por la densidad).
+ Para este tipo de grafos hicimos un algoritmo que, dada una cantidad de nodos y una densidad (entre 0 y 1), agarrara nodos de manera aleatoria y los hiciera adyacentes hasta cumplir con la cantidad de aristas buscada. Ésta consiste en el cuadrado de los nodos por la densidad.
 
 \item Estrella + CMF
  \begin{figure}[H] %[h] Aqui [b] para button [t] para top
@@ -50,7 +50,7 @@ Para realizar la experimentación respecto a la calidad de las heurísticas pres
 
 
 \end{itemize}
-Luego, procedimos aumentando la cantidad de nodos de los grafos, que a su vez aumenta la cantidad de aristas de éstos dado que los grafos en cuestión se caracterizan por un porcentaje determinado de aristas con respecto a sus nodos. De este modo, realizamos pruebas para cada heurística sobre cada familia de grafos.
+Para la realización de los grafos anteriores, utilizamos un generador que los crea respetando sus propiedades. Éstas consisten en la densidad de las aristas y la disposición de las mismas. Luego, para la experimentación procedimos aumentando la cantidad de nodos de los grafos, que a su vez aumenta la cantidad de aristas de los mismos al encontrarse éstos caracterizados por un porcentaje determinado de aristas con respecto a sus nodos. De este modo, realizamos pruebas para cada heurística sobre cada familia de grafos.
 
 Por otro lado, separamos las pruebas de calidad de soluciones en chicas y grandes, esto lo hicimos ya que nos interesa ver la solucion obtenida por el algoritmo exacto para poder compararlo con las heurísticas, y en otro contexto tambien comparar la calidad de las soluciones de las heurísticas para grafos donde el algoritmo exacto no puede resolver a tiempo. 
 
@@ -59,16 +59,16 @@ Las pruebas chicas consisten en grafos de entre 10 y 150 nodos con una densidad 
 
  \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
-\includegraphics[width=400pt]{../imgs/calidadSolucionesChicas15.jpg}
+\includegraphics[width=500pt]{../imgs/calidadSolucionesChicas15.jpg}
 \caption{Comparación realizada con soluciones chicas con un grafo de tipo Estrella+CMF.}
 \end{center}
 \end{figure}
 
-En este caso, tenemos una estrella cuyo nodo central no forma parte de la clique de frontera máxima, con lo cual aquellos algoritmos que consideren a los nodos de mayor grado para empezar su ejecución y llegar a un resultado se verán perjudicados por esta familia. Tanto la heurística de búsqueda local como la metaheurística Tabú se ven perjudicadas por la caracterización del grafo, esto se debe a que la heurística parte del nodo de mayor grado y se mueve por una vecindad pequeña y nunca llega a encontrar la CMF que se encuentra a una distancia considerable de la estrella que forma el nodo. En el caso de la metaheurística, lo que sucede es que parte de una solución incial dada por la búsqueda local, con lo cual tiene un punto de partida poco ventajoso que termina provocando que genere un mal resultado. En el caso de la búsqueda golosa, esta se ve beneficiada ya que si bien empieza con el nodo de mayor grado, eventualmente prueba con otros nodos teniendo asá mayor probabilidad de encontrar la clique de frontera máxima. 
+En este caso, tenemos una estrella cuyo nodo central no forma parte de la clique de frontera máxima, con lo cual aquellos algoritmos que consideren a los nodos de mayor grado para empezar su ejecución y llegar a un resultado se verán perjudicados por esta familia. Tanto la heurística de búsqueda local como la metaheurística Tabú se ven perjudicadas por la caracterización del grafo, esto se debe a que la heurística parte del nodo de mayor grado y se mueve por una vecindad pequeña y nunca llega a encontrar la CMF que se encuentra a una distancia considerable de la estrella que forma el nodo. En el caso de la metaheurística, lo que sucede es que parte de una solución incial dada por la búsqueda local, con lo cual tiene un punto de partida poco ventajoso que termina provocando que genere un mal resultado. En el caso de la búsqueda golosa, ésta se ve beneficiada ya que si bien empieza con el nodo de mayor grado, eventualmente prueba con otros nodos teniendo así mayor probabilidad de encontrar la clique de frontera máxima. 
 
  \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
-\includegraphics[width=400pt]{../imgs/calidadSolucionesChica14.jpg}
+\includegraphics[width=500pt]{../imgs/calidadSolucionesChica14.jpg}
 \caption{Comparación realizada con soluciones chicas con un grafo de tipo Estrella+Puente+CMF.}
 \end{center}
 \end{figure}
@@ -77,18 +77,18 @@ En este caso sucede lo mismo que en el anterior, los algoritmos inician en la es
 
  \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
-\includegraphics[width=400pt]{../imgs/calidadSolucionesChicas17.jpg}
+\includegraphics[width=500pt]{../imgs/calidadSolucionesChicas17.jpg}
 \caption{Comparación realizada con soluciones chicas con un grafo de tipo Estrella+Puente+Doble Estrella.}
 \end{center}
 \end{figure}
 
 
-En este caso, el grafo se caracteriza por contener una estrella que está conectada con dos estrellas. Estas dos estrellas forman una clique de frontera maxima que no contiene al nodo de la primera estrella. Lo que sucede es que la solución de la estrella es parecida a la solucion correcta del problema, pero esta no es la mejor que encuentra el exacto, por eso las heurísticas se quedan con ella mientras que el exacto encuentra la mejor solución entre las estrellas que estan unidas.
+En este caso, el grafo se caracteriza por contener una estrella que está conectada con otras dos. Éstas dos estrellas forman una clique de frontera máxima que no contiene al nodo de la primera estrella. Lo que sucede es que la frontera de la estrella se aproxima a la solución correcta del problema pero no llega a serla, por eso las heurísticas se quedan con ella mientras que el exacto encuentra la óptima, que es la clique entre las estrellas que están unidas.
 
 
  \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
-\includegraphics[width=400pt]{../imgs/calidadSolucionesChicas3.jpg}
+\includegraphics[width=500pt]{../imgs/calidadSolucionesChicas3.jpg}
 \caption{Comparación realizada con soluciones chicas con un grafo de tipo Banana Tree.}
 \end{center}
 \end{figure}
@@ -97,29 +97,30 @@ En este caso, tenemos un grafo de tipo banana tree, las heurísticas en la mayor
 
  \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
-\includegraphics[width=400pt]{../imgs/calidadSolucionesChicas2.jpg}
+\includegraphics[width=500pt]{../imgs/calidadSolucionesChicas2.jpg}
 \caption{Comparación realizada con soluciones chicas con un grafo de tipo rueda.}
 \end{center}
 \end{figure}
 
-En este caso, todos los nodos del grafo se conectan con otros 3 salvo uno q se conecta con todos. Como la solucion exacta esta conformada por el nodo central y uno de sus adyacentes, todos los algoritmos llegan a la solucion correcta sin mayor dificultad. Esto se debe a que las 3 heurísticas parten del nodo de mayor grado.
+En este caso, todos los nodos del grafo forman un circuito simple salvo uno que se conecta con todos. Como la solución exacta está conformada por el nodo central y uno de sus adyacentes, todos los algoritmos llegan a la solución correcta sin mayor dificultad dado que el nodo central es el de mayor grado.
 
  \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
-\includegraphics[width=400pt]{../imgs/calidadSolucionesGrandes15.jpg}
+\includegraphics[width=500pt]{../imgs/calidadSolucionesGrandes15.jpg}
 \caption{Comparación realizada con soluciones grandes con un grafo de tipo Estrella+CMF.}
 \end{center}
 \end{figure}
 
-En este caso, tenemos una estrella cuyo nodo central se encuentra a una distancia considerable de la clique de frontera máxima. Por lo tanto, la heurística de búsqueda local se ve perjudicada por la caracterización del grafo, esto se debe a que parte del nodo de mayor grado y se mueve por una vecindad pequeña, con lo cual nunca llega a encontrar la CMF. En el caso de la metaheurística Tabú, parte de una solución inicial dada por la búsqueda local, con lo cual tiene un punto de partida poco ventajoso que termina provocando que genere un mal resultado para algunos casos. En el caso de la búsqueda golosa, esta se ve beneficiada ya que si bien empieza con el nodo de mayor grado, eventualmente prueba con otros nodos teniendo así mayor probabilidad de encontrar la clique de frontera máxima. 
+En este caso, tenemos una estrella cuyo nodo central se encuentra a una distancia considerable de la clique de frontera máxima. Por lo tanto, la heurística de búsqueda local se ve perjudicada por la caracterización del grafo, esto se debe a que parte del nodo de mayor grado y se mueve por una vecindad pequeña, con lo cual nunca llega a encontrar la CMF. En el caso de la metaheurística Tabú, parte de una solución inicial dada por la búsqueda local, con lo cual tiene un punto de partida poco ventajoso que termina provocando que genere un mal resultado para algunos casos. En el caso de la búsqueda golosa, ésta se ve beneficiada ya que si bien empieza con el nodo de mayor grado, eventualmente prueba con otros nodos teniendo así mayor probabilidad de encontrar la clique de frontera máxima. 
 
  \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
-\includegraphics[width=400pt]{../imgs/calidadSolucionesGrandes14.jpg}
+\includegraphics[width=500pt]{../imgs/calidadSolucionesGrandes14.jpg}
 \caption{Comparación realizada con soluciones grandes con un grafo de tipo Estrella+Puente+CMF.}
 \end{center}
 \end{figure}
 
+En este gráfico, se puede observar que para casos de grafos grandes de tipo Estrella+Puente+CMF, los algoritmos de Búsqueda Golosa y Local obtienen resultados muy similares. Dichos resultados consisten en un valor de frontera muy inferior al obtenido con la Heurística Tabú en gran parte de los casos. Esto se debe a que en gran parte de los grafos de este tipo la clique de máxima frontera no contiene al nodo de mayor grado y éste se encuentra alejado de la solución (que se encuentra del otro lado del puente). Luego, los valores que se obtienen con las heurísticas que empiezan con dicho nodo son incorrectos.
 
  \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
@@ -127,3 +128,8 @@ En este caso, tenemos una estrella cuyo nodo central se encuentra a una distanci
 \caption{Comparación realizada con soluciones grandes con un grafo de tipo Banana Tree.}
 \end{center}
 \end{figure}
+
+En este caso, podemos ver que las tres heurísticas encuentran resultados similares. Esto se debe a que la clique de máxima frontera del grafo de tipo Banana Tree es el nodo que se encuentra entre los dos caminos simples que lo conforman, luego el de mayor grado. Por lo tanto las heurísticas encuentran la solución exacta en la mayoría de los casos.
+
+
+\textbf{Conclusión:} Luego de distintas experimentaciones con grafos de distinto tipo (Estrella+Puente+CMF, Estrella+CMF, Banana Tree, Estrella+Puente+Doble Estrella y Rueda) y tamaño, podemos concluir que las heurísticas suelen devolver resultados aproximados a la solución óptima en la mayoría de los casos. Sin embargo, cuando la clique de máxima frontera no contiene al nodo de mayor grado o éste se encuentra alejado de la misma, las heurísticas Golosa y de Búsqueda Local retornan un resultado alejado de la solución óptima. Contrariamente, Tabú suele mejorar dichos resultados pues parte desde la Heurística de Búsqueda Local y mejora su resultado.
