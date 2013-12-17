@@ -59,6 +59,6 @@ echo "Corriendo local.."
 cat $INPUT_FILE_GEN | $LOCAL 1>> /dev/null 2>> performance/local_12.dat
 # echo "Corriendo tabu.."
 # cat $INPUT_FILE_GEN | $TABU 1>> /dev/null 2>> performance/tabu_12.dat
-# echo "Listo!"
+echo "Listo!"
 
 # octave graficarPerformanceNodos.m
