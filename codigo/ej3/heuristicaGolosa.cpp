@@ -31,23 +31,25 @@ int main() {
 		}
 		
 		auto t1 = chrono::high_resolution_clock::now();
+		auto t2 = t1;
+		auto x = chrono::duration_cast<std::chrono::nanoseconds>(t2-t1).count();
 
-		for (int i = 0; i < 10; ++i)
+		const int CANT_ITERACIONES = 10;
+
+		for (int i = 0; i < CANT_ITERACIONES; ++i)
 		{
 			clique = greedysearch(grafo);
-			/* code */
+			t2 = chrono::high_resolution_clock::now();
+			x += chrono::duration_cast<std::chrono::nanoseconds>(t2-t1).count();
 		}
 
 		
 		cout << grafo.frontera(clique) << " " << clique.size() << " ";
 		for (uint i = 0; i < clique.size(); i++) //O(n)
-			cout << clique[i] + 1<< " ";
-			
+			cout << clique[i] + 1<< " ";	
 		cout << endl;
-		
-		auto t2 = chrono::high_resolution_clock::now();
-		auto x = chrono::duration_cast<std::chrono::nanoseconds>(t2-t1).count();
-		cerr << grafo.frontera(clique) << " " << n << " " << m << " " << (x/10) << endl;
+
+		cerr << grafo.frontera(clique) << " " << n << " " << m << " " << (x/CANT_ITERACIONES) << endl;
 		
 		termino = (cin >> ws).peek();
 	}
