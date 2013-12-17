@@ -31,7 +31,7 @@ TABU="../ej3/busquedaTabu"
 echo "Corriendo todos los test..."
 echo "Compilando..."
 rm ../ej3/heuristicaGolosa
-g++ -std=c++0x ../ej3/heuristicaGolosa.cpp -o ../ej3/heuristicaGolosa
+g++ -std=c++0x -O2 ../ej3/heuristicaGolosa.cpp -o ../ej3/heuristicaGolosa
 rm ../ej3/heuristicaBusquedaLocal
 g++ -std=c++0x -O2 ../ej3/heuristicaBusquedaLocal.cpp -o ../ej3/heuristicaBusquedaLocal
 # rm ../ej3/busquedaTabu
