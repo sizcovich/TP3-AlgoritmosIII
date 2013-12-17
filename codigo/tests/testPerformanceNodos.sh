@@ -38,7 +38,7 @@ g++ -std=c++0x -O2 ../ej3/heuristicaBusquedaLocal.cpp -o ../ej3/heuristicaBusque
 # g++ -std=c++0x ../ej3/busquedaTabu.cpp -o ../ej3/busquedaTabu
 
 rm $INPUT_FILE_GEN
-echo "Creando grafos de tipo completo..."
+# echo "Creando grafos de tipo completo..."
 # ./graph_generator 4 $CANT_NODOS_MIN $CANT_NODOS_MAX $INPUT_FILE_GEN $QUANT_PER_SIZE $INCREMENT $DENSITY
 # echo "Corriendo goloso.."
 # cat $INPUT_FILE_GEN | $GOLOSO 1>> /dev/null 2>> performance/goloso_4_prueba.dat
